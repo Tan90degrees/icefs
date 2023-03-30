@@ -6,8 +6,12 @@ ICEFS_BUILD_DIR=icefs_build
 
 mkdir -p $ICEFS_BUILD_DIR && cd $ICEFS_BUILD_DIR
 
-ICEFS_CLIENT_DIR=icefs/client
-ICEFS_SERVER_DIR=icefs/server
+OUT_DIR=icefs
+
+ICEFS_CLIENT_DIR=$OUT_DIR/client
+ICEFS_SERVER_DIR=$OUT_DIR/server
+
+rm -rf $ICEFS_CLIENT_DIR
 
 mkdir -p $ICEFS_CLIENT_DIR
 mkdir -p $ICEFS_SERVER_DIR

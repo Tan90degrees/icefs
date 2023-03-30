@@ -1,4 +1,5 @@
 {
     "server_address": "<ip>:<port>",
-    "cache_mode": 1
+    "cache_mode": 1,
+    "uuid": ""
 }

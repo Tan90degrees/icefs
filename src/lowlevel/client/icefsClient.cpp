@@ -2,10 +2,10 @@
  * @Author: Tan90degrees tangentninetydegrees@gmail.com
  * @Date: 2023-03-21 07:32:56
  * @LastEditors: Tan90degrees tangentninetydegrees@gmail.com
- * @LastEditTime: 2023-03-30 04:24:05
+ * @LastEditTime: 2023-03-30 14:22:20
  * @FilePath: /icefs/src/lowlevel/client/icefsClient.cpp
- * @Description: 
- * 
+ * @Description:
+ *
  * Copyright (C) 2023 Tan90degrees <tangentninetydegrees@gmail.com>.
  */
 #include "icefsClient.hpp"
@@ -299,11 +299,11 @@ int icefsParseConfig(IcefsClientConfig *config) {
   yyjson_read_flag flag =
       YYJSON_READ_ALLOW_COMMENTS | YYJSON_READ_ALLOW_TRAILING_COMMAS;
   yyjson_read_err err;
-  yyjson_doc *doc = yyjson_read_file("./config.json", flag, NULL, &err);
+  yyjson_doc *doc = yyjson_read_file(ICEFS_CONFIG_PATH, flag, NULL, &err);
 
   if (doc != nullptr) {
     yyjson_val *root = yyjson_doc_get_root(doc);
-    yyjson_val *value = yyjson_obj_get(root, "server_address");
+    yyjson_val *value = yyjson_obj_get(root, ICEFS_CONFIG_SERV_ADDR);
     if (value != nullptr) {
       config->serverAddress = yyjson_get_str(value);
       ret = ICEFS_EOK;
@@ -312,7 +312,7 @@ int icefsParseConfig(IcefsClientConfig *config) {
       ret = ICEFS_ERR;
     }
 
-    value = yyjson_obj_get(root, "cache_mode");
+    value = yyjson_obj_get(root, ICEFS_CONFIG_CACHE_MODE);
     if (value != nullptr) {
       config->cacheMode = yyjson_get_int(value);
       if (config->cacheMode >= 0 &&
@@ -321,6 +321,15 @@ int icefsParseConfig(IcefsClientConfig *config) {
         ret = ICEFS_EOK;
       } else {
         printf("icefsParseConfig: cache_mode should be 0, 1 or 2.\n");
+        ret = ICEFS_ERR;
+      }
+
+      value = yyjson_obj_get(root, ICEFS_CONFIG_UUID);
+      if (value != nullptr) {
+        config->uuid = yyjson_get_str(value);
+        ret = ICEFS_EOK;
+      } else {
+        printf("icefsParseConfig: uuid is not found in config.json.\n");
         ret = ICEFS_ERR;
       }
     } else {

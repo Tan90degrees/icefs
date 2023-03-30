@@ -2,7 +2,7 @@
  * @Author: Tan90degrees tangentninetydegrees@gmail.com
  * @Date: 2023-03-30 04:19:29
  * @LastEditors: Tan90degrees tangentninetydegrees@gmail.com
- * @LastEditTime: 2023-03-30 04:24:15
+ * @LastEditTime: 2023-03-30 13:43:31
  * @FilePath: /icefs/src/lowlevel/client/icefsoperators/icefsInit.cpp
  * @Description: 
  * 
@@ -30,7 +30,7 @@ void IcefsClient::DoIcefsInit(void *userData, struct fuse_conn_info *conn) {
     conn->want |= FUSE_CAP_FLOCK_LOCKS;
   }
 
-  req.set_uuid("fa91e805-8093-4f30-8d95-4e222105d875");
+  req.set_uuid(this->config.uuid);
   req.set_info("I'm the client.");
   req.set_want(conn->want);
   req.set_timeout(this->config.cacheTimeout);
