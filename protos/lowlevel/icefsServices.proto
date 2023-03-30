@@ -1,0 +1,61 @@
+/*
+ * @Author: Tan90degrees tangentninetydegrees@gmail.com
+ * @Date: 2023-03-30 04:19:29
+ * @LastEditors: Tan90degrees tangentninetydegrees@gmail.com
+ * @LastEditTime: 2023-03-30 04:22:43
+ * @FilePath: /icefs/protos/lowlevel/icefsServices.proto
+ * @Description: 
+ * 
+ * Copyright (C) 2023 Tan90degrees <tangentninetydegrees@gmail.com>.
+ */
+syntax = "proto3";
+
+option go_package = "./;icefsrpc";
+import "icefs.proto";
+
+service Icefs {
+  rpc DoIcefsInit(IcefsInitReq) returns (IcefsInitRes) {} // Done
+  rpc DoIcefsDestroy(IcefsDestroyReq) returns (IcefsDestroyRes) {} // Done
+  rpc DoIcefsLookUp(IcefsLookUpReq) returns (IcefsLookUpRes) {} // Done
+  rpc DoIcefsForget(IcefsForgetReq) returns (IcefsForgetRes) {} // Done
+  rpc DoIcefsGetAttr(IcefsGetAttrReq) returns (IcefsGetAttrRes) {} // Done
+  rpc DoIcefsSetAttr(IcefsSetAttrReq) returns (IcefsSetAttrRes) {} // Done
+  rpc DoIcefsReadLink(IcefsReadLinkReq) returns (IcefsReadLinkRes) {} //Done
+  rpc DoIcefsMknod(IcefsMknodReq) returns (IcefsMknodRes) {} // Done
+  rpc DoIcefsMkDir(IcefsMkDirReq) returns (IcefsMkDirRes) {} // Done
+  rpc DoIcefsUnlink(IcefsUnlinkReq) returns (IcefsUnlinkRes) {} // Done
+  rpc DoIcefsRmDir(IcefsRmDirReq) returns (IcefsRmDirRes) {} // Done
+  rpc DoIcefsSymLink(IcefsSymLinkReq) returns (IcefsSymLinkRes) {} // Done
+  rpc DoIcefsRename(IcefsRenameReq) returns (IcefsRenameRes) {} // Done
+  rpc DoIcefsLink(IcefsLinkReq) returns (IcefsLinkRes) {} // Done
+  rpc DoIcefsOpen(IcefsOpenReq) returns (IcefsOpenRes) {} // Done
+  rpc DoIcefsRead(IcefsReadReq) returns (IcefsReadRes) {} // Maybe done
+  rpc DoIcefsWrite(IcefsWriteReq) returns (IcefsWriteRes) {} // Maybe done
+  rpc DoIcefsFlush(IcefsFlushReq) returns (IcefsFlushRes) {} // Done
+  rpc DoIcefsRelease(IcefsReleaseReq) returns (IcefsReleaseRes) {} // Done
+  rpc DoIcefsFsync(IcefsFsyncReq) returns (IcefsFsyncRes) {} // Done
+  rpc DoIcefsOpenDir(IcefsOpenDirReq) returns (IcefsOpenDirRes) {} // Done
+  rpc DoIcefsReadDir(IcefsReadDirReq) returns (IcefsReadDirRes) {} // Done
+  rpc DoIcefsReleaseDir(IcefsReleaseDirReq) returns (IcefsReleaseDirRes) {} // Done
+  rpc DoIcefsFsyncDir(IcefsFsyncDirReq) returns (IcefsFsyncDirRes) {} // Done
+  rpc DoIcefsStatFS(IcefsStatFSReq) returns (IcefsStatFSRes) {} // Done
+  rpc DoIcefsSetXattr(IcefsSetXattrReq) returns (IcefsSetXattrRes) {} // Done
+  rpc DoIcefsGetXattr(IcefsGetXattrReq) returns (IcefsGetXattrRes) {} // Done
+  rpc DoIcefsListXattr(IcefsListXattrReq) returns (IcefsListXattrRes) {} // Done
+  rpc DoIcefsRemoveXattr(IcefsRemoveXattrReq) returns (IcefsRemoveXattrRes) {} // Done
+  rpc DoIcefsAccess(IcefsAccessReq) returns (IcefsAccessRes) {} // Done
+  rpc DoIcefsCreate(IcefsCreateReq) returns (IcefsCreateRes) {} // Done
+  rpc DoIcefsGetLk(IcefsGetLkReq) returns (IcefsGetLkRes) {} // Later
+  rpc DoIcefsSetLk(IcefsSetLkReq) returns (IcefsSetLkRes) {} // Later
+  rpc DoIcefsBmap(IcefsBmapReq) returns (IcefsBmapRes) {} // Later
+  rpc DoIcefsIoctl(IcefsIoctlReq) returns (IcefsIoctlRes) {} // Later
+  rpc DoIcefsPoll(IcefsPollReq) returns (IcefsPollRes) {} // Done
+  rpc DoIcefsWriteBuf(IcefsWriteBufReq) returns (IcefsWriteBufRes) {} // Later
+  rpc DoIcefsRetrieveReply(IcefsRetrieveReplyReq) returns (IcefsRetrieveReplyRes) {} // Later
+  rpc DoIcefsForgetMulti(IcefsForgetMultiReq) returns (IcefsForgetMultiRes) {} // Maybe done
+  rpc DoIcefsFlock(IcefsFlockReq) returns (IcefsFlockRes) {} // Done
+  rpc DoIcefsFallocate(IcefsFallocateReq) returns (IcefsFallocateRes) {} // Done
+  rpc DoIcefsReadDirPlus(IcefsReadDirPlusReq) returns (IcefsReadDirPlusRes) {} // Done
+  rpc DoIcefsCopyFileRange(IcefsCopyFileRangeReq) returns (IcefsCopyFileRangeRes) {} // Done
+  rpc DoIcefsLseek(IcefsLseekReq) returns (IcefsLseekRes) {} // Done
+}

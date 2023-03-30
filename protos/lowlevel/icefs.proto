@@ -1,0 +1,637 @@
+/*
+ * @Author: Tan90degrees tangentninetydegrees@gmail.com
+ * @Date: 2023-03-30 04:19:29
+ * @LastEditors: Tan90degrees tangentninetydegrees@gmail.com
+ * @LastEditTime: 2023-03-30 04:22:39
+ * @FilePath: /icefs/protos/lowlevel/icefs.proto
+ * @Description: 
+ * 
+ * Copyright (C) 2023 Tan90degrees <tangentninetydegrees@gmail.com>.
+ */
+syntax = "proto3";
+
+option go_package = "./;icefsrpc";
+import "fuseKernel.proto";
+
+message FuseCtx {
+  uint32 uid = 1;
+  uint32 gid = 2;
+  sint32 pid = 3;
+  uint32 umask = 4;
+}
+
+message FuseReq {
+  uint64 unique = 1;
+  FuseCtx ctx = 2;
+}
+
+message FuseFileInfo {
+  int32 flags = 1;
+  bool writepage = 2;
+  bool direct_io = 3;
+  bool keep_cache = 4;
+  bool flush = 5;
+  bool nonseekable = 6;
+  bool flock_release = 7;
+  bool cache_readdir = 8;
+  bool noflush = 9;
+  uint64 fh = 10;
+  uint64 lock_owner = 11;
+  uint32 poll_events = 12;
+}
+
+message flockStruct {
+  int32 lock_type = 1;
+  int32 lock_whence = 2;
+  int64 lock_start = 3;
+  int64 lock_len = 4;
+  int32 lock_pid = 5;
+};
+
+message timeStruct {
+  int64 time_sec = 1;
+  int64 time_n_sec = 2;
+}
+
+message statStruct {
+  uint64 st_dev = 1;
+  uint64 st_ino = 2;
+  uint32 st_mode = 3;
+  uint64 st_nlink = 4;
+  uint32 st_uid = 5;
+  uint32 st_gid = 6;
+  uint64 st_rdev = 7;
+  int64 st_size = 8;
+  timeStruct st_atim = 9;
+  timeStruct st_mtim = 10;
+  timeStruct st_ctim = 11;
+  int64 st_blksize = 12;
+  int64 st_blocks = 13;
+}
+
+message FuseEntryParam {
+  uint64 inode = 1;
+  uint64 generation = 2;
+  statStruct attr = 3;
+  double attr_timeout = 4;
+  double entry_timeout = 5;
+}
+
+message DirentStruct {
+  uint64 ino = 1;
+  int64 off = 2;
+  uint32 reclen = 3;
+  uint32 type = 4;
+  string name = 5;
+}
+
+message statvfsStruct {
+  uint64 f_bsize = 1;
+  uint64 f_frsize = 2;
+  uint64 f_blocks = 3;
+  uint64 f_bfree = 4;
+  uint64 f_bavail = 5;
+  uint64 f_files = 6;
+  uint64 f_ffree = 7;
+  uint64 f_favail = 8;
+  uint64 f_fsid = 9;
+  int32 unused = 10;
+  uint64 f_flag = 11;
+  uint64 f_namemax = 12;
+}
+
+message ioVector {
+  uint64 size = 1;
+  bytes data = 2;
+}
+
+// Request
+message IcefsAccessReq {
+  FuseReq req = 1;
+  uint64 inode = 2;
+  int32 mask = 3;
+}
+
+message IcefsBmapReq {
+  FuseReq req = 1;
+  uint64 inode = 2;
+  uint64 block_ize = 3;
+  uint64 index = 4;
+}
+
+message IcefsCopyFileRangeReq {
+  FuseReq req = 1;
+  uint64 inode_in = 2;
+  int64 offset_in = 3;
+  FuseFileInfo file_info_in = 4;
+  uint64 inode_out = 5;
+  int64 offset_out = 6;
+  FuseFileInfo file_info_out = 7;
+  uint64 len = 8;
+  int32 flags = 9;
+}
+
+message IcefsCreateReq {
+  FuseReq req = 1;
+  uint64 parent_inode = 2;
+  string name = 3;
+  uint32 mode = 4;
+  FuseFileInfo file_info = 5;
+}
+
+message IcefsDestroyReq {
+  string host_name = 1;
+  string info = 2;
+}
+
+message IcefsFallocateReq {
+  FuseReq req = 1;
+  uint64 inode = 2;
+  int32 mode = 3;
+  int64 offset = 4;
+  int64 length = 5;
+  FuseFileInfo file_info = 6;
+}
+
+message IcefsFlockReq {
+  FuseReq req = 1;
+  uint64 inode = 2;
+  FuseFileInfo file_info = 3;
+  int32 op = 4;
+}
+
+message IcefsFlushReq {
+  FuseReq req = 1;
+  uint64 inode = 2;
+  FuseFileInfo file_info = 3;
+}
+
+message IcefsForgetMultiReq {
+  FuseReq req = 1;
+  uint64 count = 2;
+  message forget_data {
+    uint64 inode = 1;
+    uint64 nlookup = 2;
+  }
+  repeated forget_data to_forget = 3;
+}
+
+message IcefsForgetReq {
+  FuseReq req = 1;
+  uint64 inode = 2;
+  uint64 nlookup = 3;
+}
+
+message IcefsFsyncReq {
+  FuseReq req = 1;
+  uint64 inode = 2;
+  int32 data_sync = 3;
+  FuseFileInfo file_info = 4;
+}
+
+message IcefsFsyncDirReq {
+  FuseReq req = 1;
+  uint64 inode = 2;
+  int32 data_sync = 3;
+  FuseFileInfo file_info = 4;
+}
+
+message IcefsGetAttrReq {
+  FuseReq req = 1;
+  uint64 inode = 2;
+  FuseFileInfo file_info = 4;
+}
+
+message IcefsGetLkReq {
+  FuseReq req = 1;
+  uint64 inode = 2;
+  FuseFileInfo file_info = 3;
+  flockStruct lock = 4;
+}
+
+message IcefsGetXattrReq {
+  FuseReq req = 1;
+  uint64 inode = 2;
+  string name = 3;
+  uint64 size = 4;
+}
+
+message IcefsInitReq {
+  string uuid = 1;
+  string info = 2;
+  uint32 want = 3;
+  double timeout = 4;
+}
+
+message IcefsIoctlReq {
+  FuseReq req = 1;
+  uint64 inode = 2;
+  uint32 cmd = 3;
+  bytes arg = 4;
+  FuseFileInfo file_info = 5;
+  uint32 flags = 6;
+  uint64 in_buf_size = 7;
+  uint64 out_buf_size = 8;
+}
+
+message IcefsLinkReq {
+  FuseReq req = 1;
+  uint64 inode = 2;
+  uint64 new_parent_inode = 3;
+  string new_name = 4;
+}
+
+message IcefsListXattrReq {
+  FuseReq req = 1;
+  uint64 inode = 2;
+  uint64 size = 3;
+}
+
+message IcefsLookUpReq {
+  FuseReq req = 1;
+  uint64 parent_inode = 2;
+  string name = 3;
+}
+
+message IcefsLseekReq {
+  FuseReq req = 1;
+  uint64 inode = 2;
+  int64 offset = 3;
+  int32 whence = 4;
+  FuseFileInfo file_info = 5;
+}
+
+message IcefsMkDirReq {
+  FuseReq req = 1;
+  uint64 parent_inode = 2;
+  string name = 3;
+  uint32 mode = 4;
+}
+
+message IcefsMknodReq {
+  FuseReq req = 1;
+  uint64 parent_inode = 2;
+  string name = 3;
+  uint32 mode = 4;
+  uint64 rdev = 5;
+}
+
+message IcefsOpenReq {
+  FuseReq req = 1;
+  uint64 inode = 2;
+  FuseFileInfo file_info = 3;
+}
+
+message IcefsOpenDirReq {
+  FuseReq req = 1;
+  uint64 inode = 2;
+  FuseFileInfo file_info = 3;
+}
+
+message IcefsPollReq {
+  FuseReq req = 1;
+  uint64 inode = 2;
+  FuseFileInfo file_info = 3;
+}
+
+message IcefsReadReq {
+  FuseReq req = 1;
+  uint64 inode = 2;
+  uint64 size = 3;
+  int64 offset = 4;
+  FuseFileInfo file_info = 5;
+}
+
+message IcefsReadDirReq {
+  FuseReq req = 1;
+  uint64 inode = 2;
+  uint64 size = 3;
+  int64 offset = 4;
+  FuseFileInfo file_info = 5;
+}
+
+message IcefsReadDirPlusReq {
+  FuseReq req = 1;
+  uint64 inode = 2;
+  uint64 size = 3;
+  int64 offset = 4;
+  FuseFileInfo file_info = 5;
+}
+
+message IcefsReadLinkReq {
+  FuseReq req = 1;
+  uint64 inode = 2;
+}
+
+message IcefsReleaseReq {
+  FuseReq req = 1;
+  uint64 inode = 2;
+  FuseFileInfo file_info = 3;
+}
+
+message IcefsReleaseDirReq {
+  FuseReq req = 1;
+  uint64 inode = 2;
+  FuseFileInfo file_info = 3;
+}
+
+message IcefsRemoveXattrReq {
+  FuseReq req = 1;
+  uint64 inode = 2;
+  string name = 3;
+}
+
+message IcefsRenameReq {
+  FuseReq req = 1;
+  uint64 parent_inode = 2;
+  string name = 3;
+  uint64 new_parent_inode = 4;
+  string new_name = 5;
+  uint32 flags = 6;
+}
+
+message IcefsRetrieveReplyReq {
+  FuseReq req = 1;
+  bytes cookie = 2;
+  uint64 inode = 3;
+  int64 offset = 4;
+  repeated ioVector data = 5;
+}
+
+message IcefsRmDirReq {
+  FuseReq req = 1;
+  uint64 parent_inode = 2;
+  string name = 3;
+}
+
+message IcefsSetAttrReq {
+  FuseReq req = 1;
+  uint64 inode = 2;
+  statStruct stat = 3;
+  int32 to_set = 4;
+  FuseFileInfo file_info = 5;
+}
+
+message IcefsSetLkReq {
+  FuseReq req = 1;
+  uint64 inode = 2;
+  FuseFileInfo file_info = 3;
+  flockStruct lock = 4;
+  int32 sleep = 5;
+}
+
+message IcefsSetXattrReq {
+  FuseReq req = 1;
+  uint64 inode = 2;
+  string name = 3;
+  string value = 4;
+  uint64 size = 5;
+  int32 flags = 6;
+}
+
+message IcefsStatFSReq {
+  FuseReq req = 1;
+  uint64 inode = 2;
+}
+
+message IcefsSymLinkReq {
+  FuseReq req = 1;
+  string link = 2;
+  uint64 parent_inode = 3;
+  string name = 4;
+}
+
+message IcefsUnlinkReq {
+  FuseReq req = 1;
+  uint64 parent_inode = 2;
+  string name = 3;
+}
+
+message IcefsWriteBufReq {
+  FuseReq req = 1;
+  uint64 inode = 2;
+  repeated ioVector buf = 3;
+  int64 offset = 4;
+  FuseFileInfo file_info = 5;
+}
+
+message IcefsWriteReq {
+  FuseReq req = 1;
+  uint64 inode = 2;
+  bytes buf = 3;
+  uint64 size = 4;
+  int64 offset = 5;
+  FuseFileInfo file_info = 6;
+}
+
+// Response
+message IcefsAccessRes {
+  int32 status = 1;
+}
+
+message IcefsBmapRes {
+  int32 status = 1;
+}
+
+message IcefsCopyFileRangeRes {
+  int32 status = 1;
+  uint64 size = 2;
+}
+
+message IcefsCreateRes {
+  int32 status = 1;
+  uint64 fh = 2;
+  FuseEntryParam entry = 3;
+}
+
+message IcefsDestroyRes {
+  int32 status = 1;
+  string info = 2;
+}
+
+message IcefsFallocateRes {
+  int32 status = 1;
+}
+
+message IcefsFlockRes {
+  int32 status = 1;
+}
+
+message IcefsFlushRes {
+  int32 status = 1;
+}
+
+message IcefsForgetMultiRes {
+  int32 status = 1;
+}
+
+message IcefsForgetRes {
+  int32 status = 1;
+}
+
+message IcefsFsyncRes {
+  int32 status = 1;
+}
+
+message IcefsFsyncDirRes {
+  int32 status = 1;
+}
+
+message IcefsGetAttrRes {
+  int32 status = 1;
+  statStruct stat = 2;
+}
+
+message IcefsGetLkRes {
+  int32 status = 1;
+}
+
+message IcefsGetXattrRes {
+  int32 status = 1;
+  int64 size = 2;
+  bytes value = 3;
+}
+
+message IcefsInitRes {
+  int32 status = 1;
+  string info = 2;
+  uint32 can = 3;
+}
+
+message IcefsIoctlRes {
+  int32 status = 1;
+  FuseIoctlOut out = 2;
+  repeated ioVector data = 3;
+}
+
+message IcefsLinkRes {
+  int32 status = 1;
+  FuseEntryParam entry = 2;
+}
+
+message IcefsListXattrRes {
+  int32 status = 1;
+  int64 size = 2;
+  bytes value = 3;
+}
+
+message IcefsLookUpRes {
+  int32 status = 1;
+  FuseEntryParam entry = 2;
+}
+
+message IcefsLseekRes {
+  int32 status = 1;
+  int64 offset = 2;
+}
+
+message IcefsMkDirRes {
+  int32 status = 1;
+  FuseEntryParam entry = 2;
+}
+
+message IcefsMknodRes {
+  int32 status = 1;
+  FuseEntryParam entry = 2;
+}
+
+message IcefsOpenRes {
+  int32 status = 1;
+  uint64 fh = 2;
+}
+
+message IcefsOpenDirRes {
+  int32 status = 1;
+  uint64 fh = 2;
+}
+
+message IcefsPollRes {
+  int32 status = 1;
+  uint32 revents = 2;
+}
+
+message IcefsReadRes {
+  int32 status = 1;
+  uint64 size = 2;
+  bytes data = 3;
+}
+
+message IcefsReadDirRes {
+  int32 status = 1;
+  repeated DirentStruct data = 2;
+}
+
+message IcefsReadDirPlusRes {
+  int32 status = 1;
+  message data_plus {
+    FuseEntryParam entry = 1;
+    DirentStruct dir_entry = 2;
+  }
+  repeated data_plus data = 2;
+}
+
+message IcefsReadLinkRes {
+  int32 status = 1;
+  string path = 2;
+}
+
+message IcefsReleaseRes {
+  int32 status = 1;
+}
+
+message IcefsReleaseDirRes {
+  int32 status = 1;
+}
+
+message IcefsRemoveXattrRes {
+  int32 status = 1;
+}
+
+message IcefsRenameRes {
+  int32 status = 1;
+}
+
+message IcefsRetrieveReplyRes {
+  int32 status = 1;
+}
+
+message IcefsRmDirRes {
+  int32 status = 1;
+}
+
+message IcefsSetAttrRes {
+  int32 status = 1;
+  statStruct stat = 2;
+}
+
+message IcefsSetLkRes {
+  int32 status = 1;
+}
+
+message IcefsSetXattrRes {
+  int32 status = 1;
+}
+
+message IcefsStatFSRes {
+  int32 status = 1;
+  statvfsStruct statvfs = 2;
+}
+
+message IcefsSymLinkRes {
+  int32 status = 1;
+  FuseEntryParam entry = 2;
+}
+
+message IcefsUnlinkRes {
+  int32 status = 1;
+}
+
+message IcefsWriteBufRes {
+  int32 status = 1;
+  uint64 size = 2;
+}
+
+message IcefsWriteRes {
+  int32 status = 1;
+  uint64 size = 2;
+}

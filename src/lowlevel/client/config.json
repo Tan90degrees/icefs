@@ -1,0 +1,4 @@
+{
+    "server_address": "<ip>:<port>",
+    "cache_mode": 1
+}

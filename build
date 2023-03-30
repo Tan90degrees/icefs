@@ -1,0 +1,38 @@
+#!/bin/bash
+
+set -e
+
+ICEFS_BUILD_DIR=icefs_build
+
+mkdir -p $ICEFS_BUILD_DIR && cd $ICEFS_BUILD_DIR
+
+ICEFS_CLIENT_DIR=icefs/client
+ICEFS_SERVER_DIR=icefs/server
+
+mkdir -p $ICEFS_CLIENT_DIR
+mkdir -p $ICEFS_SERVER_DIR
+
+ICEFS_HOME=..
+PROTO_PATH=$ICEFS_HOME/protos/lowlevel
+LOW_LEVEL_SRC_PATH=$ICEFS_HOME/src/lowlevel
+LOW_LEVEL_CLIENT_SRC_PATH=$LOW_LEVEL_SRC_PATH/client
+LOW_LEVEL_SERVER_SRC_PATH=$LOW_LEVEL_SRC_PATH/server
+
+echo "Now building client."
+cmake -DDEBUG=0 -DCMAKE_BUILD_TYPE=Release $LOW_LEVEL_CLIENT_SRC_PATH
+
+make -j 4
+
+mv ./bin ./$ICEFS_CLIENT_DIR
+mv ./lib ./$ICEFS_CLIENT_DIR
+cp $LOW_LEVEL_CLIENT_SRC_PATH/config.json ./$ICEFS_CLIENT_DIR/bin
+
+echo "Now building server."
+
+protoc -I $PROTO_PATH --go-grpc_out=$LOW_LEVEL_SERVER_SRC_PATH/icefsrpc --go_out=$LOW_LEVEL_SERVER_SRC_PATH/icefsrpc $PROTO_PATH/*.proto
+
+cd $LOW_LEVEL_SERVER_SRC_PATH && go build -race -ldflags '-s -w' -o ../../../$ICEFS_BUILD_DIR/$ICEFS_SERVER_DIR/icefs-server
+
+echo "Build finished."
+
+echo "Icefs has been built to icefs_build/icefs/"

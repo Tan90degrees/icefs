@@ -32,3 +32,9 @@
 
 # VSCode dir
 .vscode
+
+# Build dir
+
+src/lowlevel/client/build
+src/lowlevel/server/build
+icefs_build/

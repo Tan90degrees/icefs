@@ -1,0 +1,144 @@
+/*
+ * @Author: Tan90degrees tangentninetydegrees@gmail.com
+ * @Date: 2023-03-30 04:19:29
+ * @LastEditors: Tan90degrees tangentninetydegrees@gmail.com
+ * @LastEditTime: 2023-03-30 04:21:13
+ * @FilePath: /icefs/protos/lowlevel/fuseKernel.proto
+ * @Description: 
+ * 
+ * Copyright (C) 2023 Tan90degrees <tangentninetydegrees@gmail.com>.
+ */
+syntax = "proto3";
+
+option go_package = "./;icefsrpc";
+
+message FuseAttr {
+  uint64 inode = 1;
+  uint64 size = 2;
+  uint64 blocks = 3;
+  uint64 atime = 4;
+  uint64 mtime = 5;
+  uint64 ctime = 6;
+  uint32 atimensec = 7;
+  uint32 mtimensec = 8;
+  uint32 ctimensec = 9;
+  uint32 mode = 10;
+  uint32 nlink = 11;
+  uint32 uid = 12;
+  uint32 gid = 13;
+  uint32 rdev = 14;
+  uint32 blksize = 15;
+  uint32 flags = 16;
+}
+
+message FuseOutHeader {
+  uint32 len = 1;
+  int32 error = 2;
+  uint64 unique = 3;
+}
+
+message FuseEntryOut {
+  uint64 nodeid = 1;
+  uint64 generation = 2;
+  uint64 entry_valid = 3;
+  uint64 attr_valid = 4;
+  uint32 entry_valid_nsec = 5;
+  uint32 attr_valid_nsec = 6;
+  FuseAttr attr = 7;
+}
+
+message FuseAttrOut {
+  uint64 attr_valid = 1;
+  uint32 attr_valid_nsec = 2;
+  uint32 dummy = 3;
+  FuseAttr attr = 4;
+}
+
+message FuseOpenOut {
+  uint64 fh = 1;
+  uint32 open_flags = 2;
+}
+
+message FuseWriteOut {
+  uint32 size = 1;
+  uint32 padding = 2;
+}
+
+message FuseStatFSOut {
+  uint64 blocks = 1;
+  uint64 bfree = 2;
+  uint64 bavail = 3;
+  uint64 files = 4;
+  uint64 ffree = 5;
+  uint32 bsize = 6;
+  uint32 namelen = 7;
+  uint32 frsize = 8;
+}
+
+message FuseLkOut {
+  uint64 start = 1;
+  uint64 end = 2;
+  uint32 type = 3;
+  uint32 pid = 4;
+}
+
+message FuseInitOut {
+  uint32 major = 1;
+  uint32 minor = 2;
+  uint32 max_readahead = 3;
+  uint32 flags = 4;
+  uint32 max_background = 5;
+  uint32 congestion_threshold = 6;
+  uint32 max_write = 7;
+  uint32 time_gran = 8;
+  uint32 max_pages = 9;
+  uint32 map_alignment = 10;
+  uint32 flags2 = 11;
+}
+
+message FuseBmapOut { uint64 block = 1; }
+
+message FuseIoctlOut {
+  int32 result = 1;
+  uint32 flags = 2;
+  uint32 in_iovs = 3;
+  uint32 out_iovs = 4;
+}
+
+message FusePollOut {
+  uint32 revents = 1;
+  uint32 padding = 2;
+}
+
+message FuseNotifyPollWakeupOut { uint64 kh = 1; }
+message FuseNotifyInvalInodeOut {
+  uint64 inode = 1;
+  int64 off = 2;
+  int64 len = 3;
+}
+
+message FuseNotifyInvalEntryOut {
+  uint64 parent = 1;
+  uint32 namelen = 2;
+}
+
+message FuseNotifyDeleteOut {
+  uint64 parent = 1;
+  uint64 child = 2;
+  uint32 namelen = 3;
+}
+
+message FuseNotifyStoreOut {
+  uint64 nodeid = 1;
+  uint64 offset = 2;
+  uint32 size = 3;
+}
+
+message FuseNotifyRetrieveOut {
+  uint64 notify_unique = 1;
+  uint64 nodeid = 2;
+  uint64 offset = 3;
+  uint32 size = 4;
+}
+
+message FuseLseekOut { uint64 offset = 1; }
