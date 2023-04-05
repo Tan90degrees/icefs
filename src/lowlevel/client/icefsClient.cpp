@@ -2,7 +2,7 @@
  * @Author: Tan90degrees tangentninetydegrees@gmail.com
  * @Date: 2023-03-21 07:32:56
  * @LastEditors: Tan90degrees tangentninetydegrees@gmail.com
- * @LastEditTime: 2023-04-04 16:13:59
+ * @LastEditTime: 2023-04-05 05:51:51
  * @FilePath: /icefs/src/lowlevel/client/icefsClient.cpp
  * @Description:
  *
@@ -19,6 +19,35 @@
 #include "yyjson.h"
 
 #define ICEFS_CLIENT_VERSION 1.0
+
+#define ICEFS_CONFIG_MUST_NUM (4)
+
+#define ICEFS_CONFIG_PATH ("./config.json")
+#define ICEFS_CONFIG_SERV_ADDR ("server_address")
+#define ICEFS_CONFIG_CACHE_MODE ("cache_mode")
+#define ICEFS_CONFIG_UUID ("uuid")
+#define ICEFS_CONFIG_PORT ("port")
+
+#define NEW_ICEFS_CONFIG_KEY(keyName, keyHandler) \
+  { .key = keyName, .handler = keyHandler, }
+
+typedef int (*icefsConfigProcFunc)(IcefsClientConfig *, yyjson_val *);
+
+struct IcefsConfigJsonKey {
+  const char *key;
+  icefsConfigProcFunc handler;
+};
+
+static int icefsConfigHandleAddr(IcefsClientConfig *config, yyjson_val *value);
+static int icefsConfigHandleMode(IcefsClientConfig *config, yyjson_val *value);
+static int icefsConfigHandleUUID(IcefsClientConfig *config, yyjson_val *value);
+static int icefsConfigHandlePort(IcefsClientConfig *config, yyjson_val *value);
+
+static IcefsConfigJsonKey IcefsConfigJsonKeys[] = {
+    NEW_ICEFS_CONFIG_KEY(ICEFS_CONFIG_SERV_ADDR, icefsConfigHandleAddr),
+    NEW_ICEFS_CONFIG_KEY(ICEFS_CONFIG_CACHE_MODE, icefsConfigHandleMode),
+    NEW_ICEFS_CONFIG_KEY(ICEFS_CONFIG_UUID, icefsConfigHandleUUID),
+    NEW_ICEFS_CONFIG_KEY(ICEFS_CONFIG_PORT, icefsConfigHandlePort)};
 
 static IcefsClient *g_icefsClient = nullptr;
 
@@ -294,7 +323,66 @@ static const struct fuse_lowlevel_ops icefs_ll_oper = {
     .lseek = icefsLseek,
 };
 
-int icefsParseConfig(IcefsClientConfig *config) {
+static int icefsConfigHandleAddr(IcefsClientConfig *config, yyjson_val *value) {
+  if (value != nullptr) {
+    config->serverAddress = yyjson_get_str(value);
+    return ICEFS_EOK;
+  } else {
+    printf("icefsParseConfig: server_address is not found in config.json.\n");
+    return ICEFS_ERR;
+  }
+}
+
+static int icefsConfigHandleMode(IcefsClientConfig *config, yyjson_val *value) {
+  if (value != nullptr) {
+    config->cacheMode = yyjson_get_int(value);
+    if (config->cacheMode >= 0 &&
+        config->cacheMode < sizeof(IcefsCacheMode) / sizeof(double)) {
+      config->cacheTimeout = IcefsCacheMode[config->cacheMode];
+      return ICEFS_EOK;
+    } else {
+      printf("icefsParseConfig: cache_mode should be 0, 1 or 2.\n");
+      return ICEFS_ERR;
+    }
+  } else {
+    printf("icefsParseConfig: cache_mode is not found in config.json.\n");
+    return ICEFS_ERR;
+  }
+}
+
+static int icefsConfigHandleUUID(IcefsClientConfig *config, yyjson_val *value) {
+  if (value != nullptr) {
+    config->uuid = yyjson_get_str(value);
+    return ICEFS_EOK;
+  } else {
+    printf("icefsParseConfig: uuid is not found in config.json.\n");
+    return ICEFS_ERR;
+  }
+}
+
+static int icefsConfigHandlePort(IcefsClientConfig *config, yyjson_val *value) {
+  if (value != nullptr) {
+    config->port = yyjson_get_uint(value);
+    return ICEFS_EOK;
+  } else {
+    printf("icefsParseConfig: port is not found in config.json.\n");
+    return ICEFS_ERR;
+  }
+}
+
+static IcefsConfigJsonKey *icefsFindConfigKey(const char *key) {
+  IcefsConfigJsonKey *ret = nullptr;
+  for (size_t i = 0;
+       i < sizeof(IcefsConfigJsonKeys) / sizeof(IcefsConfigJsonKey); ++i) {
+    if (!strcmp(key, IcefsConfigJsonKeys[i].key)) {
+      ret = &IcefsConfigJsonKeys[i];
+      break;
+    }
+  }
+  return ret;
+}
+
+static int icefsParseConfig(IcefsClientConfig *config) {
   int ret = ICEFS_ERR;
   yyjson_read_flag flag =
       YYJSON_READ_ALLOW_COMMENTS | YYJSON_READ_ALLOW_TRAILING_COMMAS;
@@ -303,38 +391,33 @@ int icefsParseConfig(IcefsClientConfig *config) {
 
   if (doc != nullptr) {
     yyjson_val *root = yyjson_doc_get_root(doc);
-    yyjson_val *value = yyjson_obj_get(root, ICEFS_CONFIG_SERV_ADDR);
-    if (value != nullptr) {
-      config->serverAddress = yyjson_get_str(value);
-      ret = ICEFS_EOK;
-    } else {
-      printf("icefsParseConfig: server_address is not found in config.json.\n");
-      ret = ICEFS_ERR;
+    IcefsConfigJsonKey *icefsKey = nullptr;
+    int mustParamNum = 0;
+    yyjson_obj_iter iter;
+    yyjson_obj_iter_init(root, &iter);
+    yyjson_val *key, *value;
+
+    while ((key = yyjson_obj_iter_next(&iter))) {
+      icefsKey = icefsFindConfigKey(yyjson_get_str(key));
+      if (icefsKey == nullptr) {
+        printf("icefsParseConfig: %s is invalid.\n", yyjson_get_str(key));
+        continue;
+      }
+      value = yyjson_obj_iter_get_val(key);
+      ret = icefsKey->handler(config, value);
+      if (ret != ICEFS_EOK) {
+        yyjson_doc_free(doc);
+        return ret;
+      }
+      ++mustParamNum;
     }
-
-    value = yyjson_obj_get(root, ICEFS_CONFIG_CACHE_MODE);
-    if (value != nullptr) {
-      config->cacheMode = yyjson_get_int(value);
-      if (config->cacheMode >= 0 &&
-          config->cacheMode < sizeof(IcefsCacheMode) / sizeof(double)) {
-        config->cacheTimeout = IcefsCacheMode[config->cacheMode];
-        ret = ICEFS_EOK;
-      } else {
-        printf("icefsParseConfig: cache_mode should be 0, 1 or 2.\n");
-        ret = ICEFS_ERR;
-      }
-
-      value = yyjson_obj_get(root, ICEFS_CONFIG_UUID);
-      if (value != nullptr) {
-        config->uuid = yyjson_get_str(value);
-        ret = ICEFS_EOK;
-      } else {
-        printf("icefsParseConfig: uuid is not found in config.json.\n");
-        ret = ICEFS_ERR;
-      }
-    } else {
-      printf("icefsParseConfig: cache_mode is not found in config.json.\n");
-      ret = ICEFS_ERR;
+    if (mustParamNum < ICEFS_CONFIG_MUST_NUM) {
+      printf(
+          "icefsParseConfig: parameters in config are not enough(need %d, got "
+          "%d).\n",
+          ICEFS_CONFIG_MUST_NUM, mustParamNum);
+      yyjson_doc_free(doc);
+      return ICEFS_ERR;
     }
   } else {
     printf("icefsParseConfig: read error (%u): %s at position: %ld\n", err.code,
@@ -347,7 +430,7 @@ int icefsParseConfig(IcefsClientConfig *config) {
 
 int icefsCreateClient(const IcefsClientConfig *config) {
   g_icefsClient =
-      new IcefsClient(grpc::CreateChannel(config->serverAddress,
+      new IcefsClient(grpc::CreateChannel(config->serverAddressFull,
                                           grpc::InsecureChannelCredentials()),
                       config);
   return g_icefsClient != nullptr ? ICEFS_EOK : ICEFS_ERR;
@@ -396,6 +479,9 @@ int main(int argc, char *argv[]) {
   ret = icefsParseConfig(&config);
 
   if (ret != ICEFS_EOK) goto errOut4;
+
+  config.serverAddressFull =
+      config.serverAddress + ":" + std::to_string(config.port);
 
   fuse_daemonize(opts.foreground);
 

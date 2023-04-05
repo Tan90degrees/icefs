@@ -1,5 +1,6 @@
 {
-    "server_address": "<ip>:<port>",
+    "server_address": "<ip>",
+    "port": 10086,
     "cache_mode": 1,
     "uuid": ""
 }

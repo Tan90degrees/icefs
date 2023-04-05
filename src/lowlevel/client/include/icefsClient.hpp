@@ -2,7 +2,7 @@
  * @Author: Tan90degrees tangentninetydegrees@gmail.com
  * @Date: 2023-03-02 06:41:52
  * @LastEditors: Tan90degrees tangentninetydegrees@gmail.com
- * @LastEditTime: 2023-03-30 14:35:19
+ * @LastEditTime: 2023-04-05 05:44:47
  * @FilePath: /icefs/src/lowlevel/client/include/icefsClient.hpp
  * @Description:
  *
@@ -30,11 +30,6 @@
 #define ICEFS_EOK (0)
 #define ICEFS_ERR (-1)
 
-#define ICEFS_CONFIG_PATH ("./config.json")
-#define ICEFS_CONFIG_SERV_ADDR ("server_address")
-#define ICEFS_CONFIG_CACHE_MODE ("cache_mode")
-#define ICEFS_CONFIG_UUID ("uuid")
-
 enum {
   ICEFS_CACHE_NEVER,   // 0.0s
   ICEFS_CACHE_NORMAL,  // 1.0s
@@ -46,8 +41,10 @@ static const double IcefsCacheMode[] = {ICEFS_CACHE_NEVER_TIMEOUT,
                                         ICEFS_CACHE_ALWAYS_TIMEOUT};
 
 struct IcefsClientConfig {
+  std::string serverAddressFull;
   std::string uuid;
   std::string serverAddress;
+  uint16_t port;
   int cacheMode;
   double cacheTimeout;
 };
