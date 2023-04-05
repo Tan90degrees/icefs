@@ -2,10 +2,10 @@
  * @Author: Tan90degrees tangentninetydegrees@gmail.com
  * @Date: 2023-03-30 04:19:29
  * @LastEditors: Tan90degrees tangentninetydegrees@gmail.com
- * @LastEditTime: 2023-03-30 04:22:51
+ * @LastEditTime: 2023-04-04 15:53:21
  * @FilePath: /icefs/src/lowlevel/client/icefsoperators/icefsCopyFileRange.cpp
- * @Description: 
- * 
+ * @Description:
+ *
  * Copyright (C) 2023 Tan90degrees <tangentninetydegrees@gmail.com>.
  */
 #include <stdio.h>
@@ -25,20 +25,12 @@ void IcefsClient::DoIcefsCopyFileRange(fuse_req_t fuseReq, fuse_ino_t inodeIn,
   IcefsCopyFileRangeRes res;
   grpc::ClientContext ctx;
   ICEFS_PR_FUNCTION;
-  FuseReq *fuseReqToSend = new FuseReq();
-  FuseCtx *fuseCtx = new FuseCtx();
   FuseFileInfo *fileInfoIn = new FuseFileInfo();
   FuseFileInfo *fileInfoOut = new FuseFileInfo();
-  IcefsFillFuseReq(fuseReqToSend, fuseCtx, fuseReq);
-  req.set_allocated_req(fuseReqToSend);
-  req.set_inode_in(inodeIn);
   req.set_offset_in(offsetIn);
-  IcefsFillFuseFileInfoOut(fileInfoIn, fiIn);
-  req.set_allocated_file_info_in(fileInfoIn);
-  req.set_inode_out(inodeOut);
+  req.set_fh_in(fiIn->fh);
   req.set_offset_out(offsetOut);
-  IcefsFillFuseFileInfoOut(fileInfoOut, fiOut);
-  req.set_allocated_file_info_out(fileInfoOut);
+  req.set_fh_out(fiOut->fh);
   req.set_len(len);
   req.set_flags(flags);
 

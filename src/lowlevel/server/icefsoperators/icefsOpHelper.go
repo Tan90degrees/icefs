@@ -2,7 +2,7 @@
  * @Author: Tan90degrees tangentninetydegrees@gmail.com
  * @Date: 2023-03-11 14:47:23
  * @LastEditors: Tan90degrees tangentninetydegrees@gmail.com
- * @LastEditTime: 2023-03-30 04:29:09
+ * @LastEditTime: 2023-04-04 14:31:50
  * @FilePath: /icefs/src/lowlevel/server/icefsoperators/icefsOpHelper.go
  * @Description:
  *
@@ -145,6 +145,7 @@ func (s *IcefsServer) doGetAttr(fd int, stat *syscall.Stat_t) error {
 	return err
 }
 
+// 提升性能
 func checkNameIsDotOrDotDot(name string) bool {
 	return name == "." || name == ".."
 }

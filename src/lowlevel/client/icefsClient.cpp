@@ -2,7 +2,7 @@
  * @Author: Tan90degrees tangentninetydegrees@gmail.com
  * @Date: 2023-03-21 07:32:56
  * @LastEditors: Tan90degrees tangentninetydegrees@gmail.com
- * @LastEditTime: 2023-03-30 14:22:20
+ * @LastEditTime: 2023-04-04 16:13:59
  * @FilePath: /icefs/src/lowlevel/client/icefsClient.cpp
  * @Description:
  *
@@ -277,13 +277,13 @@ static const struct fuse_lowlevel_ops icefs_ll_oper = {
     .removexattr = icefsRemoveXattr,
     .access = icefsAccess,
     .create = icefsCreate,
-    .getlk = icefsGetLk,
-    .setlk = icefsSetLk,
-    .bmap = icefsBmap,
-    .ioctl = icefsIoctl,
-    .poll = icefsPoll,
+    // .getlk = icefsGetLk,
+    // .setlk = icefsSetLk,
+    // .bmap = icefsBmap,
+    // .ioctl = icefsIoctl,
+    // .poll = icefsPoll,
     // .write_buf = icefsWriteBuf, // TODO: 无意义
-    .retrieve_reply = icefsRetrieveReply,
+    // .retrieve_reply = icefsRetrieveReply,
     .forget_multi = icefsForgetMulti,
     .flock = icefsFlock,
     .fallocate = icefsFallocate,

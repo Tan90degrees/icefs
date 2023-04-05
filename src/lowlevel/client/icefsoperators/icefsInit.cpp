@@ -2,10 +2,10 @@
  * @Author: Tan90degrees tangentninetydegrees@gmail.com
  * @Date: 2023-03-30 04:19:29
  * @LastEditors: Tan90degrees tangentninetydegrees@gmail.com
- * @LastEditTime: 2023-03-30 13:43:31
+ * @LastEditTime: 2023-04-04 15:52:35
  * @FilePath: /icefs/src/lowlevel/client/icefsoperators/icefsInit.cpp
- * @Description: 
- * 
+ * @Description:
+ *
  * Copyright (C) 2023 Tan90degrees <tangentninetydegrees@gmail.com>.
  */
 #include <stdio.h>
@@ -34,6 +34,7 @@ void IcefsClient::DoIcefsInit(void *userData, struct fuse_conn_info *conn) {
   req.set_info("I'm the client.");
   req.set_want(conn->want);
   req.set_timeout(this->config.cacheTimeout);
+
   grpc::Status status = stub_->DoIcefsInit(&ctx, req, &res);
   if (status.ok() && !res.status()) {
     std::cout << res.info() << std::endl;

@@ -2,7 +2,7 @@
  * @Author: Tan90degrees tangentninetydegrees@gmail.com
  * @Date: 2023-03-11 07:18:32
  * @LastEditors: Tan90degrees tangentninetydegrees@gmail.com
- * @LastEditTime: 2023-03-30 04:27:30
+ * @LastEditTime: 2023-04-04 14:55:49
  * @FilePath: /icefs/src/lowlevel/server/icefsoperators/icefsCreate.go
  * @Description:
  *
@@ -34,7 +34,7 @@ func (s *IcefsServer) DoIcefsCreate(ctx context.Context, req *pb.IcefsCreateReq)
 
 	inode.inodeLock.RLock()
 	s.inodeCacheLock.RUnlock()
-	newFd, err = syscall.Openat(inode.fd, req.Name, int((req.FileInfo.Flags|syscall.O_CREAT)&(^syscall.O_NOFOLLOW)), req.Mode)
+	newFd, err = syscall.Openat(inode.fd, req.Name, int((req.Flags|syscall.O_CREAT)&(^syscall.O_NOFOLLOW)), req.Mode)
 	inode.inodeLock.RUnlock()
 	if err != nil {
 		res.Status = icefserror.IcefsStdErrno(err)

@@ -2,7 +2,7 @@
  * @Author: Tan90degrees tangentninetydegrees@gmail.com
  * @Date: 2023-03-30 04:19:29
  * @LastEditors: Tan90degrees tangentninetydegrees@gmail.com
- * @LastEditTime: 2023-03-30 04:22:43
+ * @LastEditTime: 2023-04-04 16:13:19
  * @FilePath: /icefs/protos/lowlevel/icefsServices.proto
  * @Description: 
  * 
@@ -29,8 +29,8 @@ service Icefs {
   rpc DoIcefsRename(IcefsRenameReq) returns (IcefsRenameRes) {} // Done
   rpc DoIcefsLink(IcefsLinkReq) returns (IcefsLinkRes) {} // Done
   rpc DoIcefsOpen(IcefsOpenReq) returns (IcefsOpenRes) {} // Done
-  rpc DoIcefsRead(IcefsReadReq) returns (IcefsReadRes) {} // Maybe done
-  rpc DoIcefsWrite(IcefsWriteReq) returns (IcefsWriteRes) {} // Maybe done
+  rpc DoIcefsRead(IcefsReadReq) returns (IcefsReadRes) {} // Done
+  rpc DoIcefsWrite(IcefsWriteReq) returns (IcefsWriteRes) {} // Done
   rpc DoIcefsFlush(IcefsFlushReq) returns (IcefsFlushRes) {} // Done
   rpc DoIcefsRelease(IcefsReleaseReq) returns (IcefsReleaseRes) {} // Done
   rpc DoIcefsFsync(IcefsFsyncReq) returns (IcefsFsyncRes) {} // Done
@@ -52,7 +52,7 @@ service Icefs {
   rpc DoIcefsPoll(IcefsPollReq) returns (IcefsPollRes) {} // Done
   rpc DoIcefsWriteBuf(IcefsWriteBufReq) returns (IcefsWriteBufRes) {} // Later
   rpc DoIcefsRetrieveReply(IcefsRetrieveReplyReq) returns (IcefsRetrieveReplyRes) {} // Later
-  rpc DoIcefsForgetMulti(IcefsForgetMultiReq) returns (IcefsForgetMultiRes) {} // Maybe done
+  rpc DoIcefsForgetMulti(IcefsForgetMultiReq) returns (IcefsForgetMultiRes) {} // Done
   rpc DoIcefsFlock(IcefsFlockReq) returns (IcefsFlockRes) {} // Done
   rpc DoIcefsFallocate(IcefsFallocateReq) returns (IcefsFallocateRes) {} // Done
   rpc DoIcefsReadDirPlus(IcefsReadDirPlusReq) returns (IcefsReadDirPlusRes) {} // Done

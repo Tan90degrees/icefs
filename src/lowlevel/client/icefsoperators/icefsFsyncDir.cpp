@@ -2,10 +2,10 @@
  * @Author: Tan90degrees tangentninetydegrees@gmail.com
  * @Date: 2023-03-30 04:19:29
  * @LastEditors: Tan90degrees tangentninetydegrees@gmail.com
- * @LastEditTime: 2023-03-30 04:23:15
+ * @LastEditTime: 2023-04-04 15:53:29
  * @FilePath: /icefs/src/lowlevel/client/icefsoperators/icefsFsyncDir.cpp
- * @Description: 
- * 
+ * @Description:
+ *
  * Copyright (C) 2023 Tan90degrees <tangentninetydegrees@gmail.com>.
  */
 #include <stdio.h>
@@ -21,15 +21,8 @@ void IcefsClient::DoIcefsFsyncDir(fuse_req_t fuseReq, fuse_ino_t inode,
   IcefsFsyncDirRes res;
   grpc::ClientContext ctx;
   ICEFS_PR_FUNCTION;
-  FuseReq *fuseReqToSend = new FuseReq();
-  FuseCtx *fuseCtx = new FuseCtx();
-  FuseFileInfo *fileInfo = new FuseFileInfo();
-  IcefsFillFuseReq(fuseReqToSend, fuseCtx, fuseReq);
-  req.set_allocated_req(fuseReqToSend);
-  req.set_inode(inode);
   req.set_data_sync(dataSync);
-  IcefsFillFuseFileInfoOut(fileInfo, fi);
-  req.set_allocated_file_info(fileInfo);
+  req.set_fh(fi->fh);
 
   grpc::Status status = stub_->DoIcefsFsyncDir(&ctx, req, &res);
   if (status.ok() && !res.status()) {

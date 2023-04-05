@@ -2,7 +2,7 @@
  * @Author: Tan90degrees tangentninetydegrees@gmail.com
  * @Date: 2023-03-11 07:18:32
  * @LastEditors: Tan90degrees tangentninetydegrees@gmail.com
- * @LastEditTime: 2023-03-30 04:29:46
+ * @LastEditTime: 2023-04-04 15:11:36
  * @FilePath: /icefs/src/lowlevel/server/icefsoperators/icefsSetAttr.go
  * @Description:
  *
@@ -37,8 +37,8 @@ func (s *IcefsServer) DoIcefsSetAttr(ctx context.Context, req *pb.IcefsSetAttrRe
 	s.inodeCacheLock.RUnlock()
 	valid = req.ToSet
 	if (valid & FUSE_SET_ATTR_MODE) != 0 {
-		if req.FileInfo != nil {
-			err = syscall.Fchmod(int(req.FileInfo.Fh), req.Stat.StMode)
+		if req.HasFh {
+			err = syscall.Fchmod(int(req.Fh), req.Stat.StMode)
 		} else {
 			procName := fmt.Sprintf("/proc/self/fd/%v", inode.fd)
 			err = syscall.Chmod(procName, req.Stat.StMode)
@@ -71,8 +71,8 @@ func (s *IcefsServer) DoIcefsSetAttr(ctx context.Context, req *pb.IcefsSetAttrRe
 	}
 
 	if (valid & FUSE_SET_ATTR_SIZE) != 0 {
-		if req.FileInfo != nil {
-			err = syscall.Ftruncate(int(req.FileInfo.Fh), req.Stat.StSize)
+		if req.HasFh {
+			err = syscall.Ftruncate(int(req.Fh), req.Stat.StSize)
 		} else {
 			procName := fmt.Sprintf("/proc/self/fd/%v", inode.fd)
 			err = syscall.Truncate(procName, req.Stat.StSize)
@@ -104,8 +104,8 @@ func (s *IcefsServer) DoIcefsSetAttr(ctx context.Context, req *pb.IcefsSetAttrRe
 			ts[1].Nsec = req.Stat.StMtim.TimeNSec
 		}
 
-		if req.FileInfo != nil {
-			procName := fmt.Sprintf("/proc/self/fd/%v", req.FileInfo.Fh)
+		if req.HasFh {
+			procName := fmt.Sprintf("/proc/self/fd/%v", req.Fh)
 			err = unix.UtimesNanoAt(unix.AT_FDCWD, procName, ts, 0)
 		} else {
 			procName := fmt.Sprintf("/proc/self/fd/%v", inode.fd)

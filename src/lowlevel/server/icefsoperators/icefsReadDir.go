@@ -2,7 +2,7 @@
  * @Author: Tan90degrees tangentninetydegrees@gmail.com
  * @Date: 2023-03-11 07:18:32
  * @LastEditors: Tan90degrees tangentninetydegrees@gmail.com
- * @LastEditTime: 2023-03-30 04:29:15
+ * @LastEditTime: 2023-04-04 14:56:40
  * @FilePath: /icefs/src/lowlevel/server/icefsoperators/icefsReadDir.go
  * @Description:
  *
@@ -21,7 +21,7 @@ func (s *IcefsServer) DoIcefsReadDir(ctx context.Context, req *pb.IcefsReadDirRe
 	var entry *pb.DirentStruct
 	var errno int32
 	s.dirCacheLock.RLock()
-	dir := s.getIcefsDir(req.FileInfo.Fh)
+	dir := s.getIcefsDir(req.Fh)
 	if dir == nil {
 		s.dirCacheLock.RUnlock()
 		res.Status = icefserror.ICEFS_BUG_ERR

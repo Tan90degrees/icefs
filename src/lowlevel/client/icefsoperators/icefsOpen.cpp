@@ -2,10 +2,10 @@
  * @Author: Tan90degrees tangentninetydegrees@gmail.com
  * @Date: 2023-03-30 04:19:29
  * @LastEditors: Tan90degrees tangentninetydegrees@gmail.com
- * @LastEditTime: 2023-03-30 04:24:37
+ * @LastEditTime: 2023-04-04 15:57:32
  * @FilePath: /icefs/src/lowlevel/client/icefsoperators/icefsOpen.cpp
- * @Description: 
- * 
+ * @Description:
+ *
  * Copyright (C) 2023 Tan90degrees <tangentninetydegrees@gmail.com>.
  */
 #include <stdio.h>
@@ -21,13 +21,7 @@ void IcefsClient::DoIcefsOpen(fuse_req_t fuseReq, fuse_ino_t inode,
   IcefsOpenRes res;
   grpc::ClientContext ctx;
   ICEFS_PR_FUNCTION;
-  FuseReq *fuseReqToSend = new FuseReq();
-  FuseCtx *fuseCtx = new FuseCtx();
-  FuseFileInfo *fileInfo = new FuseFileInfo();
-  IcefsFillFuseReq(fuseReqToSend, fuseCtx, fuseReq);
-  req.set_allocated_req(fuseReqToSend);
   req.set_inode(inode);
-
   if (this->config.cacheMode && (fi->flags & O_ACCMODE) == O_WRONLY) {
     fi->flags &= ~O_ACCMODE;
     fi->flags |= O_RDWR;
@@ -36,8 +30,7 @@ void IcefsClient::DoIcefsOpen(fuse_req_t fuseReq, fuse_ino_t inode,
   if (this->config.cacheMode && fi->flags & O_APPEND) {
     fi->flags &= ~O_APPEND;
   }
-  IcefsFillFuseFileInfoOut(fileInfo, fi);
-  req.set_allocated_file_info(fileInfo);
+  req.set_flags(fi->flags);
 
   grpc::Status status = stub_->DoIcefsOpen(&ctx, req, &res);
   if (status.ok() && !res.status()) {

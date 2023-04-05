@@ -2,10 +2,10 @@
  * @Author: Tan90degrees tangentninetydegrees@gmail.com
  * @Date: 2023-03-30 04:19:29
  * @LastEditors: Tan90degrees tangentninetydegrees@gmail.com
- * @LastEditTime: 2023-03-30 04:22:56
+ * @LastEditTime: 2023-04-04 15:53:23
  * @FilePath: /icefs/src/lowlevel/client/icefsoperators/icefsDestroy.cpp
- * @Description: 
- * 
+ * @Description:
+ *
  * Copyright (C) 2023 Tan90degrees <tangentninetydegrees@gmail.com>.
  */
 #include <stdio.h>
@@ -22,6 +22,7 @@ void IcefsClient::DoIcefsDestroy(void *userData) {
   ICEFS_PR_FUNCTION;
   req.set_host_name("Hello");
   req.set_info("I'm the client.");
+
   grpc::Status status = stub_->DoIcefsDestroy(&ctx, req, &res);
   if (status.ok() && !res.status()) {
     std::cout << res.info() << std::endl;

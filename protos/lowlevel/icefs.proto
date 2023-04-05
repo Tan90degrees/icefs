@@ -2,7 +2,7 @@
  * @Author: Tan90degrees tangentninetydegrees@gmail.com
  * @Date: 2023-03-30 04:19:29
  * @LastEditors: Tan90degrees tangentninetydegrees@gmail.com
- * @LastEditTime: 2023-03-30 04:22:39
+ * @LastEditTime: 2023-04-04 15:10:51
  * @FilePath: /icefs/protos/lowlevel/icefs.proto
  * @Description: 
  * 
@@ -107,36 +107,31 @@ message ioVector {
 
 // Request
 message IcefsAccessReq {
-  FuseReq req = 1;
-  uint64 inode = 2;
-  int32 mask = 3;
+  uint64 inode = 1;
+  int32 mask = 2;
 }
 
 message IcefsBmapReq {
   FuseReq req = 1;
   uint64 inode = 2;
-  uint64 block_ize = 3;
+  uint64 block_size = 3;
   uint64 index = 4;
 }
 
 message IcefsCopyFileRangeReq {
-  FuseReq req = 1;
-  uint64 inode_in = 2;
-  int64 offset_in = 3;
-  FuseFileInfo file_info_in = 4;
-  uint64 inode_out = 5;
-  int64 offset_out = 6;
-  FuseFileInfo file_info_out = 7;
-  uint64 len = 8;
-  int32 flags = 9;
+  int64 offset_in = 1;
+  uint64 fh_in = 2;
+  int64 offset_out = 3;
+  uint64 fh_out = 4;
+  uint64 len = 5;
+  int32 flags = 6;
 }
 
 message IcefsCreateReq {
-  FuseReq req = 1;
-  uint64 parent_inode = 2;
-  string name = 3;
-  uint32 mode = 4;
-  FuseFileInfo file_info = 5;
+  uint64 parent_inode = 1;
+  string name = 2;
+  uint32 mode = 3;
+  int32 flags = 4;
 }
 
 message IcefsDestroyReq {
@@ -145,61 +140,47 @@ message IcefsDestroyReq {
 }
 
 message IcefsFallocateReq {
-  FuseReq req = 1;
-  uint64 inode = 2;
-  int32 mode = 3;
-  int64 offset = 4;
-  int64 length = 5;
-  FuseFileInfo file_info = 6;
+  int32 mode = 1;
+  int64 offset = 2;
+  int64 length = 3;
+  uint64 fh = 4;
 }
 
 message IcefsFlockReq {
-  FuseReq req = 1;
-  uint64 inode = 2;
-  FuseFileInfo file_info = 3;
-  int32 op = 4;
+  uint64 fh = 1;
+  int32 op = 2;
 }
 
 message IcefsFlushReq {
-  FuseReq req = 1;
-  uint64 inode = 2;
-  FuseFileInfo file_info = 3;
+  uint64 fh = 1;
 }
 
 message IcefsForgetMultiReq {
-  FuseReq req = 1;
-  uint64 count = 2;
+  uint64 count = 1;
   message forget_data {
     uint64 inode = 1;
     uint64 nlookup = 2;
   }
-  repeated forget_data to_forget = 3;
+  repeated forget_data to_forget = 2;
 }
 
 message IcefsForgetReq {
-  FuseReq req = 1;
-  uint64 inode = 2;
-  uint64 nlookup = 3;
+  uint64 inode = 1;
+  uint64 nlookup = 2;
 }
 
 message IcefsFsyncReq {
-  FuseReq req = 1;
-  uint64 inode = 2;
-  int32 data_sync = 3;
-  FuseFileInfo file_info = 4;
+  int32 data_sync = 1;
+  uint64 fh = 2;
 }
 
 message IcefsFsyncDirReq {
-  FuseReq req = 1;
-  uint64 inode = 2;
-  int32 data_sync = 3;
-  FuseFileInfo file_info = 4;
+  int32 data_sync = 1;
+  uint64 fh = 2;
 }
 
 message IcefsGetAttrReq {
-  FuseReq req = 1;
-  uint64 inode = 2;
-  FuseFileInfo file_info = 4;
+  uint64 inode = 1;
 }
 
 message IcefsGetLkReq {
@@ -210,10 +191,9 @@ message IcefsGetLkReq {
 }
 
 message IcefsGetXattrReq {
-  FuseReq req = 1;
-  uint64 inode = 2;
-  string name = 3;
-  uint64 size = 4;
+  uint64 inode = 1;
+  string name = 2;
+  uint64 size = 3;
 }
 
 message IcefsInitReq {
@@ -235,57 +215,47 @@ message IcefsIoctlReq {
 }
 
 message IcefsLinkReq {
-  FuseReq req = 1;
-  uint64 inode = 2;
-  uint64 new_parent_inode = 3;
-  string new_name = 4;
+  uint64 inode = 1;
+  uint64 new_parent_inode = 2;
+  string new_name = 3;
 }
 
 message IcefsListXattrReq {
-  FuseReq req = 1;
-  uint64 inode = 2;
-  uint64 size = 3;
+  uint64 inode = 1;
+  uint64 size = 2;
 }
 
 message IcefsLookUpReq {
-  FuseReq req = 1;
-  uint64 parent_inode = 2;
-  string name = 3;
+  uint64 parent_inode = 1;
+  string name = 2;
 }
 
 message IcefsLseekReq {
-  FuseReq req = 1;
-  uint64 inode = 2;
-  int64 offset = 3;
-  int32 whence = 4;
-  FuseFileInfo file_info = 5;
+  uint64 fh = 1;
+  int64 offset = 2;
+  int32 whence = 3;
 }
 
 message IcefsMkDirReq {
-  FuseReq req = 1;
-  uint64 parent_inode = 2;
-  string name = 3;
-  uint32 mode = 4;
+  uint64 parent_inode = 1;
+  string name = 2;
+  uint32 mode = 3;
 }
 
 message IcefsMknodReq {
-  FuseReq req = 1;
-  uint64 parent_inode = 2;
-  string name = 3;
-  uint32 mode = 4;
-  uint64 rdev = 5;
+  uint64 parent_inode = 1;
+  string name = 2;
+  uint32 mode = 3;
+  uint64 rdev = 4;
 }
 
 message IcefsOpenReq {
-  FuseReq req = 1;
-  uint64 inode = 2;
-  FuseFileInfo file_info = 3;
+  uint64 inode = 1;
+  int32 flags = 2;
 }
 
 message IcefsOpenDirReq {
-  FuseReq req = 1;
-  uint64 inode = 2;
-  FuseFileInfo file_info = 3;
+  uint64 inode = 1;
 }
 
 message IcefsPollReq {
@@ -295,59 +265,46 @@ message IcefsPollReq {
 }
 
 message IcefsReadReq {
-  FuseReq req = 1;
-  uint64 inode = 2;
-  uint64 size = 3;
-  int64 offset = 4;
-  FuseFileInfo file_info = 5;
+  uint64 size = 1;
+  int64 offset = 2;
+  uint64 fh = 3;
 }
 
 message IcefsReadDirReq {
-  FuseReq req = 1;
-  uint64 inode = 2;
-  uint64 size = 3;
-  int64 offset = 4;
-  FuseFileInfo file_info = 5;
+  int64 offset = 1;
+  uint64 fh = 2;
 }
 
 message IcefsReadDirPlusReq {
-  FuseReq req = 1;
-  uint64 inode = 2;
-  uint64 size = 3;
-  int64 offset = 4;
-  FuseFileInfo file_info = 5;
+  uint64 inode = 1;
+  int64 offset = 2;
+  uint64 fh = 3;
 }
 
 message IcefsReadLinkReq {
-  FuseReq req = 1;
-  uint64 inode = 2;
+  uint64 inode = 1;
 }
 
 message IcefsReleaseReq {
-  FuseReq req = 1;
-  uint64 inode = 2;
-  FuseFileInfo file_info = 3;
+  uint64 inode = 1;
+  uint64 fh = 2;
 }
 
 message IcefsReleaseDirReq {
-  FuseReq req = 1;
-  uint64 inode = 2;
-  FuseFileInfo file_info = 3;
+  uint64 fh = 1;
 }
 
 message IcefsRemoveXattrReq {
-  FuseReq req = 1;
-  uint64 inode = 2;
-  string name = 3;
+  uint64 inode = 1;
+  string name = 2;
 }
 
 message IcefsRenameReq {
-  FuseReq req = 1;
-  uint64 parent_inode = 2;
-  string name = 3;
-  uint64 new_parent_inode = 4;
-  string new_name = 5;
-  uint32 flags = 6;
+  uint64 parent_inode = 1;
+  string name = 2;
+  uint64 new_parent_inode = 3;
+  string new_name = 4;
+  uint32 flags = 5;
 }
 
 message IcefsRetrieveReplyReq {
@@ -359,17 +316,16 @@ message IcefsRetrieveReplyReq {
 }
 
 message IcefsRmDirReq {
-  FuseReq req = 1;
-  uint64 parent_inode = 2;
-  string name = 3;
+  uint64 parent_inode = 1;
+  string name = 2;
 }
 
 message IcefsSetAttrReq {
-  FuseReq req = 1;
-  uint64 inode = 2;
-  statStruct stat = 3;
-  int32 to_set = 4;
-  FuseFileInfo file_info = 5;
+  uint64 inode = 1;
+  statStruct stat = 2;
+  int32 to_set = 3;
+  uint64 fh = 4;
+  bool has_fh = 5;
 }
 
 message IcefsSetLkReq {
@@ -381,30 +337,25 @@ message IcefsSetLkReq {
 }
 
 message IcefsSetXattrReq {
-  FuseReq req = 1;
-  uint64 inode = 2;
-  string name = 3;
-  string value = 4;
-  uint64 size = 5;
-  int32 flags = 6;
+  uint64 inode = 1;
+  string name = 2;
+  string value = 3;
+  int32 flags = 4;
 }
 
 message IcefsStatFSReq {
-  FuseReq req = 1;
-  uint64 inode = 2;
+  uint64 inode = 1;
 }
 
 message IcefsSymLinkReq {
-  FuseReq req = 1;
-  string link = 2;
-  uint64 parent_inode = 3;
-  string name = 4;
+  string link = 1;
+  uint64 parent_inode = 2;
+  string name = 3;
 }
 
 message IcefsUnlinkReq {
-  FuseReq req = 1;
-  uint64 parent_inode = 2;
-  string name = 3;
+  uint64 parent_inode = 1;
+  string name = 2;
 }
 
 message IcefsWriteBufReq {
@@ -416,12 +367,9 @@ message IcefsWriteBufReq {
 }
 
 message IcefsWriteReq {
-  FuseReq req = 1;
-  uint64 inode = 2;
-  bytes buf = 3;
-  uint64 size = 4;
-  int64 offset = 5;
-  FuseFileInfo file_info = 6;
+  bytes buf = 1;
+  int64 offset = 2;
+  uint64 fh = 3;
 }
 
 // Response

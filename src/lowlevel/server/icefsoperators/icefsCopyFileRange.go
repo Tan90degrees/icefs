@@ -20,7 +20,7 @@ import (
 
 func (s *IcefsServer) DoIcefsCopyFileRange(ctx context.Context, req *pb.IcefsCopyFileRangeReq) (*pb.IcefsCopyFileRangeRes, error) {
 	var res pb.IcefsCopyFileRangeRes
-	size, err := unix.CopyFileRange(int(req.FileInfoIn.Fh), &req.OffsetIn, int(req.FileInfoOut.Fh), &req.OffsetOut, int(req.Len), int(req.Flags))
+	size, err := unix.CopyFileRange(int(req.FhIn), &req.OffsetIn, int(req.FhOut), &req.OffsetOut, int(req.Len), int(req.Flags))
 	res.Status = icefserror.IcefsStdErrno(err)
 	res.Size = uint64(size) // 保证先进行status校验则回环不会出现错误
 	return &res, nil

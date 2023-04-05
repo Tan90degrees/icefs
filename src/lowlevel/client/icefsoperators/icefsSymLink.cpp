@@ -2,10 +2,10 @@
  * @Author: Tan90degrees tangentninetydegrees@gmail.com
  * @Date: 2023-03-30 04:19:29
  * @LastEditors: Tan90degrees tangentninetydegrees@gmail.com
- * @LastEditTime: 2023-03-30 04:25:18
+ * @LastEditTime: 2023-04-04 15:53:54
  * @FilePath: /icefs/src/lowlevel/client/icefsoperators/icefsSymLink.cpp
- * @Description: 
- * 
+ * @Description:
+ *
  * Copyright (C) 2023 Tan90degrees <tangentninetydegrees@gmail.com>.
  */
 #include <stdio.h>
@@ -21,11 +21,7 @@ void IcefsClient::DoIcefsSymLink(fuse_req_t fuseReq, const char *link,
   IcefsSymLinkRes res;
   grpc::ClientContext ctx;
   ICEFS_PR_FUNCTION;
-  FuseReq *fuseReqToSend = new FuseReq();
-  FuseCtx *fuseCtx = new FuseCtx();
   struct fuse_entry_param entry;
-  IcefsFillFuseReq(fuseReqToSend, fuseCtx, fuseReq);
-  req.set_allocated_req(fuseReqToSend);
   req.set_link(link);
   req.set_parent_inode(parentInode);
   req.set_name(name);

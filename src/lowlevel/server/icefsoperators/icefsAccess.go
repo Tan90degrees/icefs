@@ -2,7 +2,7 @@
  * @Author: Tan90degrees tangentninetydegrees@gmail.com
  * @Date: 2023-03-11 07:18:32
  * @LastEditors: Tan90degrees tangentninetydegrees@gmail.com
- * @LastEditTime: 2023-03-30 04:26:57
+ * @LastEditTime: 2023-04-04 13:14:50
  * @FilePath: /icefs/src/lowlevel/server/icefsoperators/icefsAccess.go
  * @Description:
  *
@@ -34,7 +34,6 @@ func (s *IcefsServer) DoIcefsAccess(ctx context.Context, req *pb.IcefsAccessReq)
 	procName = fmt.Sprintf("/proc/self/fd/%v", inode.fd)
 	res.Status = icefserror.IcefsStdErrno(syscall.Access(procName, uint32(req.Mask)))
 	inode.inodeLock.RUnlock()
-	// res.Status = int32(syscall.ENOSYS)
 
 errOut:
 	return &res, nil

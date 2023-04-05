@@ -2,10 +2,10 @@
  * @Author: Tan90degrees tangentninetydegrees@gmail.com
  * @Date: 2023-03-30 04:19:29
  * @LastEditors: Tan90degrees tangentninetydegrees@gmail.com
- * @LastEditTime: 2023-03-30 04:23:08
+ * @LastEditTime: 2023-04-04 15:53:27
  * @FilePath: /icefs/src/lowlevel/client/icefsoperators/icefsForgetMulti.cpp
- * @Description: 
- * 
+ * @Description:
+ *
  * Copyright (C) 2023 Tan90degrees <tangentninetydegrees@gmail.com>.
  */
 #include <stdio.h>
@@ -21,11 +21,7 @@ void IcefsClient::DoIcefsForgetMulti(fuse_req_t fuseReq, size_t count,
   IcefsForgetMultiRes res;
   grpc::ClientContext ctx;
   ICEFS_PR_FUNCTION;
-  FuseReq *fuseReqToSend = new FuseReq();
-  FuseCtx *fuseCtx = new FuseCtx();
   IcefsForgetMultiReq_forget_data *forgetOne;
-  IcefsFillFuseReq(fuseReqToSend, fuseCtx, fuseReq);
-  req.set_allocated_req(fuseReqToSend);
   req.set_count(count);
   for (size_t i = 0; i < count; ++i) {
     forgetOne = req.add_to_forget();
