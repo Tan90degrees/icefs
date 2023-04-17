@@ -2,7 +2,7 @@
  * @Author: Tan90degrees tangentninetydegrees@gmail.com
  * @Date: 2023-03-11 08:07:47
  * @LastEditors: Tan90degrees tangentninetydegrees@gmail.com
- * @LastEditTime: 2023-03-30 04:26:48
+ * @LastEditTime: 2023-04-07 16:01:20
  * @FilePath: /icefs/src/lowlevel/server/icefserror/errorcode.go
  * @Description:
  *
@@ -11,6 +11,7 @@
 package icefserror
 
 import (
+	"log"
 	"syscall"
 )
 
@@ -20,7 +21,10 @@ const (
 )
 
 func IcefsStdErrno(err error) int32 {
-	// log.Println(err)
+	// if err != nil {
+	// 	pc, _, _, _ := runtime.Caller(1)
+	// 	log.Println(runtime.FuncForPC(pc).Name(), err)
+	// }
 	switch err {
 	case nil:
 		return ICEFS_EOK
@@ -287,4 +291,11 @@ func IcefsStdErrno(err error) int32 {
 	default:
 		return ICEFS_BUG_ERR
 	}
+}
+
+func Must(v any, err error) any {
+	if err != nil {
+		log.Fatal(err)
+	}
+	return v
 }

@@ -2,7 +2,7 @@
  * @Author: Tan90degrees tangentninetydegrees@gmail.com
  * @Date: 2023-03-19 15:30:06
  * @LastEditors: Tan90degrees tangentninetydegrees@gmail.com
- * @LastEditTime: 2023-03-30 04:29:42
+ * @LastEditTime: 2023-04-07 16:52:14
  * @FilePath: /icefs/src/lowlevel/server/icefsoperators/icefsServer.go
  * @Description:
  *
@@ -14,6 +14,7 @@ import (
 	"errors"
 	"icefs-server/icefserror"
 	pb "icefs-server/icefsrpc"
+	"math"
 	"os"
 	"sync"
 	"syscall"
@@ -21,6 +22,9 @@ import (
 
 	"golang.org/x/sys/unix"
 )
+
+const LOGICAL_BLOCK_SIZE = 512
+const ICEFS_RW_BUF_TYPE_NUM = 2048 // 支持 512B 到 1M 的对齐直通写
 
 type IcefsInode struct {
 	fd         int
@@ -38,15 +42,66 @@ type IcefsDir struct {
 	dirLock   sync.RWMutex
 }
 
+type IcefsRWBuf struct {
+	pos uint64
+	mem []byte
+}
+
+// x&(-x)
+type IcefsRWBufPool struct {
+	memPools []*sync.Pool
+}
+
 type IcefsServer struct {
-	RootPathAbs    string
-	timeout        float64
-	devId          uint64
-	inodeCache     map[uint64]*IcefsInode // TODO: use sync.map
-	inodeCacheLock sync.RWMutex
-	dirCache       map[uint64]*IcefsDir
-	dirCacheLock   sync.RWMutex
+	RootPathAbs           string
+	timeout               float64
+	devId                 uint64
+	logicalBlockSize      uint64
+	logicalBlockSizeMagic uint64
+	inodeCache            map[uint64]*IcefsInode // TODO: use sync.map
+	inodeCacheLock        sync.RWMutex
+	dirCache              map[uint64]*IcefsDir
+	dirCacheLock          sync.RWMutex
+	RWBufPool             IcefsRWBufPool
 	pb.UnimplementedIcefsServer
+}
+
+func (s *IcefsServer) initRWBufPool() {
+	s.RWBufPool.memPools = make([]*sync.Pool, ICEFS_RW_BUF_TYPE_NUM)
+
+	for i := uint64(0); i < ICEFS_RW_BUF_TYPE_NUM; i++ {
+		j := i
+		s.RWBufPool.memPools[j] = &sync.Pool{
+			New: func() any {
+				return &IcefsRWBuf{
+					pos: j,
+					mem: s.getAlignedMem((j + 1) << s.logicalBlockSizeMagic),
+				}
+			},
+		}
+	}
+}
+
+func (s *IcefsServer) getRWBuf(size uint64) any {
+	if size <= (ICEFS_RW_BUF_TYPE_NUM << s.logicalBlockSizeMagic) {
+		if (size & (s.logicalBlockSize - 1)) != 0 {
+			return s.RWBufPool.memPools[(size >> s.logicalBlockSizeMagic)].Get()
+		} else {
+			return s.RWBufPool.memPools[(size>>s.logicalBlockSizeMagic)-1].Get()
+		}
+	} else {
+		return &IcefsRWBuf{
+			pos: ICEFS_RW_BUF_TYPE_NUM,
+			mem: s.getAlignedMem(size),
+		}
+	}
+}
+
+func (s *IcefsServer) putRWBuf(bufObj *IcefsRWBuf) {
+	if bufObj.pos >= ICEFS_RW_BUF_TYPE_NUM {
+		return
+	}
+	s.RWBufPool.memPools[bufObj.pos].Put(bufObj)
 }
 
 func (s *IcefsServer) IcefsServerInit() error {
@@ -72,12 +127,21 @@ func (s *IcefsServer) IcefsServerInit() error {
 		return err
 	}
 
+	root.fd = icefserror.Must(syscall.Open(s.RootPathAbs, unix.O_PATH, 0)).(int)
+
 	s.devId = root.stat.Dev
 
-	root.fd, err = syscall.Open(s.RootPathAbs, unix.O_PATH, 0)
-	if err != nil {
-		return err
+	// s.logicalBlockSize = uint64(icefserror.Must(unix.IoctlGetInt(root.fd, unix.BLKSSZGET)).(int))
+	s.logicalBlockSize = LOGICAL_BLOCK_SIZE
+	s.logicalBlockSizeMagic = s.logicalBlockSize & (-s.logicalBlockSize)
+	for i := uint64(0); i < math.MaxUint64; i++ {
+		if (s.logicalBlockSizeMagic & (1 << i)) != 0 {
+			s.logicalBlockSizeMagic = i
+			break
+		}
 	}
+
+	s.initRWBufPool()
 
 	root.nlookup = icefserror.ICEFS_BUG_ERR
 	s.inodeCacheLock.Lock()

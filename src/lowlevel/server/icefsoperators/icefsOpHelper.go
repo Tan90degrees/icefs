@@ -2,7 +2,7 @@
  * @Author: Tan90degrees tangentninetydegrees@gmail.com
  * @Date: 2023-03-11 14:47:23
  * @LastEditors: Tan90degrees tangentninetydegrees@gmail.com
- * @LastEditTime: 2023-04-04 14:31:50
+ * @LastEditTime: 2023-04-07 14:50:46
  * @FilePath: /icefs/src/lowlevel/server/icefsoperators/icefsOpHelper.go
  * @Description:
  *
@@ -15,6 +15,7 @@ import (
 	pb "icefs-server/icefsrpc"
 	"log"
 	"syscall"
+	"unsafe"
 
 	"golang.org/x/sys/unix"
 )
@@ -148,4 +149,16 @@ func (s *IcefsServer) doGetAttr(fd int, stat *syscall.Stat_t) error {
 // 提升性能
 func checkNameIsDotOrDotDot(name string) bool {
 	return name == "." || name == ".."
+}
+
+func getAlignedMemNormal(size uint64, alignSize uint64) []byte {
+	mem := make([]byte, size+alignSize)
+	offset := (uint64(uintptr(unsafe.Pointer(&mem[0]))) & (alignSize - 1))
+	return mem[offset : offset+size]
+}
+
+func (s *IcefsServer) getAlignedMem(size uint64) []byte {
+	mem := make([]byte, size+s.logicalBlockSize)
+	offset := (uint64(uintptr(unsafe.Pointer(&mem[0]))) & (s.logicalBlockSize - 1))
+	return mem[offset : offset+size]
 }

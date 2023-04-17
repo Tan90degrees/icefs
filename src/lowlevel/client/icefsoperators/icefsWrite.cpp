@@ -2,7 +2,7 @@
  * @Author: Tan90degrees tangentninetydegrees@gmail.com
  * @Date: 2023-03-30 04:19:29
  * @LastEditors: Tan90degrees tangentninetydegrees@gmail.com
- * @LastEditTime: 2023-04-04 15:53:56
+ * @LastEditTime: 2023-04-06 10:41:47
  * @FilePath: /icefs/src/lowlevel/client/icefsoperators/icefsWrite.cpp
  * @Description:
  *
@@ -25,6 +25,7 @@ void IcefsClient::DoIcefsWrite(fuse_req_t fuseReq, fuse_ino_t inode,
   req.set_buf(buf);
   req.set_offset(offset);
   req.set_fh(fi->fh);
+  req.set_size(size);
 
   grpc::Status status = stub_->DoIcefsWrite(&ctx, req, &res);
   if (status.ok() && !res.status()) {

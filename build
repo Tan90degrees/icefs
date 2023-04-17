@@ -35,7 +35,7 @@ echo "Now building server."
 
 protoc -I $PROTO_PATH --go-grpc_out=$LOW_LEVEL_SERVER_SRC_PATH/icefsrpc --go_out=$LOW_LEVEL_SERVER_SRC_PATH/icefsrpc $PROTO_PATH/*.proto
 
-cd $LOW_LEVEL_SERVER_SRC_PATH && go build -race -ldflags '-s -w' -o ../../../$ICEFS_BUILD_DIR/$ICEFS_SERVER_DIR/icefs-server
+cd $LOW_LEVEL_SERVER_SRC_PATH && go build -ldflags '-s -w' -o ../../../$ICEFS_BUILD_DIR/$ICEFS_SERVER_DIR/icefs-server
 
 echo "Build finished."
 

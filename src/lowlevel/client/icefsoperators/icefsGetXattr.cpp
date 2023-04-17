@@ -2,7 +2,7 @@
  * @Author: Tan90degrees tangentninetydegrees@gmail.com
  * @Date: 2023-03-30 04:19:29
  * @LastEditors: Tan90degrees tangentninetydegrees@gmail.com
- * @LastEditTime: 2023-04-04 15:53:31
+ * @LastEditTime: 2023-04-07 10:47:36
  * @FilePath: /icefs/src/lowlevel/client/icefsoperators/icefsGetXattr.cpp
  * @Description:
  *
@@ -37,8 +37,6 @@ void IcefsClient::DoIcefsGetXattr(fuse_req_t fuseReq, fuse_ino_t inode,
     } else {
       fuse_reply_xattr(fuseReq, res.size());
     }
-  } else if (res.status() == ENODATA) {
-    fuse_reply_err(fuseReq, res.status() ? res.status() : EIO);
   } else {
     fuse_reply_err(fuseReq, res.status() ? res.status() : EIO);
     ICEFS_PR_ERR_STATUS;

@@ -2,7 +2,7 @@
  * @Author: Tan90degrees tangentninetydegrees@gmail.com
  * @Date: 2023-03-11 07:18:32
  * @LastEditors: Tan90degrees tangentninetydegrees@gmail.com
- * @LastEditTime: 2023-04-04 14:56:28
+ * @LastEditTime: 2023-04-05 07:28:31
  * @FilePath: /icefs/src/lowlevel/server/icefsoperators/icefsOpen.go
  * @Description:
  *
@@ -15,7 +15,6 @@ import (
 	"fmt"
 	"icefs-server/icefserror"
 	pb "icefs-server/icefsrpc"
-	"log"
 	"syscall"
 )
 
@@ -37,8 +36,6 @@ func (s *IcefsServer) DoIcefsOpen(ctx context.Context, req *pb.IcefsOpenReq) (*p
 	fd, err = syscall.Open(procName, int(req.Flags&(^syscall.O_NOFOLLOW)), 0)
 	if err != nil {
 		inode.inodeLock.Unlock()
-		log.Println(req.Flags)
-		log.Println(err)
 		res.Status = icefserror.IcefsStdErrno(err)
 		goto errOut
 	}
