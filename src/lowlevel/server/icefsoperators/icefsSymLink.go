@@ -2,7 +2,7 @@
  * @Author: Tan90degrees tangentninetydegrees@gmail.com
  * @Date: 2023-03-11 07:18:32
  * @LastEditors: Tan90degrees tangentninetydegrees@gmail.com
- * @LastEditTime: 2023-03-30 04:29:57
+ * @LastEditTime: 2023-04-18 17:00:30
  * @FilePath: /icefs/src/lowlevel/server/icefsoperators/icefsSymLink.go
  * @Description:
  *
@@ -13,33 +13,52 @@ package icefsoperators
 import (
 	"context"
 	"icefs-server/icefserror"
-	pb "icefs-server/icefsrpc"
+	pb "icefs-server/icefsgrpc"
+	"icefs-server/icefsthrift"
 
 	"golang.org/x/sys/unix"
 )
 
-func (s *IcefsServer) DoIcefsSymLink(ctx context.Context, req *pb.IcefsSymLinkReq) (*pb.IcefsSymLinkRes, error) {
-	var res pb.IcefsSymLinkRes
+func (s *IcefsServer) doIcefsSymLink(parentFakeInode uint64, link string, name string, fuseEntryParamBuilder FuseEntryParamBuilder) (status int32, entry any) {
 	var err error
 	s.inodeCacheLock.RLock()
-	inode := s.getIcefsInode(req.ParentInode)
+	inode := s.getIcefsInode(parentFakeInode)
 	if inode == nil {
 		s.inodeCacheLock.RUnlock()
-		res.Status = icefserror.ICEFS_BUG_ERR
-		goto errOut
+		status = icefserror.ICEFS_BUG_ERR
+		return
 	}
 
 	inode.inodeLock.RLock()
 	s.inodeCacheLock.RUnlock()
-	res.Status = icefserror.IcefsStdErrno(unix.Symlinkat(req.Link, inode.fd, req.Name))
+	status = icefserror.IcefsStdErrno(unix.Symlinkat(link, inode.fd, name))
 	inode.inodeLock.RUnlock()
 
-	res.Entry, err = s.doLookUp(req.ParentInode, req.Name)
-	if err != nil {
-		res.Status = icefserror.IcefsStdErrno(err)
-		goto errOut
+	entry, err = s.doIcefsLookUp(parentFakeInode, name, fuseEntryParamBuilder)
+	status = icefserror.IcefsStdErrno(err)
+	return
+}
+
+func (s *IcefsGRpcServer) DoIcefsSymLink(ctx context.Context, req *pb.IcefsSymLinkReq) (*pb.IcefsSymLinkRes, error) {
+	var res pb.IcefsSymLinkRes
+	var entry any
+
+	res.Status, entry = s.server.doIcefsSymLink(req.ParentInode, req.Link, req.Name, GRpcFuseEntryParamBuilder)
+	if res.Status == icefserror.ICEFS_EOK {
+		res.Entry = entry.(*pb.FuseEntryParam)
 	}
 
-errOut:
+	return &res, nil
+}
+
+func (s *IcefsThriftServer) DoIcefsSymLink(ctx context.Context, req *icefsthrift.IcefsSymLinkReq) (*icefsthrift.IcefsSymLinkRes, error) {
+	var res icefsthrift.IcefsSymLinkRes
+	var entry any
+
+	res.Status, entry = s.server.doIcefsSymLink(uint64(req.ParentInode), req.Link, req.Name, GRpcFuseEntryParamBuilder)
+	if res.Status == icefserror.ICEFS_EOK {
+		res.Entry = entry.(*icefsthrift.FuseEntryParam)
+	}
+
 	return &res, nil
 }

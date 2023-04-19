@@ -2,7 +2,7 @@
  * @Author: Tan90degrees tangentninetydegrees@gmail.com
  * @Date: 2023-03-18 03:31:47
  * @LastEditors: Tan90degrees tangentninetydegrees@gmail.com
- * @LastEditTime: 2023-03-30 04:28:34
+ * @LastEditTime: 2023-04-18 17:31:41
  * @FilePath: /icefs/src/lowlevel/server/icefsoperators/icefsGlibc.go
  * @Description:
  *
@@ -30,11 +30,14 @@ int32_t initErrno(void) {
 */
 import "C"
 import (
-	pb "icefs-server/icefsrpc"
+	pb "icefs-server/icefsgrpc"
+	"icefs-server/icefsthrift"
 	"unsafe"
 )
 
 const DIRENT_NAME_LEN = 256
+
+type DirStructBuilder func(dirent *C.struct_dirent) any
 
 func IcefsDirFd(dir unsafe.Pointer) int {
 	return int(C.dirfd((*C.DIR)(dir)))
@@ -60,20 +63,33 @@ func IcefsSeekDir(dirStream unsafe.Pointer, offset int64) {
 	C.seekdir((*C.DIR)(dirStream), C.long(offset))
 }
 
-func IcefsReadDir(dirStream unsafe.Pointer) (*pb.DirentStruct, int32) {
+func GRpcDirStructBuilder(dirent *C.struct_dirent) any {
+	return &pb.DirentStruct{
+		Ino:    uint64(dirent.d_ino),
+		Off:    int64(dirent.d_off),
+		Reclen: uint32(dirent.d_reclen),
+		Type:   uint32(dirent.d_type),
+		Name:   C.GoString(&(dirent.d_name[0])),
+	}
+}
+
+func ThriftDirStructBuilder(dirent *C.struct_dirent) any {
+	return &icefsthrift.DirentStruct{
+		Ino:    icefsthrift.Ui64(dirent.d_ino),
+		Off:    int64(dirent.d_off),
+		Reclen: icefsthrift.Ui32(dirent.d_reclen),
+		Type:   icefsthrift.Ui32(dirent.d_type),
+		Name:   C.GoString(&(dirent.d_name[0])),
+	}
+}
+
+func IcefsReadDir(dirStream unsafe.Pointer, dirStructBuilder DirStructBuilder) (any, int32) {
 	C.initErrno()
 	dirent := C.readdir((*C.DIR)(dirStream))
 	if dirent == nil {
 		return nil, int32(C.getErrno())
 	}
-	dirStruct := &pb.DirentStruct{
-		Ino:    uint64(dirent.d_ino),
-		Off:    int64(dirent.d_off),
-		Reclen: uint32(dirent.d_reclen),
-		Type:   uint32(dirent.d_type),
-	}
-
-	dirStruct.Name = C.GoString(&(dirent.d_name[0]))
+	dirStruct := dirStructBuilder(dirent)
 
 	return dirStruct, int32(C.getErrno())
 }

@@ -2,7 +2,7 @@
  * @Author: Tan90degrees tangentninetydegrees@gmail.com
  * @Date: 2023-03-30 04:19:29
  * @LastEditors: Tan90degrees tangentninetydegrees@gmail.com
- * @LastEditTime: 2023-04-04 16:13:19
+ * @LastEditTime: 2023-04-19 08:11:35
  * @FilePath: /icefs/protos/lowlevel/icefsServices.proto
  * @Description: 
  * 
@@ -10,10 +10,10 @@
  */
 syntax = "proto3";
 
-option go_package = "./;icefsrpc";
+option go_package = "./;icefsgrpc";
 import "icefs.proto";
 
-service Icefs {
+service IcefsGRpc {
   rpc DoIcefsInit(IcefsInitReq) returns (IcefsInitRes) {} // Done
   rpc DoIcefsDestroy(IcefsDestroyReq) returns (IcefsDestroyRes) {} // Done
   rpc DoIcefsLookUp(IcefsLookUpReq) returns (IcefsLookUpRes) {} // Done

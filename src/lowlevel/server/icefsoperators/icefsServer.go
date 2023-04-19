@@ -2,7 +2,7 @@
  * @Author: Tan90degrees tangentninetydegrees@gmail.com
  * @Date: 2023-03-19 15:30:06
  * @LastEditors: Tan90degrees tangentninetydegrees@gmail.com
- * @LastEditTime: 2023-04-07 16:52:14
+ * @LastEditTime: 2023-04-19 08:14:13
  * @FilePath: /icefs/src/lowlevel/server/icefsoperators/icefsServer.go
  * @Description:
  *
@@ -13,7 +13,7 @@ package icefsoperators
 import (
 	"errors"
 	"icefs-server/icefserror"
-	pb "icefs-server/icefsrpc"
+	pb "icefs-server/icefsgrpc"
 	"math"
 	"os"
 	"sync"
@@ -52,6 +52,15 @@ type IcefsRWBufPool struct {
 	memPools []*sync.Pool
 }
 
+type IcefsGRpcServer struct {
+	server *IcefsServer
+	pb.UnimplementedIcefsGRpcServer
+}
+
+type IcefsThriftServer struct {
+	server *IcefsServer
+}
+
 type IcefsServer struct {
 	RootPathAbs           string
 	timeout               float64
@@ -63,7 +72,9 @@ type IcefsServer struct {
 	dirCache              map[uint64]*IcefsDir
 	dirCacheLock          sync.RWMutex
 	RWBufPool             IcefsRWBufPool
-	pb.UnimplementedIcefsServer
+
+	GRpcServer   IcefsGRpcServer
+	ThriftServer IcefsThriftServer
 }
 
 func (s *IcefsServer) initRWBufPool() {
@@ -107,6 +118,9 @@ func (s *IcefsServer) putRWBuf(bufObj *IcefsRWBuf) {
 func (s *IcefsServer) IcefsServerInit() error {
 	var err error
 	var root IcefsInode
+
+	s.GRpcServer.server = s
+	s.ThriftServer.server = s
 
 	s.inodeCache = make(map[uint64]*IcefsInode)
 	s.dirCache = make(map[uint64]*IcefsDir)

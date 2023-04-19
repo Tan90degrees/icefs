@@ -2,7 +2,7 @@
  * @Author: Tan90degrees tangentninetydegrees@gmail.com
  * @Date: 2023-03-24 09:09:24
  * @LastEditors: Tan90degrees tangentninetydegrees@gmail.com
- * @LastEditTime: 2023-03-30 04:29:04
+ * @LastEditTime: 2023-04-17 17:07:12
  * @FilePath: /icefs/src/lowlevel/server/icefsoperators/icefsOpHelper_amd64.go
  * @Description:
  *
@@ -11,11 +11,12 @@
 package icefsoperators
 
 import (
-	pb "icefs-server/icefsrpc"
+	pb "icefs-server/icefsgrpc"
+	"icefs-server/icefsthrift"
 	"syscall"
 )
 
-func StatStructBuilder(stat *syscall.Stat_t) *pb.StatStruct {
+func GRpcStatStructBuilder(stat *syscall.Stat_t) any {
 	return &pb.StatStruct{
 		StDev:   stat.Dev,
 		StIno:   stat.Ino,
@@ -30,6 +31,27 @@ func StatStructBuilder(stat *syscall.Stat_t) *pb.StatStruct {
 		StMtim: &pb.TimeStruct{TimeSec: stat.Mtim.Sec,
 			TimeNSec: stat.Mtim.Nsec},
 		StCtim: &pb.TimeStruct{TimeSec: stat.Ctim.Sec,
+			TimeNSec: stat.Ctim.Nsec},
+		StBlksize: stat.Blksize,
+		StBlocks:  stat.Blocks,
+	}
+}
+
+func ThriftStatStructBuilder(stat *syscall.Stat_t) any {
+	return &icefsthrift.StatStruct{
+		StDev:   icefsthrift.Ui64(stat.Dev),
+		StIno:   icefsthrift.Ui64(stat.Ino),
+		StMode:  icefsthrift.Ui32(stat.Mode),
+		StNlink: icefsthrift.Ui64(stat.Nlink),
+		StUID:   icefsthrift.Ui32(stat.Uid),
+		StGid:   icefsthrift.Ui32(stat.Gid),
+		StRdev:  icefsthrift.Ui64(stat.Rdev),
+		StSize:  stat.Size,
+		StAtim: &icefsthrift.TimeStruct{TimeSec: stat.Atim.Sec,
+			TimeNSec: stat.Atim.Nsec},
+		StMtim: &icefsthrift.TimeStruct{TimeSec: stat.Mtim.Sec,
+			TimeNSec: stat.Mtim.Nsec},
+		StCtim: &icefsthrift.TimeStruct{TimeSec: stat.Ctim.Sec,
 			TimeNSec: stat.Ctim.Nsec},
 		StBlksize: stat.Blksize,
 		StBlocks:  stat.Blocks,

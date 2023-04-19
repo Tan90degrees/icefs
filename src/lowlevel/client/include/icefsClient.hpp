@@ -2,7 +2,7 @@
  * @Author: Tan90degrees tangentninetydegrees@gmail.com
  * @Date: 2023-03-02 06:41:52
  * @LastEditors: Tan90degrees tangentninetydegrees@gmail.com
- * @LastEditTime: 2023-04-05 05:44:47
+ * @LastEditTime: 2023-04-19 08:19:45
  * @FilePath: /icefs/src/lowlevel/client/include/icefsClient.hpp
  * @Description:
  *
@@ -52,12 +52,12 @@ struct IcefsClientConfig {
 class IcefsClient {
  private:
   IcefsClientConfig config;
-  std::unique_ptr<Icefs::Stub> stub_;
+  std::unique_ptr<IcefsGRpc::Stub> stub_;
 
  public:
   IcefsClient(std::shared_ptr<grpc::Channel::ChannelInterface> channel,
               const IcefsClientConfig *config)
-      : stub_(Icefs::NewStub(channel)) {
+      : stub_(IcefsGRpc::NewStub(channel)) {
     this->config = *config;
   }
   ~IcefsClient();

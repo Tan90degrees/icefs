@@ -9,6 +9,7 @@ require (
 )
 
 require (
+	github.com/apache/thrift v0.18.1 // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
 	golang.org/x/net v0.5.0 // indirect
 	golang.org/x/text v0.6.0 // indirect

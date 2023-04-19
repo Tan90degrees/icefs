@@ -2,7 +2,7 @@
  * @Author: Tan90degrees tangentninetydegrees@gmail.com
  * @Date: 2023-03-11 14:47:23
  * @LastEditors: Tan90degrees tangentninetydegrees@gmail.com
- * @LastEditTime: 2023-04-07 14:50:46
+ * @LastEditTime: 2023-04-18 14:55:16
  * @FilePath: /icefs/src/lowlevel/server/icefsoperators/icefsOpHelper.go
  * @Description:
  *
@@ -12,7 +12,8 @@ package icefsoperators
 
 import (
 	"icefs-server/icefserror"
-	pb "icefs-server/icefsrpc"
+	pb "icefs-server/icefsgrpc"
+	"icefs-server/icefsthrift"
 	"log"
 	"syscall"
 	"unsafe"
@@ -43,13 +44,54 @@ const (
 	FUSE_SET_ATTR_TOUCH     = (1 << 17)
 )
 
-func FuseEntryParamBuilder(inode *IcefsInode, timeout float64) *pb.FuseEntryParam {
+type FuseEntryParamBuilder func(inode *IcefsInode, timeout float64) any
+type StatStructBuilder func(stat *syscall.Stat_t) any
+type StatvfsStructBuilder func(statfs *syscall.Statfs_t) any
+
+func GRpcFuseEntryParamBuilder(inode *IcefsInode, timeout float64) any {
 	return &pb.FuseEntryParam{
 		Inode:        inode.fakeInode,
 		Generation:   inode.generation,
-		Attr:         StatStructBuilder(&inode.stat),
+		Attr:         GRpcStatStructBuilder(&inode.stat).(*pb.StatStruct),
 		AttrTimeout:  timeout,
 		EntryTimeout: timeout,
+	}
+}
+
+func ThriftFuseEntryParamBuilder(inode *IcefsInode, timeout float64) any {
+	return &icefsthrift.FuseEntryParam{
+		Inode:        icefsthrift.Ui64(inode.fakeInode),
+		Generation:   icefsthrift.Ui64(inode.generation),
+		Attr:         ThriftStatStructBuilder(&inode.stat).(*icefsthrift.StatStruct),
+		AttrTimeout:  timeout,
+		EntryTimeout: timeout,
+	}
+}
+
+func GRpcStatvfsStructBuilder(statfs *syscall.Statfs_t) any {
+	return &pb.StatvfsStruct{
+		FBsize:   uint64(statfs.Bsize),
+		FFrsize:  uint64(statfs.Frsize),
+		FBlocks:  statfs.Blocks,
+		FBfree:   statfs.Ffree,
+		FBavail:  statfs.Bavail,
+		FFiles:   statfs.Files,
+		FFfree:   statfs.Ffree,
+		FFlag:    uint64(statfs.Flags),
+		FNamemax: uint64(statfs.Namelen),
+	}
+}
+func ThriftStatvfsStructBuilder(statfs *syscall.Statfs_t) any {
+	return &icefsthrift.StatvfsStruct{
+		FBsize:   icefsthrift.Ui64(statfs.Bsize),
+		FFrsize:  icefsthrift.Ui64(statfs.Frsize),
+		FBlocks:  icefsthrift.Ui64(statfs.Blocks),
+		FBfree:   icefsthrift.Ui64(statfs.Ffree),
+		FBavail:  icefsthrift.Ui64(statfs.Bavail),
+		FFiles:   icefsthrift.Ui64(statfs.Files),
+		FFfree:   icefsthrift.Ui64(statfs.Ffree),
+		FFlag:    icefsthrift.Ui64(statfs.Flags),
+		FNamemax: icefsthrift.Ui64(statfs.Namelen),
 	}
 }
 
@@ -69,16 +111,69 @@ func UnixStatFillSyscallStat(dstStat *syscall.Stat_t, srcStat *unix.Stat_t) {
 	dstStat.Ctim = syscall.Timespec(srcStat.Ctim)
 }
 
+func GRpcSyscallStatBuilder(stat *pb.StatStruct) *syscall.Stat_t {
+	return &syscall.Stat_t{
+		Dev:     stat.StDev,
+		Ino:     stat.StIno,
+		Nlink:   stat.StNlink,
+		Mode:    stat.StMode,
+		Uid:     stat.StUid,
+		Gid:     stat.StGid,
+		Rdev:    stat.StRdev,
+		Size:    stat.StSize,
+		Blksize: stat.StBlksize,
+		Blocks:  stat.StBlocks,
+		Atim: syscall.Timespec{
+			Sec:  stat.StAtim.TimeSec,
+			Nsec: stat.StAtim.TimeNSec,
+		},
+		Mtim: syscall.Timespec{
+			Sec:  stat.StMtim.TimeSec,
+			Nsec: stat.StMtim.TimeNSec,
+		},
+		Ctim: syscall.Timespec{
+			Sec:  stat.StCtim.TimeSec,
+			Nsec: stat.StCtim.TimeNSec,
+		},
+	}
+}
+
+func ThriftSyscallStatBuilder(stat *icefsthrift.StatStruct) *syscall.Stat_t {
+	return &syscall.Stat_t{
+		Dev:     uint64(stat.StDev),
+		Ino:     uint64(stat.StIno),
+		Nlink:   uint64(stat.StNlink),
+		Mode:    uint32(stat.StMode),
+		Uid:     uint32(stat.StUID),
+		Gid:     uint32(stat.StGid),
+		Rdev:    uint64(stat.StRdev),
+		Size:    stat.StSize,
+		Blksize: stat.StBlksize,
+		Blocks:  stat.StBlocks,
+		Atim: syscall.Timespec{
+			Sec:  stat.StAtim.TimeSec,
+			Nsec: stat.StAtim.TimeNSec,
+		},
+		Mtim: syscall.Timespec{
+			Sec:  stat.StMtim.TimeSec,
+			Nsec: stat.StMtim.TimeNSec,
+		},
+		Ctim: syscall.Timespec{
+			Sec:  stat.StCtim.TimeSec,
+			Nsec: stat.StCtim.TimeNSec,
+		},
+	}
+}
+
 // 有锁操作
-func (s *IcefsServer) doLookUp(parentInodeNum uint64, name string) (*pb.FuseEntryParam, error) {
-	var err error
+func (s *IcefsServer) doIcefsLookUp(parentFakeInode uint64, name string, fuseEntryParamBuilder FuseEntryParamBuilder) (entry any, err error) {
 	inode := new(IcefsInode)
 	s.inodeCacheLock.RLock()
-	parentInode := s.getIcefsInode(parentInodeNum)
+	parentInode := s.getIcefsInode(parentFakeInode)
 	if parentInode == nil {
 		s.inodeCacheLock.RUnlock()
 		err = syscall.Errno(icefserror.ICEFS_BUG_ERR)
-		return nil, err
+		return
 	}
 
 	parentInode.inodeLock.RLock()
@@ -86,12 +181,12 @@ func (s *IcefsServer) doLookUp(parentInodeNum uint64, name string) (*pb.FuseEntr
 	newfd, err := syscall.Openat(parentInode.fd, name, unix.O_PATH|unix.O_NOFOLLOW, 0)
 	parentInode.inodeLock.RUnlock()
 	if err != nil {
-		return nil, err
+		return
 	}
 	var stat unix.Stat_t
 	err = unix.Fstatat(newfd, "", &stat, unix.AT_EMPTY_PATH|unix.AT_SYMLINK_NOFOLLOW)
 	if err != nil {
-		return nil, err
+		return
 	}
 
 	UnixStatFillSyscallStat(&inode.stat, &stat)
@@ -108,13 +203,13 @@ func (s *IcefsServer) doLookUp(parentInodeNum uint64, name string) (*pb.FuseEntr
 
 	inode.inodeLock.RLock()
 	s.inodeCacheLock.Unlock()
-	entry := FuseEntryParamBuilder(inode, s.timeout)
+	entry = fuseEntryParamBuilder(inode, s.timeout)
 	inode.inodeLock.RUnlock()
 
-	return entry, err
+	return
 }
 
-func (s *IcefsServer) doForget(inodeNum uint64, nlookup uint64) {
+func (s *IcefsServer) doIcefsForget(inodeNum uint64, nlookup uint64) {
 	s.inodeCacheLock.RLock()
 	inode := s.getIcefsInode(inodeNum)
 	if inode == nil {
@@ -134,16 +229,6 @@ func (s *IcefsServer) doForget(inodeNum uint64, nlookup uint64) {
 		return
 	}
 	inode.inodeLock.Unlock()
-}
-
-func (s *IcefsServer) doGetAttr(fd int, stat *syscall.Stat_t) error {
-	var unixStat unix.Stat_t
-	err := unix.Fstatat(fd, "", &unixStat, unix.AT_EMPTY_PATH|unix.AT_SYMLINK_NOFOLLOW)
-	if err != nil {
-		return err
-	}
-	UnixStatFillSyscallStat(stat, &unixStat)
-	return err
 }
 
 // 提升性能

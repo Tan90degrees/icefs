@@ -2,7 +2,7 @@
  * @Author: Tan90degrees tangentninetydegrees@gmail.com
  * @Date: 2023-03-11 07:18:32
  * @LastEditors: Tan90degrees tangentninetydegrees@gmail.com
- * @LastEditTime: 2023-04-04 14:56:04
+ * @LastEditTime: 2023-04-17 16:24:55
  * @FilePath: /icefs/src/lowlevel/server/icefsoperators/icefsFlush.go
  * @Description:
  *
@@ -13,18 +13,32 @@ package icefsoperators
 import (
 	"context"
 	"icefs-server/icefserror"
-	pb "icefs-server/icefsrpc"
+	pb "icefs-server/icefsgrpc"
+	"icefs-server/icefsthrift"
 	"syscall"
 )
 
-func (s *IcefsServer) DoIcefsFlush(ctx context.Context, req *pb.IcefsFlushReq) (*pb.IcefsFlushRes, error) {
-	var res pb.IcefsFlushRes
-	newFh, err := syscall.Dup(int(req.Fh))
-	if err != nil {
-		goto errOut
+func (s *IcefsServer) doIcefsFlush(fh uint64) (status int32) {
+	newFh, err := syscall.Dup(int(fh))
+	status = icefserror.IcefsStdErrno(err)
+	if err == nil {
+		syscall.Close(newFh)
 	}
-	syscall.Close(newFh)
-errOut:
-	res.Status = icefserror.IcefsStdErrno(err)
+	return
+}
+
+func (s *IcefsGRpcServer) DoIcefsFlush(ctx context.Context, req *pb.IcefsFlushReq) (*pb.IcefsFlushRes, error) {
+	var res pb.IcefsFlushRes
+
+	res.Status = s.server.doIcefsFlush(req.Fh)
+
+	return &res, nil
+}
+
+func (s *IcefsThriftServer) DoIcefsFlush(ctx context.Context, req *icefsthrift.IcefsFlushReq) (*icefsthrift.IcefsFlushRes, error) {
+	var res icefsthrift.IcefsFlushRes
+
+	res.Status = s.server.doIcefsFlush(uint64(req.Fh))
+
 	return &res, nil
 }

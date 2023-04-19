@@ -2,7 +2,7 @@
  * @Author: Tan90degrees tangentninetydegrees@gmail.com
  * @Date: 2023-03-11 07:18:32
  * @LastEditors: Tan90degrees tangentninetydegrees@gmail.com
- * @LastEditTime: 2023-04-04 14:56:40
+ * @LastEditTime: 2023-04-18 14:33:11
  * @FilePath: /icefs/src/lowlevel/server/icefsoperators/icefsReadDir.go
  * @Description:
  *
@@ -13,48 +13,87 @@ package icefsoperators
 import (
 	"context"
 	"icefs-server/icefserror"
-	pb "icefs-server/icefsrpc"
+	pb "icefs-server/icefsgrpc"
+	"icefs-server/icefsthrift"
 )
 
-func (s *IcefsServer) DoIcefsReadDir(ctx context.Context, req *pb.IcefsReadDirReq) (*pb.IcefsReadDirRes, error) {
-	var res pb.IcefsReadDirRes
-	var entry *pb.DirentStruct
+type IcefsReadDirAppendEntryData func(dir *IcefsDir, entry any, dataSlice any)
+
+func GRpcIcefsReadDirAppendEntryData(dir *IcefsDir, entry any, dataSlice any) {
+	realEntry := entry.(*pb.DirentStruct)
+	dir.offset = realEntry.Off
+	if checkNameIsDotOrDotDot(realEntry.Name) {
+		return
+	}
+	realDataSlice := dataSlice.([]*pb.DirentStruct)
+	realDataSlice = append(realDataSlice, realEntry)
+}
+
+func ThriftIcefsReadDirAppendEntryData(dir *IcefsDir, entry any, dataSlice any) {
+	realEntry := entry.(*icefsthrift.DirentStruct)
+	dir.offset = realEntry.Off
+	if checkNameIsDotOrDotDot(realEntry.Name) {
+		return
+	}
+	realDataSlice := dataSlice.([]*icefsthrift.DirentStruct)
+	realDataSlice = append(realDataSlice, realEntry)
+}
+
+func (s *IcefsServer) doIcefsReadDir(offset int64, fh uint64, dirStructBuilder DirStructBuilder, icefsReadDirAppendEntryData IcefsReadDirAppendEntryData) (status int32, dataSlice any) {
+	var entry any
 	var errno int32
 	s.dirCacheLock.RLock()
-	dir := s.getIcefsDir(req.Fh)
+	dir := s.getIcefsDir(fh)
 	if dir == nil {
 		s.dirCacheLock.RUnlock()
-		res.Status = icefserror.ICEFS_BUG_ERR
-		goto errOut
+		status = icefserror.ICEFS_BUG_ERR
+		return
 	}
 	dir.dirLock.Lock()
 	s.dirCacheLock.RUnlock()
-	if req.Offset != dir.offset {
-		IcefsSeekDir(dir.dirStream, req.Offset)
-		dir.offset = req.Offset
+	if offset != dir.offset {
+		IcefsSeekDir(dir.dirStream, offset)
+		dir.offset = offset
 	}
 
 	for {
-		entry, errno = IcefsReadDir(dir.dirStream)
+		entry, errno = IcefsReadDir(dir.dirStream, dirStructBuilder)
 		if entry == nil {
 			if errno != icefserror.ICEFS_EOK {
-				res.Status = errno
+				status = errno
 				dir.dirLock.Unlock()
-				goto errOut
+				return
 			}
 			break
 		}
-		dir.offset = entry.Off
-
-		if checkNameIsDotOrDotDot(entry.Name) {
-			continue
-		}
-		res.Data = append(res.Data, entry)
+		icefsReadDirAppendEntryData(dir, entry, dataSlice)
 	}
 
 	dir.dirLock.Unlock()
-	res.Status = icefserror.ICEFS_EOK
+	status = icefserror.ICEFS_EOK
+	return
+}
 
-errOut:
+func (s *IcefsGRpcServer) DoIcefsReadDir(ctx context.Context, req *pb.IcefsReadDirReq) (*pb.IcefsReadDirRes, error) {
+	var res pb.IcefsReadDirRes
+	var dataSlice any
+
+	res.Status, dataSlice = s.server.doIcefsReadDir(req.Offset, req.Fh, GRpcDirStructBuilder, GRpcIcefsReadDirAppendEntryData)
+	if res.Status == icefserror.ICEFS_EOK {
+		res.Data = dataSlice.([]*pb.DirentStruct)
+	}
+
+	return &res, nil
+}
+
+func (s *IcefsThriftServer) DoIcefsReadDir(ctx context.Context, req *icefsthrift.IcefsReadDirReq) (*icefsthrift.IcefsReadDirRes, error) {
+	var res icefsthrift.IcefsReadDirRes
+	var dataSlice any
+
+	res.Status, dataSlice = s.server.doIcefsReadDir(req.Offset, uint64(req.Fh), ThriftDirStructBuilder, ThriftIcefsReadDirAppendEntryData)
+	if res.Status == icefserror.ICEFS_EOK {
+		res.Data = dataSlice.([]*icefsthrift.DirentStruct)
+	}
+
 	return &res, nil
 }

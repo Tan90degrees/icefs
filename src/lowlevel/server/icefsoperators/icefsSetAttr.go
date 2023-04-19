@@ -2,7 +2,7 @@
  * @Author: Tan90degrees tangentninetydegrees@gmail.com
  * @Date: 2023-03-11 07:18:32
  * @LastEditors: Tan90degrees tangentninetydegrees@gmail.com
- * @LastEditTime: 2023-04-04 15:11:36
+ * @LastEditTime: 2023-04-18 14:35:52
  * @FilePath: /icefs/src/lowlevel/server/icefsoperators/icefsSetAttr.go
  * @Description:
  *
@@ -14,37 +14,39 @@ import (
 	"context"
 	"fmt"
 	"icefs-server/icefserror"
-	pb "icefs-server/icefsrpc"
+	pb "icefs-server/icefsgrpc"
+	"icefs-server/icefsthrift"
 	"math"
 	"syscall"
 
 	"golang.org/x/sys/unix"
 )
 
-func (s *IcefsServer) DoIcefsSetAttr(ctx context.Context, req *pb.IcefsSetAttrReq) (*pb.IcefsSetAttrRes, error) {
-	var res pb.IcefsSetAttrRes
+func (s *IcefsServer) doIcefsSetAttr(fakeInode uint64, reqStat *syscall.Stat_t, toSet int32, fh uint64, hasFh bool, statStructBuilder StatStructBuilder) (status int32, resStat any) {
 	var err error
 	var valid int32
-	res.Status = icefserror.ICEFS_EOK
+	var unixStat unix.Stat_t
+
+	status = icefserror.ICEFS_EOK
 	s.inodeCacheLock.RLock()
-	inode := s.getIcefsInode(req.Inode)
+	inode := s.getIcefsInode(fakeInode)
 	if inode == nil {
 		s.inodeCacheLock.RUnlock()
-		res.Status = icefserror.ICEFS_BUG_ERR
+		status = icefserror.ICEFS_BUG_ERR
 		goto errOut
 	}
 	inode.inodeLock.Lock()
 	s.inodeCacheLock.RUnlock()
-	valid = req.ToSet
+	valid = toSet
 	if (valid & FUSE_SET_ATTR_MODE) != 0 {
-		if req.HasFh {
-			err = syscall.Fchmod(int(req.Fh), req.Stat.StMode)
+		if hasFh {
+			err = syscall.Fchmod(int(fh), reqStat.Mode)
 		} else {
 			procName := fmt.Sprintf("/proc/self/fd/%v", inode.fd)
-			err = syscall.Chmod(procName, req.Stat.StMode)
+			err = syscall.Chmod(procName, reqStat.Mode)
 		}
 		if err != nil {
-			res.Status = icefserror.IcefsStdErrno(err)
+			status = icefserror.IcefsStdErrno(err)
 			goto errOut
 		}
 	}
@@ -53,39 +55,39 @@ func (s *IcefsServer) DoIcefsSetAttr(ctx context.Context, req *pb.IcefsSetAttrRe
 		var uid uint32
 		var gid uint32
 		if (valid & FUSE_SET_ATTR_UID) != 0 {
-			uid = req.Stat.StUid
+			uid = reqStat.Uid
 		} else {
 			uid = math.MaxUint32
 		}
 		if (valid & FUSE_SET_ATTR_GID) != 0 {
-			gid = req.Stat.StGid
+			gid = reqStat.Gid
 		} else {
 			gid = math.MaxUint32
 		}
 
 		err = syscall.Fchownat(inode.fd, "", int(uid), int(gid), unix.AT_EMPTY_PATH|unix.AT_SYMLINK_NOFOLLOW)
 		if err != nil {
-			res.Status = icefserror.IcefsStdErrno(err)
+			status = icefserror.IcefsStdErrno(err)
 			goto errOut
 		}
 	}
 
 	if (valid & FUSE_SET_ATTR_SIZE) != 0 {
-		if req.HasFh {
-			err = syscall.Ftruncate(int(req.Fh), req.Stat.StSize)
+		if hasFh {
+			err = syscall.Ftruncate(int(fh), reqStat.Size)
 		} else {
 			procName := fmt.Sprintf("/proc/self/fd/%v", inode.fd)
-			err = syscall.Truncate(procName, req.Stat.StSize)
+			err = syscall.Truncate(procName, reqStat.Size)
 		}
 		if err != nil {
-			res.Status = icefserror.IcefsStdErrno(err)
+			status = icefserror.IcefsStdErrno(err)
 			goto errOut
 		}
 	}
 
 	if (valid & (FUSE_SET_ATTR_ATIME | FUSE_SET_ATTR_MTIME)) != 0 {
 
-		ts := []unix.Timespec{
+		ts := []syscall.Timespec{
 			{Sec: 0, Nsec: unix.UTIME_OMIT},
 			{Sec: 0, Nsec: unix.UTIME_OMIT},
 		}
@@ -93,40 +95,63 @@ func (s *IcefsServer) DoIcefsSetAttr(ctx context.Context, req *pb.IcefsSetAttrRe
 		if (valid & FUSE_SET_ATTR_ATIME_NOW) != 0 {
 			ts[0].Nsec = unix.UTIME_NOW
 		} else if (valid & FUSE_SET_ATTR_ATIME) != 0 {
-			ts[0].Sec = req.Stat.StAtim.TimeSec
-			ts[0].Nsec = req.Stat.StAtim.TimeNSec
+			ts[0] = reqStat.Atim
 		}
 
 		if (valid & FUSE_SET_ATTR_MTIME_NOW) != 0 {
 			ts[1].Nsec = unix.UTIME_NOW
 		} else if (valid & FUSE_SET_ATTR_MTIME) != 0 {
-			ts[1].Sec = req.Stat.StMtim.TimeSec
-			ts[1].Nsec = req.Stat.StMtim.TimeNSec
+			ts[1] = reqStat.Mtim
 		}
 
-		if req.HasFh {
-			procName := fmt.Sprintf("/proc/self/fd/%v", req.Fh)
-			err = unix.UtimesNanoAt(unix.AT_FDCWD, procName, ts, 0)
+		if hasFh {
+			procName := fmt.Sprintf("/proc/self/fd/%v", fh)
+			err = syscall.UtimesNano(procName, ts)
 		} else {
 			procName := fmt.Sprintf("/proc/self/fd/%v", inode.fd)
-			err = unix.UtimesNanoAt(unix.AT_FDCWD, procName, ts, 0)
+			err = syscall.UtimesNano(procName, ts)
 		}
 		if err != nil {
-			res.Status = icefserror.IcefsStdErrno(err)
+			status = icefserror.IcefsStdErrno(err)
 			goto errOut
 		}
 	}
 
-	err = s.doGetAttr(inode.fd, &inode.stat)
+	err = unix.Fstatat(inode.fd, "", &unixStat, unix.AT_EMPTY_PATH|unix.AT_SYMLINK_NOFOLLOW)
 	if err != nil {
-		res.Status = icefserror.IcefsStdErrno(err)
+		status = icefserror.IcefsStdErrno(err)
 		goto errOut
 	}
+	UnixStatFillSyscallStat(&inode.stat, &unixStat)
 
-	res.Stat = StatStructBuilder(&inode.stat)
-	res.Status = icefserror.ICEFS_EOK
+	resStat = statStructBuilder(&inode.stat)
+	status = icefserror.ICEFS_EOK
 
 errOut:
 	inode.inodeLock.Unlock()
+	return
+}
+
+func (s *IcefsGRpcServer) DoIcefsSetAttr(ctx context.Context, req *pb.IcefsSetAttrReq) (*pb.IcefsSetAttrRes, error) {
+	var res pb.IcefsSetAttrRes
+	var stat any
+
+	res.Status, stat = s.server.doIcefsSetAttr(req.Inode, GRpcSyscallStatBuilder(req.Stat), req.ToSet, req.Fh, req.HasFh, GRpcStatStructBuilder)
+	if res.Status == icefserror.ICEFS_EOK {
+		res.Stat = stat.(*pb.StatStruct)
+	}
+
+	return &res, nil
+}
+
+func (s *IcefsThriftServer) DoIcefsSetAttr(ctx context.Context, req *icefsthrift.IcefsSetAttrReq) (*icefsthrift.IcefsSetAttrRes, error) {
+	var res icefsthrift.IcefsSetAttrRes
+	var stat any
+
+	res.Status, stat = s.server.doIcefsSetAttr(uint64(req.Inode), ThriftSyscallStatBuilder(req.Stat), req.ToSet, uint64(req.Fh), req.HasFh, ThriftStatStructBuilder)
+	if res.Status == icefserror.ICEFS_EOK {
+		res.Stat = stat.(*icefsthrift.StatStruct)
+	}
+
 	return &res, nil
 }
