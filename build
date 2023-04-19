@@ -35,7 +35,7 @@ cp $LOW_LEVEL_CLIENT_SRC_PATH/config.json ./$ICEFS_CLIENT_DIR/bin
 echo "Now building server."
 
 protoc -I $LOW_LEVEL_PROTOS_PATH --go-grpc_out=$LOW_LEVEL_SERVER_SRC_PATH/icefsgrpc --go_out=$LOW_LEVEL_SERVER_SRC_PATH/icefsgrpc $LOW_LEVEL_PROTOS_PATH/*.proto
-thrift -gen go:package=icefsthrift -out $LOW_LEVEL_SERVER_SRC_PATH/icefsthrift $LOW_LEVEL_THRIFTS_PATH/icefsServices.thrift
+thrift -gen go:package=icefsthrift -out $LOW_LEVEL_SERVER_SRC_PATH $LOW_LEVEL_THRIFTS_PATH/icefsServices.thrift
 
 cd $LOW_LEVEL_SERVER_SRC_PATH && go build -ldflags '-s -w' -o ../../../$ICEFS_BUILD_DIR/$ICEFS_SERVER_DIR/icefs-server
 
