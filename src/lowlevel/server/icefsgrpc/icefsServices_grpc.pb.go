@@ -78,7 +78,7 @@ func NewIcefsGRpcClient(cc grpc.ClientConnInterface) IcefsGRpcClient {
 
 func (c *icefsGRpcClient) DoIcefsInit(ctx context.Context, in *IcefsInitReq, opts ...grpc.CallOption) (*IcefsInitRes, error) {
 	out := new(IcefsInitRes)
-	err := c.cc.Invoke(ctx, "/IcefsGRpc/DoIcefsInit", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/icefsgrpc.IcefsGRpc/DoIcefsInit", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -87,7 +87,7 @@ func (c *icefsGRpcClient) DoIcefsInit(ctx context.Context, in *IcefsInitReq, opt
 
 func (c *icefsGRpcClient) DoIcefsDestroy(ctx context.Context, in *IcefsDestroyReq, opts ...grpc.CallOption) (*IcefsDestroyRes, error) {
 	out := new(IcefsDestroyRes)
-	err := c.cc.Invoke(ctx, "/IcefsGRpc/DoIcefsDestroy", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/icefsgrpc.IcefsGRpc/DoIcefsDestroy", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -96,7 +96,7 @@ func (c *icefsGRpcClient) DoIcefsDestroy(ctx context.Context, in *IcefsDestroyRe
 
 func (c *icefsGRpcClient) DoIcefsLookUp(ctx context.Context, in *IcefsLookUpReq, opts ...grpc.CallOption) (*IcefsLookUpRes, error) {
 	out := new(IcefsLookUpRes)
-	err := c.cc.Invoke(ctx, "/IcefsGRpc/DoIcefsLookUp", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/icefsgrpc.IcefsGRpc/DoIcefsLookUp", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -105,7 +105,7 @@ func (c *icefsGRpcClient) DoIcefsLookUp(ctx context.Context, in *IcefsLookUpReq,
 
 func (c *icefsGRpcClient) DoIcefsForget(ctx context.Context, in *IcefsForgetReq, opts ...grpc.CallOption) (*IcefsForgetRes, error) {
 	out := new(IcefsForgetRes)
-	err := c.cc.Invoke(ctx, "/IcefsGRpc/DoIcefsForget", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/icefsgrpc.IcefsGRpc/DoIcefsForget", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -114,7 +114,7 @@ func (c *icefsGRpcClient) DoIcefsForget(ctx context.Context, in *IcefsForgetReq,
 
 func (c *icefsGRpcClient) DoIcefsGetAttr(ctx context.Context, in *IcefsGetAttrReq, opts ...grpc.CallOption) (*IcefsGetAttrRes, error) {
 	out := new(IcefsGetAttrRes)
-	err := c.cc.Invoke(ctx, "/IcefsGRpc/DoIcefsGetAttr", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/icefsgrpc.IcefsGRpc/DoIcefsGetAttr", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -123,7 +123,7 @@ func (c *icefsGRpcClient) DoIcefsGetAttr(ctx context.Context, in *IcefsGetAttrRe
 
 func (c *icefsGRpcClient) DoIcefsSetAttr(ctx context.Context, in *IcefsSetAttrReq, opts ...grpc.CallOption) (*IcefsSetAttrRes, error) {
 	out := new(IcefsSetAttrRes)
-	err := c.cc.Invoke(ctx, "/IcefsGRpc/DoIcefsSetAttr", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/icefsgrpc.IcefsGRpc/DoIcefsSetAttr", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -132,7 +132,7 @@ func (c *icefsGRpcClient) DoIcefsSetAttr(ctx context.Context, in *IcefsSetAttrRe
 
 func (c *icefsGRpcClient) DoIcefsReadLink(ctx context.Context, in *IcefsReadLinkReq, opts ...grpc.CallOption) (*IcefsReadLinkRes, error) {
 	out := new(IcefsReadLinkRes)
-	err := c.cc.Invoke(ctx, "/IcefsGRpc/DoIcefsReadLink", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/icefsgrpc.IcefsGRpc/DoIcefsReadLink", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -141,7 +141,7 @@ func (c *icefsGRpcClient) DoIcefsReadLink(ctx context.Context, in *IcefsReadLink
 
 func (c *icefsGRpcClient) DoIcefsMknod(ctx context.Context, in *IcefsMknodReq, opts ...grpc.CallOption) (*IcefsMknodRes, error) {
 	out := new(IcefsMknodRes)
-	err := c.cc.Invoke(ctx, "/IcefsGRpc/DoIcefsMknod", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/icefsgrpc.IcefsGRpc/DoIcefsMknod", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -150,7 +150,7 @@ func (c *icefsGRpcClient) DoIcefsMknod(ctx context.Context, in *IcefsMknodReq, o
 
 func (c *icefsGRpcClient) DoIcefsMkDir(ctx context.Context, in *IcefsMkDirReq, opts ...grpc.CallOption) (*IcefsMkDirRes, error) {
 	out := new(IcefsMkDirRes)
-	err := c.cc.Invoke(ctx, "/IcefsGRpc/DoIcefsMkDir", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/icefsgrpc.IcefsGRpc/DoIcefsMkDir", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -159,7 +159,7 @@ func (c *icefsGRpcClient) DoIcefsMkDir(ctx context.Context, in *IcefsMkDirReq, o
 
 func (c *icefsGRpcClient) DoIcefsUnlink(ctx context.Context, in *IcefsUnlinkReq, opts ...grpc.CallOption) (*IcefsUnlinkRes, error) {
 	out := new(IcefsUnlinkRes)
-	err := c.cc.Invoke(ctx, "/IcefsGRpc/DoIcefsUnlink", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/icefsgrpc.IcefsGRpc/DoIcefsUnlink", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -168,7 +168,7 @@ func (c *icefsGRpcClient) DoIcefsUnlink(ctx context.Context, in *IcefsUnlinkReq,
 
 func (c *icefsGRpcClient) DoIcefsRmDir(ctx context.Context, in *IcefsRmDirReq, opts ...grpc.CallOption) (*IcefsRmDirRes, error) {
 	out := new(IcefsRmDirRes)
-	err := c.cc.Invoke(ctx, "/IcefsGRpc/DoIcefsRmDir", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/icefsgrpc.IcefsGRpc/DoIcefsRmDir", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -177,7 +177,7 @@ func (c *icefsGRpcClient) DoIcefsRmDir(ctx context.Context, in *IcefsRmDirReq, o
 
 func (c *icefsGRpcClient) DoIcefsSymLink(ctx context.Context, in *IcefsSymLinkReq, opts ...grpc.CallOption) (*IcefsSymLinkRes, error) {
 	out := new(IcefsSymLinkRes)
-	err := c.cc.Invoke(ctx, "/IcefsGRpc/DoIcefsSymLink", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/icefsgrpc.IcefsGRpc/DoIcefsSymLink", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -186,7 +186,7 @@ func (c *icefsGRpcClient) DoIcefsSymLink(ctx context.Context, in *IcefsSymLinkRe
 
 func (c *icefsGRpcClient) DoIcefsRename(ctx context.Context, in *IcefsRenameReq, opts ...grpc.CallOption) (*IcefsRenameRes, error) {
 	out := new(IcefsRenameRes)
-	err := c.cc.Invoke(ctx, "/IcefsGRpc/DoIcefsRename", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/icefsgrpc.IcefsGRpc/DoIcefsRename", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -195,7 +195,7 @@ func (c *icefsGRpcClient) DoIcefsRename(ctx context.Context, in *IcefsRenameReq,
 
 func (c *icefsGRpcClient) DoIcefsLink(ctx context.Context, in *IcefsLinkReq, opts ...grpc.CallOption) (*IcefsLinkRes, error) {
 	out := new(IcefsLinkRes)
-	err := c.cc.Invoke(ctx, "/IcefsGRpc/DoIcefsLink", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/icefsgrpc.IcefsGRpc/DoIcefsLink", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -204,7 +204,7 @@ func (c *icefsGRpcClient) DoIcefsLink(ctx context.Context, in *IcefsLinkReq, opt
 
 func (c *icefsGRpcClient) DoIcefsOpen(ctx context.Context, in *IcefsOpenReq, opts ...grpc.CallOption) (*IcefsOpenRes, error) {
 	out := new(IcefsOpenRes)
-	err := c.cc.Invoke(ctx, "/IcefsGRpc/DoIcefsOpen", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/icefsgrpc.IcefsGRpc/DoIcefsOpen", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -213,7 +213,7 @@ func (c *icefsGRpcClient) DoIcefsOpen(ctx context.Context, in *IcefsOpenReq, opt
 
 func (c *icefsGRpcClient) DoIcefsRead(ctx context.Context, in *IcefsReadReq, opts ...grpc.CallOption) (*IcefsReadRes, error) {
 	out := new(IcefsReadRes)
-	err := c.cc.Invoke(ctx, "/IcefsGRpc/DoIcefsRead", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/icefsgrpc.IcefsGRpc/DoIcefsRead", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -222,7 +222,7 @@ func (c *icefsGRpcClient) DoIcefsRead(ctx context.Context, in *IcefsReadReq, opt
 
 func (c *icefsGRpcClient) DoIcefsWrite(ctx context.Context, in *IcefsWriteReq, opts ...grpc.CallOption) (*IcefsWriteRes, error) {
 	out := new(IcefsWriteRes)
-	err := c.cc.Invoke(ctx, "/IcefsGRpc/DoIcefsWrite", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/icefsgrpc.IcefsGRpc/DoIcefsWrite", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -231,7 +231,7 @@ func (c *icefsGRpcClient) DoIcefsWrite(ctx context.Context, in *IcefsWriteReq, o
 
 func (c *icefsGRpcClient) DoIcefsFlush(ctx context.Context, in *IcefsFlushReq, opts ...grpc.CallOption) (*IcefsFlushRes, error) {
 	out := new(IcefsFlushRes)
-	err := c.cc.Invoke(ctx, "/IcefsGRpc/DoIcefsFlush", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/icefsgrpc.IcefsGRpc/DoIcefsFlush", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -240,7 +240,7 @@ func (c *icefsGRpcClient) DoIcefsFlush(ctx context.Context, in *IcefsFlushReq, o
 
 func (c *icefsGRpcClient) DoIcefsRelease(ctx context.Context, in *IcefsReleaseReq, opts ...grpc.CallOption) (*IcefsReleaseRes, error) {
 	out := new(IcefsReleaseRes)
-	err := c.cc.Invoke(ctx, "/IcefsGRpc/DoIcefsRelease", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/icefsgrpc.IcefsGRpc/DoIcefsRelease", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -249,7 +249,7 @@ func (c *icefsGRpcClient) DoIcefsRelease(ctx context.Context, in *IcefsReleaseRe
 
 func (c *icefsGRpcClient) DoIcefsFsync(ctx context.Context, in *IcefsFsyncReq, opts ...grpc.CallOption) (*IcefsFsyncRes, error) {
 	out := new(IcefsFsyncRes)
-	err := c.cc.Invoke(ctx, "/IcefsGRpc/DoIcefsFsync", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/icefsgrpc.IcefsGRpc/DoIcefsFsync", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -258,7 +258,7 @@ func (c *icefsGRpcClient) DoIcefsFsync(ctx context.Context, in *IcefsFsyncReq, o
 
 func (c *icefsGRpcClient) DoIcefsOpenDir(ctx context.Context, in *IcefsOpenDirReq, opts ...grpc.CallOption) (*IcefsOpenDirRes, error) {
 	out := new(IcefsOpenDirRes)
-	err := c.cc.Invoke(ctx, "/IcefsGRpc/DoIcefsOpenDir", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/icefsgrpc.IcefsGRpc/DoIcefsOpenDir", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -267,7 +267,7 @@ func (c *icefsGRpcClient) DoIcefsOpenDir(ctx context.Context, in *IcefsOpenDirRe
 
 func (c *icefsGRpcClient) DoIcefsReadDir(ctx context.Context, in *IcefsReadDirReq, opts ...grpc.CallOption) (*IcefsReadDirRes, error) {
 	out := new(IcefsReadDirRes)
-	err := c.cc.Invoke(ctx, "/IcefsGRpc/DoIcefsReadDir", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/icefsgrpc.IcefsGRpc/DoIcefsReadDir", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -276,7 +276,7 @@ func (c *icefsGRpcClient) DoIcefsReadDir(ctx context.Context, in *IcefsReadDirRe
 
 func (c *icefsGRpcClient) DoIcefsReleaseDir(ctx context.Context, in *IcefsReleaseDirReq, opts ...grpc.CallOption) (*IcefsReleaseDirRes, error) {
 	out := new(IcefsReleaseDirRes)
-	err := c.cc.Invoke(ctx, "/IcefsGRpc/DoIcefsReleaseDir", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/icefsgrpc.IcefsGRpc/DoIcefsReleaseDir", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -285,7 +285,7 @@ func (c *icefsGRpcClient) DoIcefsReleaseDir(ctx context.Context, in *IcefsReleas
 
 func (c *icefsGRpcClient) DoIcefsFsyncDir(ctx context.Context, in *IcefsFsyncDirReq, opts ...grpc.CallOption) (*IcefsFsyncDirRes, error) {
 	out := new(IcefsFsyncDirRes)
-	err := c.cc.Invoke(ctx, "/IcefsGRpc/DoIcefsFsyncDir", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/icefsgrpc.IcefsGRpc/DoIcefsFsyncDir", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -294,7 +294,7 @@ func (c *icefsGRpcClient) DoIcefsFsyncDir(ctx context.Context, in *IcefsFsyncDir
 
 func (c *icefsGRpcClient) DoIcefsStatFS(ctx context.Context, in *IcefsStatFSReq, opts ...grpc.CallOption) (*IcefsStatFSRes, error) {
 	out := new(IcefsStatFSRes)
-	err := c.cc.Invoke(ctx, "/IcefsGRpc/DoIcefsStatFS", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/icefsgrpc.IcefsGRpc/DoIcefsStatFS", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -303,7 +303,7 @@ func (c *icefsGRpcClient) DoIcefsStatFS(ctx context.Context, in *IcefsStatFSReq,
 
 func (c *icefsGRpcClient) DoIcefsSetXattr(ctx context.Context, in *IcefsSetXattrReq, opts ...grpc.CallOption) (*IcefsSetXattrRes, error) {
 	out := new(IcefsSetXattrRes)
-	err := c.cc.Invoke(ctx, "/IcefsGRpc/DoIcefsSetXattr", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/icefsgrpc.IcefsGRpc/DoIcefsSetXattr", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -312,7 +312,7 @@ func (c *icefsGRpcClient) DoIcefsSetXattr(ctx context.Context, in *IcefsSetXattr
 
 func (c *icefsGRpcClient) DoIcefsGetXattr(ctx context.Context, in *IcefsGetXattrReq, opts ...grpc.CallOption) (*IcefsGetXattrRes, error) {
 	out := new(IcefsGetXattrRes)
-	err := c.cc.Invoke(ctx, "/IcefsGRpc/DoIcefsGetXattr", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/icefsgrpc.IcefsGRpc/DoIcefsGetXattr", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -321,7 +321,7 @@ func (c *icefsGRpcClient) DoIcefsGetXattr(ctx context.Context, in *IcefsGetXattr
 
 func (c *icefsGRpcClient) DoIcefsListXattr(ctx context.Context, in *IcefsListXattrReq, opts ...grpc.CallOption) (*IcefsListXattrRes, error) {
 	out := new(IcefsListXattrRes)
-	err := c.cc.Invoke(ctx, "/IcefsGRpc/DoIcefsListXattr", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/icefsgrpc.IcefsGRpc/DoIcefsListXattr", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -330,7 +330,7 @@ func (c *icefsGRpcClient) DoIcefsListXattr(ctx context.Context, in *IcefsListXat
 
 func (c *icefsGRpcClient) DoIcefsRemoveXattr(ctx context.Context, in *IcefsRemoveXattrReq, opts ...grpc.CallOption) (*IcefsRemoveXattrRes, error) {
 	out := new(IcefsRemoveXattrRes)
-	err := c.cc.Invoke(ctx, "/IcefsGRpc/DoIcefsRemoveXattr", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/icefsgrpc.IcefsGRpc/DoIcefsRemoveXattr", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -339,7 +339,7 @@ func (c *icefsGRpcClient) DoIcefsRemoveXattr(ctx context.Context, in *IcefsRemov
 
 func (c *icefsGRpcClient) DoIcefsAccess(ctx context.Context, in *IcefsAccessReq, opts ...grpc.CallOption) (*IcefsAccessRes, error) {
 	out := new(IcefsAccessRes)
-	err := c.cc.Invoke(ctx, "/IcefsGRpc/DoIcefsAccess", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/icefsgrpc.IcefsGRpc/DoIcefsAccess", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -348,7 +348,7 @@ func (c *icefsGRpcClient) DoIcefsAccess(ctx context.Context, in *IcefsAccessReq,
 
 func (c *icefsGRpcClient) DoIcefsCreate(ctx context.Context, in *IcefsCreateReq, opts ...grpc.CallOption) (*IcefsCreateRes, error) {
 	out := new(IcefsCreateRes)
-	err := c.cc.Invoke(ctx, "/IcefsGRpc/DoIcefsCreate", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/icefsgrpc.IcefsGRpc/DoIcefsCreate", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -357,7 +357,7 @@ func (c *icefsGRpcClient) DoIcefsCreate(ctx context.Context, in *IcefsCreateReq,
 
 func (c *icefsGRpcClient) DoIcefsGetLk(ctx context.Context, in *IcefsGetLkReq, opts ...grpc.CallOption) (*IcefsGetLkRes, error) {
 	out := new(IcefsGetLkRes)
-	err := c.cc.Invoke(ctx, "/IcefsGRpc/DoIcefsGetLk", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/icefsgrpc.IcefsGRpc/DoIcefsGetLk", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -366,7 +366,7 @@ func (c *icefsGRpcClient) DoIcefsGetLk(ctx context.Context, in *IcefsGetLkReq, o
 
 func (c *icefsGRpcClient) DoIcefsSetLk(ctx context.Context, in *IcefsSetLkReq, opts ...grpc.CallOption) (*IcefsSetLkRes, error) {
 	out := new(IcefsSetLkRes)
-	err := c.cc.Invoke(ctx, "/IcefsGRpc/DoIcefsSetLk", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/icefsgrpc.IcefsGRpc/DoIcefsSetLk", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -375,7 +375,7 @@ func (c *icefsGRpcClient) DoIcefsSetLk(ctx context.Context, in *IcefsSetLkReq, o
 
 func (c *icefsGRpcClient) DoIcefsBmap(ctx context.Context, in *IcefsBmapReq, opts ...grpc.CallOption) (*IcefsBmapRes, error) {
 	out := new(IcefsBmapRes)
-	err := c.cc.Invoke(ctx, "/IcefsGRpc/DoIcefsBmap", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/icefsgrpc.IcefsGRpc/DoIcefsBmap", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -384,7 +384,7 @@ func (c *icefsGRpcClient) DoIcefsBmap(ctx context.Context, in *IcefsBmapReq, opt
 
 func (c *icefsGRpcClient) DoIcefsIoctl(ctx context.Context, in *IcefsIoctlReq, opts ...grpc.CallOption) (*IcefsIoctlRes, error) {
 	out := new(IcefsIoctlRes)
-	err := c.cc.Invoke(ctx, "/IcefsGRpc/DoIcefsIoctl", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/icefsgrpc.IcefsGRpc/DoIcefsIoctl", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -393,7 +393,7 @@ func (c *icefsGRpcClient) DoIcefsIoctl(ctx context.Context, in *IcefsIoctlReq, o
 
 func (c *icefsGRpcClient) DoIcefsPoll(ctx context.Context, in *IcefsPollReq, opts ...grpc.CallOption) (*IcefsPollRes, error) {
 	out := new(IcefsPollRes)
-	err := c.cc.Invoke(ctx, "/IcefsGRpc/DoIcefsPoll", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/icefsgrpc.IcefsGRpc/DoIcefsPoll", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -402,7 +402,7 @@ func (c *icefsGRpcClient) DoIcefsPoll(ctx context.Context, in *IcefsPollReq, opt
 
 func (c *icefsGRpcClient) DoIcefsWriteBuf(ctx context.Context, in *IcefsWriteBufReq, opts ...grpc.CallOption) (*IcefsWriteBufRes, error) {
 	out := new(IcefsWriteBufRes)
-	err := c.cc.Invoke(ctx, "/IcefsGRpc/DoIcefsWriteBuf", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/icefsgrpc.IcefsGRpc/DoIcefsWriteBuf", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -411,7 +411,7 @@ func (c *icefsGRpcClient) DoIcefsWriteBuf(ctx context.Context, in *IcefsWriteBuf
 
 func (c *icefsGRpcClient) DoIcefsRetrieveReply(ctx context.Context, in *IcefsRetrieveReplyReq, opts ...grpc.CallOption) (*IcefsRetrieveReplyRes, error) {
 	out := new(IcefsRetrieveReplyRes)
-	err := c.cc.Invoke(ctx, "/IcefsGRpc/DoIcefsRetrieveReply", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/icefsgrpc.IcefsGRpc/DoIcefsRetrieveReply", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -420,7 +420,7 @@ func (c *icefsGRpcClient) DoIcefsRetrieveReply(ctx context.Context, in *IcefsRet
 
 func (c *icefsGRpcClient) DoIcefsForgetMulti(ctx context.Context, in *IcefsForgetMultiReq, opts ...grpc.CallOption) (*IcefsForgetMultiRes, error) {
 	out := new(IcefsForgetMultiRes)
-	err := c.cc.Invoke(ctx, "/IcefsGRpc/DoIcefsForgetMulti", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/icefsgrpc.IcefsGRpc/DoIcefsForgetMulti", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -429,7 +429,7 @@ func (c *icefsGRpcClient) DoIcefsForgetMulti(ctx context.Context, in *IcefsForge
 
 func (c *icefsGRpcClient) DoIcefsFlock(ctx context.Context, in *IcefsFlockReq, opts ...grpc.CallOption) (*IcefsFlockRes, error) {
 	out := new(IcefsFlockRes)
-	err := c.cc.Invoke(ctx, "/IcefsGRpc/DoIcefsFlock", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/icefsgrpc.IcefsGRpc/DoIcefsFlock", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -438,7 +438,7 @@ func (c *icefsGRpcClient) DoIcefsFlock(ctx context.Context, in *IcefsFlockReq, o
 
 func (c *icefsGRpcClient) DoIcefsFallocate(ctx context.Context, in *IcefsFallocateReq, opts ...grpc.CallOption) (*IcefsFallocateRes, error) {
 	out := new(IcefsFallocateRes)
-	err := c.cc.Invoke(ctx, "/IcefsGRpc/DoIcefsFallocate", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/icefsgrpc.IcefsGRpc/DoIcefsFallocate", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -447,7 +447,7 @@ func (c *icefsGRpcClient) DoIcefsFallocate(ctx context.Context, in *IcefsFalloca
 
 func (c *icefsGRpcClient) DoIcefsReadDirPlus(ctx context.Context, in *IcefsReadDirPlusReq, opts ...grpc.CallOption) (*IcefsReadDirPlusRes, error) {
 	out := new(IcefsReadDirPlusRes)
-	err := c.cc.Invoke(ctx, "/IcefsGRpc/DoIcefsReadDirPlus", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/icefsgrpc.IcefsGRpc/DoIcefsReadDirPlus", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -456,7 +456,7 @@ func (c *icefsGRpcClient) DoIcefsReadDirPlus(ctx context.Context, in *IcefsReadD
 
 func (c *icefsGRpcClient) DoIcefsCopyFileRange(ctx context.Context, in *IcefsCopyFileRangeReq, opts ...grpc.CallOption) (*IcefsCopyFileRangeRes, error) {
 	out := new(IcefsCopyFileRangeRes)
-	err := c.cc.Invoke(ctx, "/IcefsGRpc/DoIcefsCopyFileRange", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/icefsgrpc.IcefsGRpc/DoIcefsCopyFileRange", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -465,7 +465,7 @@ func (c *icefsGRpcClient) DoIcefsCopyFileRange(ctx context.Context, in *IcefsCop
 
 func (c *icefsGRpcClient) DoIcefsLseek(ctx context.Context, in *IcefsLseekReq, opts ...grpc.CallOption) (*IcefsLseekRes, error) {
 	out := new(IcefsLseekRes)
-	err := c.cc.Invoke(ctx, "/IcefsGRpc/DoIcefsLseek", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/icefsgrpc.IcefsGRpc/DoIcefsLseek", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -682,7 +682,7 @@ func _IcefsGRpc_DoIcefsInit_Handler(srv interface{}, ctx context.Context, dec fu
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/IcefsGRpc/DoIcefsInit",
+		FullMethod: "/icefsgrpc.IcefsGRpc/DoIcefsInit",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(IcefsGRpcServer).DoIcefsInit(ctx, req.(*IcefsInitReq))
@@ -700,7 +700,7 @@ func _IcefsGRpc_DoIcefsDestroy_Handler(srv interface{}, ctx context.Context, dec
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/IcefsGRpc/DoIcefsDestroy",
+		FullMethod: "/icefsgrpc.IcefsGRpc/DoIcefsDestroy",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(IcefsGRpcServer).DoIcefsDestroy(ctx, req.(*IcefsDestroyReq))
@@ -718,7 +718,7 @@ func _IcefsGRpc_DoIcefsLookUp_Handler(srv interface{}, ctx context.Context, dec 
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/IcefsGRpc/DoIcefsLookUp",
+		FullMethod: "/icefsgrpc.IcefsGRpc/DoIcefsLookUp",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(IcefsGRpcServer).DoIcefsLookUp(ctx, req.(*IcefsLookUpReq))
@@ -736,7 +736,7 @@ func _IcefsGRpc_DoIcefsForget_Handler(srv interface{}, ctx context.Context, dec 
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/IcefsGRpc/DoIcefsForget",
+		FullMethod: "/icefsgrpc.IcefsGRpc/DoIcefsForget",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(IcefsGRpcServer).DoIcefsForget(ctx, req.(*IcefsForgetReq))
@@ -754,7 +754,7 @@ func _IcefsGRpc_DoIcefsGetAttr_Handler(srv interface{}, ctx context.Context, dec
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/IcefsGRpc/DoIcefsGetAttr",
+		FullMethod: "/icefsgrpc.IcefsGRpc/DoIcefsGetAttr",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(IcefsGRpcServer).DoIcefsGetAttr(ctx, req.(*IcefsGetAttrReq))
@@ -772,7 +772,7 @@ func _IcefsGRpc_DoIcefsSetAttr_Handler(srv interface{}, ctx context.Context, dec
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/IcefsGRpc/DoIcefsSetAttr",
+		FullMethod: "/icefsgrpc.IcefsGRpc/DoIcefsSetAttr",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(IcefsGRpcServer).DoIcefsSetAttr(ctx, req.(*IcefsSetAttrReq))
@@ -790,7 +790,7 @@ func _IcefsGRpc_DoIcefsReadLink_Handler(srv interface{}, ctx context.Context, de
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/IcefsGRpc/DoIcefsReadLink",
+		FullMethod: "/icefsgrpc.IcefsGRpc/DoIcefsReadLink",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(IcefsGRpcServer).DoIcefsReadLink(ctx, req.(*IcefsReadLinkReq))
@@ -808,7 +808,7 @@ func _IcefsGRpc_DoIcefsMknod_Handler(srv interface{}, ctx context.Context, dec f
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/IcefsGRpc/DoIcefsMknod",
+		FullMethod: "/icefsgrpc.IcefsGRpc/DoIcefsMknod",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(IcefsGRpcServer).DoIcefsMknod(ctx, req.(*IcefsMknodReq))
@@ -826,7 +826,7 @@ func _IcefsGRpc_DoIcefsMkDir_Handler(srv interface{}, ctx context.Context, dec f
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/IcefsGRpc/DoIcefsMkDir",
+		FullMethod: "/icefsgrpc.IcefsGRpc/DoIcefsMkDir",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(IcefsGRpcServer).DoIcefsMkDir(ctx, req.(*IcefsMkDirReq))
@@ -844,7 +844,7 @@ func _IcefsGRpc_DoIcefsUnlink_Handler(srv interface{}, ctx context.Context, dec 
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/IcefsGRpc/DoIcefsUnlink",
+		FullMethod: "/icefsgrpc.IcefsGRpc/DoIcefsUnlink",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(IcefsGRpcServer).DoIcefsUnlink(ctx, req.(*IcefsUnlinkReq))
@@ -862,7 +862,7 @@ func _IcefsGRpc_DoIcefsRmDir_Handler(srv interface{}, ctx context.Context, dec f
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/IcefsGRpc/DoIcefsRmDir",
+		FullMethod: "/icefsgrpc.IcefsGRpc/DoIcefsRmDir",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(IcefsGRpcServer).DoIcefsRmDir(ctx, req.(*IcefsRmDirReq))
@@ -880,7 +880,7 @@ func _IcefsGRpc_DoIcefsSymLink_Handler(srv interface{}, ctx context.Context, dec
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/IcefsGRpc/DoIcefsSymLink",
+		FullMethod: "/icefsgrpc.IcefsGRpc/DoIcefsSymLink",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(IcefsGRpcServer).DoIcefsSymLink(ctx, req.(*IcefsSymLinkReq))
@@ -898,7 +898,7 @@ func _IcefsGRpc_DoIcefsRename_Handler(srv interface{}, ctx context.Context, dec 
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/IcefsGRpc/DoIcefsRename",
+		FullMethod: "/icefsgrpc.IcefsGRpc/DoIcefsRename",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(IcefsGRpcServer).DoIcefsRename(ctx, req.(*IcefsRenameReq))
@@ -916,7 +916,7 @@ func _IcefsGRpc_DoIcefsLink_Handler(srv interface{}, ctx context.Context, dec fu
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/IcefsGRpc/DoIcefsLink",
+		FullMethod: "/icefsgrpc.IcefsGRpc/DoIcefsLink",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(IcefsGRpcServer).DoIcefsLink(ctx, req.(*IcefsLinkReq))
@@ -934,7 +934,7 @@ func _IcefsGRpc_DoIcefsOpen_Handler(srv interface{}, ctx context.Context, dec fu
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/IcefsGRpc/DoIcefsOpen",
+		FullMethod: "/icefsgrpc.IcefsGRpc/DoIcefsOpen",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(IcefsGRpcServer).DoIcefsOpen(ctx, req.(*IcefsOpenReq))
@@ -952,7 +952,7 @@ func _IcefsGRpc_DoIcefsRead_Handler(srv interface{}, ctx context.Context, dec fu
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/IcefsGRpc/DoIcefsRead",
+		FullMethod: "/icefsgrpc.IcefsGRpc/DoIcefsRead",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(IcefsGRpcServer).DoIcefsRead(ctx, req.(*IcefsReadReq))
@@ -970,7 +970,7 @@ func _IcefsGRpc_DoIcefsWrite_Handler(srv interface{}, ctx context.Context, dec f
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/IcefsGRpc/DoIcefsWrite",
+		FullMethod: "/icefsgrpc.IcefsGRpc/DoIcefsWrite",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(IcefsGRpcServer).DoIcefsWrite(ctx, req.(*IcefsWriteReq))
@@ -988,7 +988,7 @@ func _IcefsGRpc_DoIcefsFlush_Handler(srv interface{}, ctx context.Context, dec f
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/IcefsGRpc/DoIcefsFlush",
+		FullMethod: "/icefsgrpc.IcefsGRpc/DoIcefsFlush",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(IcefsGRpcServer).DoIcefsFlush(ctx, req.(*IcefsFlushReq))
@@ -1006,7 +1006,7 @@ func _IcefsGRpc_DoIcefsRelease_Handler(srv interface{}, ctx context.Context, dec
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/IcefsGRpc/DoIcefsRelease",
+		FullMethod: "/icefsgrpc.IcefsGRpc/DoIcefsRelease",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(IcefsGRpcServer).DoIcefsRelease(ctx, req.(*IcefsReleaseReq))
@@ -1024,7 +1024,7 @@ func _IcefsGRpc_DoIcefsFsync_Handler(srv interface{}, ctx context.Context, dec f
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/IcefsGRpc/DoIcefsFsync",
+		FullMethod: "/icefsgrpc.IcefsGRpc/DoIcefsFsync",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(IcefsGRpcServer).DoIcefsFsync(ctx, req.(*IcefsFsyncReq))
@@ -1042,7 +1042,7 @@ func _IcefsGRpc_DoIcefsOpenDir_Handler(srv interface{}, ctx context.Context, dec
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/IcefsGRpc/DoIcefsOpenDir",
+		FullMethod: "/icefsgrpc.IcefsGRpc/DoIcefsOpenDir",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(IcefsGRpcServer).DoIcefsOpenDir(ctx, req.(*IcefsOpenDirReq))
@@ -1060,7 +1060,7 @@ func _IcefsGRpc_DoIcefsReadDir_Handler(srv interface{}, ctx context.Context, dec
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/IcefsGRpc/DoIcefsReadDir",
+		FullMethod: "/icefsgrpc.IcefsGRpc/DoIcefsReadDir",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(IcefsGRpcServer).DoIcefsReadDir(ctx, req.(*IcefsReadDirReq))
@@ -1078,7 +1078,7 @@ func _IcefsGRpc_DoIcefsReleaseDir_Handler(srv interface{}, ctx context.Context, 
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/IcefsGRpc/DoIcefsReleaseDir",
+		FullMethod: "/icefsgrpc.IcefsGRpc/DoIcefsReleaseDir",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(IcefsGRpcServer).DoIcefsReleaseDir(ctx, req.(*IcefsReleaseDirReq))
@@ -1096,7 +1096,7 @@ func _IcefsGRpc_DoIcefsFsyncDir_Handler(srv interface{}, ctx context.Context, de
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/IcefsGRpc/DoIcefsFsyncDir",
+		FullMethod: "/icefsgrpc.IcefsGRpc/DoIcefsFsyncDir",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(IcefsGRpcServer).DoIcefsFsyncDir(ctx, req.(*IcefsFsyncDirReq))
@@ -1114,7 +1114,7 @@ func _IcefsGRpc_DoIcefsStatFS_Handler(srv interface{}, ctx context.Context, dec 
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/IcefsGRpc/DoIcefsStatFS",
+		FullMethod: "/icefsgrpc.IcefsGRpc/DoIcefsStatFS",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(IcefsGRpcServer).DoIcefsStatFS(ctx, req.(*IcefsStatFSReq))
@@ -1132,7 +1132,7 @@ func _IcefsGRpc_DoIcefsSetXattr_Handler(srv interface{}, ctx context.Context, de
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/IcefsGRpc/DoIcefsSetXattr",
+		FullMethod: "/icefsgrpc.IcefsGRpc/DoIcefsSetXattr",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(IcefsGRpcServer).DoIcefsSetXattr(ctx, req.(*IcefsSetXattrReq))
@@ -1150,7 +1150,7 @@ func _IcefsGRpc_DoIcefsGetXattr_Handler(srv interface{}, ctx context.Context, de
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/IcefsGRpc/DoIcefsGetXattr",
+		FullMethod: "/icefsgrpc.IcefsGRpc/DoIcefsGetXattr",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(IcefsGRpcServer).DoIcefsGetXattr(ctx, req.(*IcefsGetXattrReq))
@@ -1168,7 +1168,7 @@ func _IcefsGRpc_DoIcefsListXattr_Handler(srv interface{}, ctx context.Context, d
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/IcefsGRpc/DoIcefsListXattr",
+		FullMethod: "/icefsgrpc.IcefsGRpc/DoIcefsListXattr",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(IcefsGRpcServer).DoIcefsListXattr(ctx, req.(*IcefsListXattrReq))
@@ -1186,7 +1186,7 @@ func _IcefsGRpc_DoIcefsRemoveXattr_Handler(srv interface{}, ctx context.Context,
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/IcefsGRpc/DoIcefsRemoveXattr",
+		FullMethod: "/icefsgrpc.IcefsGRpc/DoIcefsRemoveXattr",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(IcefsGRpcServer).DoIcefsRemoveXattr(ctx, req.(*IcefsRemoveXattrReq))
@@ -1204,7 +1204,7 @@ func _IcefsGRpc_DoIcefsAccess_Handler(srv interface{}, ctx context.Context, dec 
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/IcefsGRpc/DoIcefsAccess",
+		FullMethod: "/icefsgrpc.IcefsGRpc/DoIcefsAccess",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(IcefsGRpcServer).DoIcefsAccess(ctx, req.(*IcefsAccessReq))
@@ -1222,7 +1222,7 @@ func _IcefsGRpc_DoIcefsCreate_Handler(srv interface{}, ctx context.Context, dec 
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/IcefsGRpc/DoIcefsCreate",
+		FullMethod: "/icefsgrpc.IcefsGRpc/DoIcefsCreate",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(IcefsGRpcServer).DoIcefsCreate(ctx, req.(*IcefsCreateReq))
@@ -1240,7 +1240,7 @@ func _IcefsGRpc_DoIcefsGetLk_Handler(srv interface{}, ctx context.Context, dec f
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/IcefsGRpc/DoIcefsGetLk",
+		FullMethod: "/icefsgrpc.IcefsGRpc/DoIcefsGetLk",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(IcefsGRpcServer).DoIcefsGetLk(ctx, req.(*IcefsGetLkReq))
@@ -1258,7 +1258,7 @@ func _IcefsGRpc_DoIcefsSetLk_Handler(srv interface{}, ctx context.Context, dec f
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/IcefsGRpc/DoIcefsSetLk",
+		FullMethod: "/icefsgrpc.IcefsGRpc/DoIcefsSetLk",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(IcefsGRpcServer).DoIcefsSetLk(ctx, req.(*IcefsSetLkReq))
@@ -1276,7 +1276,7 @@ func _IcefsGRpc_DoIcefsBmap_Handler(srv interface{}, ctx context.Context, dec fu
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/IcefsGRpc/DoIcefsBmap",
+		FullMethod: "/icefsgrpc.IcefsGRpc/DoIcefsBmap",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(IcefsGRpcServer).DoIcefsBmap(ctx, req.(*IcefsBmapReq))
@@ -1294,7 +1294,7 @@ func _IcefsGRpc_DoIcefsIoctl_Handler(srv interface{}, ctx context.Context, dec f
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/IcefsGRpc/DoIcefsIoctl",
+		FullMethod: "/icefsgrpc.IcefsGRpc/DoIcefsIoctl",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(IcefsGRpcServer).DoIcefsIoctl(ctx, req.(*IcefsIoctlReq))
@@ -1312,7 +1312,7 @@ func _IcefsGRpc_DoIcefsPoll_Handler(srv interface{}, ctx context.Context, dec fu
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/IcefsGRpc/DoIcefsPoll",
+		FullMethod: "/icefsgrpc.IcefsGRpc/DoIcefsPoll",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(IcefsGRpcServer).DoIcefsPoll(ctx, req.(*IcefsPollReq))
@@ -1330,7 +1330,7 @@ func _IcefsGRpc_DoIcefsWriteBuf_Handler(srv interface{}, ctx context.Context, de
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/IcefsGRpc/DoIcefsWriteBuf",
+		FullMethod: "/icefsgrpc.IcefsGRpc/DoIcefsWriteBuf",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(IcefsGRpcServer).DoIcefsWriteBuf(ctx, req.(*IcefsWriteBufReq))
@@ -1348,7 +1348,7 @@ func _IcefsGRpc_DoIcefsRetrieveReply_Handler(srv interface{}, ctx context.Contex
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/IcefsGRpc/DoIcefsRetrieveReply",
+		FullMethod: "/icefsgrpc.IcefsGRpc/DoIcefsRetrieveReply",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(IcefsGRpcServer).DoIcefsRetrieveReply(ctx, req.(*IcefsRetrieveReplyReq))
@@ -1366,7 +1366,7 @@ func _IcefsGRpc_DoIcefsForgetMulti_Handler(srv interface{}, ctx context.Context,
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/IcefsGRpc/DoIcefsForgetMulti",
+		FullMethod: "/icefsgrpc.IcefsGRpc/DoIcefsForgetMulti",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(IcefsGRpcServer).DoIcefsForgetMulti(ctx, req.(*IcefsForgetMultiReq))
@@ -1384,7 +1384,7 @@ func _IcefsGRpc_DoIcefsFlock_Handler(srv interface{}, ctx context.Context, dec f
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/IcefsGRpc/DoIcefsFlock",
+		FullMethod: "/icefsgrpc.IcefsGRpc/DoIcefsFlock",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(IcefsGRpcServer).DoIcefsFlock(ctx, req.(*IcefsFlockReq))
@@ -1402,7 +1402,7 @@ func _IcefsGRpc_DoIcefsFallocate_Handler(srv interface{}, ctx context.Context, d
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/IcefsGRpc/DoIcefsFallocate",
+		FullMethod: "/icefsgrpc.IcefsGRpc/DoIcefsFallocate",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(IcefsGRpcServer).DoIcefsFallocate(ctx, req.(*IcefsFallocateReq))
@@ -1420,7 +1420,7 @@ func _IcefsGRpc_DoIcefsReadDirPlus_Handler(srv interface{}, ctx context.Context,
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/IcefsGRpc/DoIcefsReadDirPlus",
+		FullMethod: "/icefsgrpc.IcefsGRpc/DoIcefsReadDirPlus",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(IcefsGRpcServer).DoIcefsReadDirPlus(ctx, req.(*IcefsReadDirPlusReq))
@@ -1438,7 +1438,7 @@ func _IcefsGRpc_DoIcefsCopyFileRange_Handler(srv interface{}, ctx context.Contex
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/IcefsGRpc/DoIcefsCopyFileRange",
+		FullMethod: "/icefsgrpc.IcefsGRpc/DoIcefsCopyFileRange",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(IcefsGRpcServer).DoIcefsCopyFileRange(ctx, req.(*IcefsCopyFileRangeReq))
@@ -1456,7 +1456,7 @@ func _IcefsGRpc_DoIcefsLseek_Handler(srv interface{}, ctx context.Context, dec f
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/IcefsGRpc/DoIcefsLseek",
+		FullMethod: "/icefsgrpc.IcefsGRpc/DoIcefsLseek",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(IcefsGRpcServer).DoIcefsLseek(ctx, req.(*IcefsLseekReq))
@@ -1468,7 +1468,7 @@ func _IcefsGRpc_DoIcefsLseek_Handler(srv interface{}, ctx context.Context, dec f
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var IcefsGRpc_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "IcefsGRpc",
+	ServiceName: "icefsgrpc.IcefsGRpc",
 	HandlerType: (*IcefsGRpcServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{

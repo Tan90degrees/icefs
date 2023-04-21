@@ -2,7 +2,7 @@
  * @Author: Tan90degrees tangentninetydegrees@gmail.com
  * @Date: 2023-03-30 04:19:29
  * @LastEditors: Tan90degrees tangentninetydegrees@gmail.com
- * @LastEditTime: 2023-04-19 08:11:35
+ * @LastEditTime: 2023-04-19 12:05:53
  * @FilePath: /icefs/protos/lowlevel/icefsServices.proto
  * @Description: 
  * 
@@ -10,6 +10,7 @@
  */
 syntax = "proto3";
 
+package icefsgrpc;
 option go_package = "./;icefsgrpc";
 import "icefs.proto";
 

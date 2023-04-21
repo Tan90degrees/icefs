@@ -2,7 +2,7 @@
  * @Author: Tan90degrees tangentninetydegrees@gmail.com
  * @Date: 2023-03-30 04:19:29
  * @LastEditors: Tan90degrees tangentninetydegrees@gmail.com
- * @LastEditTime: 2023-04-19 08:09:19
+ * @LastEditTime: 2023-04-19 12:05:51
  * @FilePath: /icefs/protos/lowlevel/icefs.proto
  * @Description: 
  * 
@@ -10,6 +10,7 @@
  */
 syntax = "proto3";
 
+package icefsgrpc;
 option go_package = "./;icefsgrpc";
 import "fuseKernel.proto";
 

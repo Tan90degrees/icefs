@@ -2,12 +2,12 @@
  * @Author: Tan90degrees tangentninetydegrees@gmail.com
  * @Date: 2023-04-17 09:26:19
  * @LastEditors: Tan90degrees tangentninetydegrees@gmail.com
- * @LastEditTime: 2023-04-17 12:43:14
- * @FilePath: /icefs/thrift/icefsServices.thrift
+ * @LastEditTime: 2023-04-20 16:35:09
+ * @FilePath: /icefs/thrifts/lowlevel/icefsServices.thrift
  * @Description: 
- *
- * Copyright (C) 2023 Tan90degrees <tangentninetydegrees@gmail.com>.
  */
+
+namespace cpp icefsthrift
 
 typedef i8 ui8
 typedef i16  ui16
@@ -377,138 +377,138 @@ struct IcefsWriteReq {
 
 // Response
 struct IcefsAccessRes {
-  1: i32 status;
+  1: i32 status = 5; // default: EIO
 }
 
 struct IcefsBmapRes {
-  1: i32 status;
+  1: i32 status = 5; // default: EIO
 }
 
 struct IcefsCopyFileRangeRes {
-  1: i32 status;
+  1: i32 status = 5; // default: EIO
   2: ui64 size;
 }
 
 struct IcefsCreateRes {
-  1: i32 status;
+  1: i32 status = 5; // default: EIO
   2: ui64 fh;
   3: FuseEntryParam entry;
 }
 
 struct IcefsDestroyRes {
-  1: i32 status;
+  1: i32 status = 5; // default: EIO
   2: string info;
 }
 
 struct IcefsFallocateRes {
-  1: i32 status;
+  1: i32 status = 5; // default: EIO
 }
 
 struct IcefsFlockRes {
-  1: i32 status;
+  1: i32 status = 5; // default: EIO
 }
 
 struct IcefsFlushRes {
-  1: i32 status;
+  1: i32 status = 5; // default: EIO
 }
 
 struct IcefsForgetMultiRes {
-  1: i32 status;
+  1: i32 status = 5; // default: EIO
 }
 
 struct IcefsForgetRes {
-  1: i32 status;
+  1: i32 status = 5; // default: EIO
 }
 
 struct IcefsFsyncRes {
-  1: i32 status;
+  1: i32 status = 5; // default: EIO
 }
 
 struct IcefsFsyncDirRes {
-  1: i32 status;
+  1: i32 status = 5; // default: EIO
 }
 
 struct IcefsGetAttrRes {
-  1: i32 status;
+  1: i32 status = 5; // default: EIO
   2: statStruct stat;
 }
 
 struct IcefsGetLkRes {
-  1: i32 status;
+  1: i32 status = 5; // default: EIO
 }
 
 struct IcefsGetXattrRes {
-  1: i32 status;
+  1: i32 status = 5; // default: EIO
   2: i64 size;
   3: binary value;
 }
 
 struct IcefsInitRes {
-  1: i32 status;
+  1: i32 status = 5; // default: EIO
   2: string info;
   3: ui32 can;
 }
 
 struct IcefsIoctlRes {
-  1: i32 status;
+  1: i32 status = 5; // default: EIO
  // 2: FuseIoctlOut out;
   2: list<ioVector> data;
 }
 
 struct IcefsLinkRes {
-  1: i32 status;
+  1: i32 status = 5; // default: EIO
   2: FuseEntryParam entry;
 }
 
 struct IcefsListXattrRes {
-  1: i32 status;
+  1: i32 status = 5; // default: EIO
   2: i64 size;
   3: binary value;
 }
 
 struct IcefsLookUpRes {
-  1: i32 status;
+  1: i32 status = 5; // default: EIO
   2: FuseEntryParam entry;
 }
 
 struct IcefsLseekRes {
-  1: i32 status;
+  1: i32 status = 5; // default: EIO
   2: i64 offset;
 }
 
 struct IcefsMkDirRes {
-  1: i32 status;
+  1: i32 status = 5; // default: EIO
   2: FuseEntryParam entry;
 }
 
 struct IcefsMknodRes {
-  1: i32 status;
+  1: i32 status = 5; // default: EIO
   2: FuseEntryParam entry;
 }
 
 struct IcefsOpenRes {
-  1: i32 status;
+  1: i32 status = 5; // default: EIO
   2: ui64 fh;
 }
 
 struct IcefsOpenDirRes {
-  1: i32 status;
+  1: i32 status = 5; // default: EIO
   2: ui64 fh;
 }
 
 struct IcefsPollRes {
-  1: i32 status;
+  1: i32 status = 5; // default: EIO
   2: ui32 revents;
 }
 
 struct IcefsReadRes {
-  1: i32 status;
+  1: i32 status = 5; // default: EIO
   2: ui64 size;
   3: binary data;
 }
 
 struct IcefsReadDirRes {
-  1: i32 status;
+  1: i32 status = 5; // default: EIO
   2: list<DirentStruct> data;
 }
 
@@ -518,73 +518,73 @@ struct IcefsReadDirPlusData {
 }
 
 struct IcefsReadDirPlusRes {
-  1: i32 status;
+  1: i32 status = 5; // default: EIO
   2: list<IcefsReadDirPlusData> data;
 }
 
 struct IcefsReadLinkRes {
-  1: i32 status;
+  1: i32 status = 5; // default: EIO
   2: string path;
 }
 
 struct IcefsReleaseRes {
-  1: i32 status;
+  1: i32 status = 5; // default: EIO
 }
 
 struct IcefsReleaseDirRes {
-  1: i32 status;
+  1: i32 status = 5; // default: EIO
 }
 
 struct IcefsRemoveXattrRes {
-  1: i32 status;
+  1: i32 status = 5; // default: EIO
 }
 
 struct IcefsRenameRes {
-  1: i32 status;
+  1: i32 status = 5; // default: EIO
 }
 
 struct IcefsRetrieveReplyRes {
-  1: i32 status;
+  1: i32 status = 5; // default: EIO
 }
 
 struct IcefsRmDirRes {
-  1: i32 status;
+  1: i32 status = 5; // default: EIO
 }
 
 struct IcefsSetAttrRes {
-  1: i32 status;
+  1: i32 status = 5; // default: EIO
   2: statStruct stat;
 }
 
 struct IcefsSetLkRes {
-  1: i32 status;
+  1: i32 status = 5; // default: EIO
 }
 
 struct IcefsSetXattrRes {
-  1: i32 status;
+  1: i32 status = 5; // default: EIO
 }
 
 struct IcefsStatFSRes {
-  1: i32 status;
+  1: i32 status = 5; // default: EIO
   2: statvfsStruct statvfs;
 }
 
 struct IcefsSymLinkRes {
-  1: i32 status;
+  1: i32 status = 5; // default: EIO
   2: FuseEntryParam entry;
 }
 
 struct IcefsUnlinkRes {
-  1: i32 status;
+  1: i32 status = 5; // default: EIO
 }
 
 struct IcefsWriteBufRes {
-  1: i32 status;
+  1: i32 status = 5; // default: EIO
   2: ui64 size;
 }
 
 struct IcefsWriteRes {
-  1: i32 status;
+  1: i32 status = 5; // default: EIO
   2: ui64 size;
 }
 

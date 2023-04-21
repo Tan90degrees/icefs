@@ -2,7 +2,7 @@
  * @Author: Tan90degrees tangentninetydegrees@gmail.com
  * @Date: 2023-03-02 06:41:52
  * @LastEditors: Tan90degrees tangentninetydegrees@gmail.com
- * @LastEditTime: 2023-04-19 08:19:45
+ * @LastEditTime: 2023-04-21 02:51:26
  * @FilePath: /icefs/src/lowlevel/client/include/icefsClient.hpp
  * @Description:
  *
@@ -18,9 +18,13 @@
 #include <errno.h>
 #include <fuse_lowlevel.h>
 #include <grpcpp/grpcpp.h>
+#include <thrift/protocol/TBinaryProtocol.h>
+#include <thrift/transport/TSocket.h>
+#include <thrift/transport/TTransportUtils.h>
 
 #include <string>
 
+#include "IcefsThrift.h"
 #include "icefsServices.grpc.pb.h"
 
 #define ICEFS_CACHE_NEVER_TIMEOUT (0.0)
@@ -34,6 +38,13 @@ enum {
   ICEFS_CACHE_NEVER,   // 0.0s
   ICEFS_CACHE_NORMAL,  // 1.0s
   ICEFS_CACHE_ALWAYS,  // 86400.0s
+  ICEFS_CACHE_BOTTOM,  // Bottom
+};
+
+enum {
+  ICEFS_LINK_USE_GRPC,
+  ICEFS_LINK_USE_THRIFT,
+  ICEFS_LINK_USE_BOTTOM,  // Bottom
 };
 
 static const double IcefsCacheMode[] = {ICEFS_CACHE_NEVER_TIMEOUT,
@@ -44,23 +55,39 @@ struct IcefsClientConfig {
   std::string serverAddressFull;
   std::string uuid;
   std::string serverAddress;
-  uint16_t port;
   int cacheMode;
+  uint16_t port;
+  uint16_t linkType;
   double cacheTimeout;
 };
 
+#include "icefsThriftClientPool.hpp"
+
 class IcefsClient {
  private:
-  IcefsClientConfig config;
-  std::unique_ptr<IcefsGRpc::Stub> stub_;
+  IcefsClientConfig clientConfig;
+  std::unique_ptr<icefsgrpc::IcefsGRpc::Stub> gRpcClient;
+  icefsthrift::IcefsThriftClient *thriftClient;
+  icefsThriftConnPool *thriftClientPool;
 
  public:
   IcefsClient(std::shared_ptr<grpc::Channel::ChannelInterface> channel,
               const IcefsClientConfig *config)
-      : stub_(IcefsGRpc::NewStub(channel)) {
-    this->config = *config;
+      : gRpcClient(icefsgrpc::IcefsGRpc::NewStub(channel)) {
+    this->thriftClientPool = nullptr;
+    this->clientConfig = *config;
   }
-  ~IcefsClient();
+
+  IcefsClient(const IcefsClientConfig *config) {
+    this->thriftClientPool = new icefsThriftConnPool(config);
+    this->clientConfig = *config;
+  }
+
+  ~IcefsClient() {
+    if (this->thriftClientPool != nullptr) {
+      delete this->thriftClientPool;
+    }
+  }
 
   void DoIcefsInit(void *userData, struct fuse_conn_info *conn);
   void DoIcefsDestroy(void *userData);

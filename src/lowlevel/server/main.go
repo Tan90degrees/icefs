@@ -2,7 +2,7 @@
  * @Author: Tan90degrees tangentninetydegrees@gmail.com
  * @Date: 2023-03-11 05:57:15
  * @LastEditors: Tan90degrees tangentninetydegrees@gmail.com
- * @LastEditTime: 2023-04-19 08:12:26
+ * @LastEditTime: 2023-04-21 03:46:16
  * @FilePath: /icefs/src/lowlevel/server/main.go
  * @Description:
  *
@@ -36,7 +36,7 @@ func main() {
 
 	rpcPort := flag.Uint("port", 10086, "The port of icefs server")
 	srvPath := flag.String("path", ".", "The path to serve at")
-	linkWay := flag.String("way", "gRpc", "The way of data transmission")
+	linkWay := flag.String("way", "thrift", "The way of data transmission")
 	openTls := flag.Bool("tls", false, "Whether to enable the tls function")
 	flag.Parse()
 

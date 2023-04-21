@@ -2,5 +2,6 @@
     "server_address": "<ip>",
     "port": 10086,
     "cache_mode": 1,
-    "uuid": ""
+    "uuid": "",
+    "link_type": 1
 }

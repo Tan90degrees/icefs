@@ -11086,7 +11086,9 @@ type IcefsAccessRes struct {
 }
 
 func NewIcefsAccessRes() *IcefsAccessRes {
-  return &IcefsAccessRes{}
+  return &IcefsAccessRes{
+Status: 5,
+}
 }
 
 
@@ -11187,7 +11189,9 @@ type IcefsBmapRes struct {
 }
 
 func NewIcefsBmapRes() *IcefsBmapRes {
-  return &IcefsBmapRes{}
+  return &IcefsBmapRes{
+Status: 5,
+}
 }
 
 
@@ -11290,7 +11294,9 @@ type IcefsCopyFileRangeRes struct {
 }
 
 func NewIcefsCopyFileRangeRes() *IcefsCopyFileRangeRes {
-  return &IcefsCopyFileRangeRes{}
+  return &IcefsCopyFileRangeRes{
+Status: 5,
+}
 }
 
 
@@ -11431,7 +11437,9 @@ type IcefsCreateRes struct {
 }
 
 func NewIcefsCreateRes() *IcefsCreateRes {
-  return &IcefsCreateRes{}
+  return &IcefsCreateRes{
+Status: 5,
+}
 }
 
 
@@ -11612,7 +11620,9 @@ type IcefsDestroyRes struct {
 }
 
 func NewIcefsDestroyRes() *IcefsDestroyRes {
-  return &IcefsDestroyRes{}
+  return &IcefsDestroyRes{
+Status: 5,
+}
 }
 
 
@@ -11748,7 +11758,9 @@ type IcefsFallocateRes struct {
 }
 
 func NewIcefsFallocateRes() *IcefsFallocateRes {
-  return &IcefsFallocateRes{}
+  return &IcefsFallocateRes{
+Status: 5,
+}
 }
 
 
@@ -11849,7 +11861,9 @@ type IcefsFlockRes struct {
 }
 
 func NewIcefsFlockRes() *IcefsFlockRes {
-  return &IcefsFlockRes{}
+  return &IcefsFlockRes{
+Status: 5,
+}
 }
 
 
@@ -11950,7 +11964,9 @@ type IcefsFlushRes struct {
 }
 
 func NewIcefsFlushRes() *IcefsFlushRes {
-  return &IcefsFlushRes{}
+  return &IcefsFlushRes{
+Status: 5,
+}
 }
 
 
@@ -12051,7 +12067,9 @@ type IcefsForgetMultiRes struct {
 }
 
 func NewIcefsForgetMultiRes() *IcefsForgetMultiRes {
-  return &IcefsForgetMultiRes{}
+  return &IcefsForgetMultiRes{
+Status: 5,
+}
 }
 
 
@@ -12152,7 +12170,9 @@ type IcefsForgetRes struct {
 }
 
 func NewIcefsForgetRes() *IcefsForgetRes {
-  return &IcefsForgetRes{}
+  return &IcefsForgetRes{
+Status: 5,
+}
 }
 
 
@@ -12253,7 +12273,9 @@ type IcefsFsyncRes struct {
 }
 
 func NewIcefsFsyncRes() *IcefsFsyncRes {
-  return &IcefsFsyncRes{}
+  return &IcefsFsyncRes{
+Status: 5,
+}
 }
 
 
@@ -12354,7 +12376,9 @@ type IcefsFsyncDirRes struct {
 }
 
 func NewIcefsFsyncDirRes() *IcefsFsyncDirRes {
-  return &IcefsFsyncDirRes{}
+  return &IcefsFsyncDirRes{
+Status: 5,
+}
 }
 
 
@@ -12457,7 +12481,9 @@ type IcefsGetAttrRes struct {
 }
 
 func NewIcefsGetAttrRes() *IcefsGetAttrRes {
-  return &IcefsGetAttrRes{}
+  return &IcefsGetAttrRes{
+Status: 5,
+}
 }
 
 
@@ -12600,7 +12626,9 @@ type IcefsGetLkRes struct {
 }
 
 func NewIcefsGetLkRes() *IcefsGetLkRes {
-  return &IcefsGetLkRes{}
+  return &IcefsGetLkRes{
+Status: 5,
+}
 }
 
 
@@ -12705,7 +12733,9 @@ type IcefsGetXattrRes struct {
 }
 
 func NewIcefsGetXattrRes() *IcefsGetXattrRes {
-  return &IcefsGetXattrRes{}
+  return &IcefsGetXattrRes{
+Status: 5,
+}
 }
 
 
@@ -12880,7 +12910,9 @@ type IcefsInitRes struct {
 }
 
 func NewIcefsInitRes() *IcefsInitRes {
-  return &IcefsInitRes{}
+  return &IcefsInitRes{
+Status: 5,
+}
 }
 
 
@@ -13054,7 +13086,9 @@ type IcefsIoctlRes struct {
 }
 
 func NewIcefsIoctlRes() *IcefsIoctlRes {
-  return &IcefsIoctlRes{}
+  return &IcefsIoctlRes{
+Status: 5,
+}
 }
 
 
@@ -13216,7 +13250,9 @@ type IcefsLinkRes struct {
 }
 
 func NewIcefsLinkRes() *IcefsLinkRes {
-  return &IcefsLinkRes{}
+  return &IcefsLinkRes{
+Status: 5,
+}
 }
 
 
@@ -13363,7 +13399,9 @@ type IcefsListXattrRes struct {
 }
 
 func NewIcefsListXattrRes() *IcefsListXattrRes {
-  return &IcefsListXattrRes{}
+  return &IcefsListXattrRes{
+Status: 5,
+}
 }
 
 
@@ -13536,7 +13574,9 @@ type IcefsLookUpRes struct {
 }
 
 func NewIcefsLookUpRes() *IcefsLookUpRes {
-  return &IcefsLookUpRes{}
+  return &IcefsLookUpRes{
+Status: 5,
+}
 }
 
 
@@ -13681,7 +13721,9 @@ type IcefsLseekRes struct {
 }
 
 func NewIcefsLseekRes() *IcefsLseekRes {
-  return &IcefsLseekRes{}
+  return &IcefsLseekRes{
+Status: 5,
+}
 }
 
 
@@ -13819,7 +13861,9 @@ type IcefsMkDirRes struct {
 }
 
 func NewIcefsMkDirRes() *IcefsMkDirRes {
-  return &IcefsMkDirRes{}
+  return &IcefsMkDirRes{
+Status: 5,
+}
 }
 
 
@@ -13964,7 +14008,9 @@ type IcefsMknodRes struct {
 }
 
 func NewIcefsMknodRes() *IcefsMknodRes {
-  return &IcefsMknodRes{}
+  return &IcefsMknodRes{
+Status: 5,
+}
 }
 
 
@@ -14109,7 +14155,9 @@ type IcefsOpenRes struct {
 }
 
 func NewIcefsOpenRes() *IcefsOpenRes {
-  return &IcefsOpenRes{}
+  return &IcefsOpenRes{
+Status: 5,
+}
 }
 
 
@@ -14248,7 +14296,9 @@ type IcefsOpenDirRes struct {
 }
 
 func NewIcefsOpenDirRes() *IcefsOpenDirRes {
-  return &IcefsOpenDirRes{}
+  return &IcefsOpenDirRes{
+Status: 5,
+}
 }
 
 
@@ -14387,7 +14437,9 @@ type IcefsPollRes struct {
 }
 
 func NewIcefsPollRes() *IcefsPollRes {
-  return &IcefsPollRes{}
+  return &IcefsPollRes{
+Status: 5,
+}
 }
 
 
@@ -14528,7 +14580,9 @@ type IcefsReadRes struct {
 }
 
 func NewIcefsReadRes() *IcefsReadRes {
-  return &IcefsReadRes{}
+  return &IcefsReadRes{
+Status: 5,
+}
 }
 
 
@@ -14702,7 +14756,9 @@ type IcefsReadDirRes struct {
 }
 
 func NewIcefsReadDirRes() *IcefsReadDirRes {
-  return &IcefsReadDirRes{}
+  return &IcefsReadDirRes{
+Status: 5,
+}
 }
 
 
@@ -15016,7 +15072,9 @@ type IcefsReadDirPlusRes struct {
 }
 
 func NewIcefsReadDirPlusRes() *IcefsReadDirPlusRes {
-  return &IcefsReadDirPlusRes{}
+  return &IcefsReadDirPlusRes{
+Status: 5,
+}
 }
 
 
@@ -15178,7 +15236,9 @@ type IcefsReadLinkRes struct {
 }
 
 func NewIcefsReadLinkRes() *IcefsReadLinkRes {
-  return &IcefsReadLinkRes{}
+  return &IcefsReadLinkRes{
+Status: 5,
+}
 }
 
 
@@ -15314,7 +15374,9 @@ type IcefsReleaseRes struct {
 }
 
 func NewIcefsReleaseRes() *IcefsReleaseRes {
-  return &IcefsReleaseRes{}
+  return &IcefsReleaseRes{
+Status: 5,
+}
 }
 
 
@@ -15415,7 +15477,9 @@ type IcefsReleaseDirRes struct {
 }
 
 func NewIcefsReleaseDirRes() *IcefsReleaseDirRes {
-  return &IcefsReleaseDirRes{}
+  return &IcefsReleaseDirRes{
+Status: 5,
+}
 }
 
 
@@ -15516,7 +15580,9 @@ type IcefsRemoveXattrRes struct {
 }
 
 func NewIcefsRemoveXattrRes() *IcefsRemoveXattrRes {
-  return &IcefsRemoveXattrRes{}
+  return &IcefsRemoveXattrRes{
+Status: 5,
+}
 }
 
 
@@ -15617,7 +15683,9 @@ type IcefsRenameRes struct {
 }
 
 func NewIcefsRenameRes() *IcefsRenameRes {
-  return &IcefsRenameRes{}
+  return &IcefsRenameRes{
+Status: 5,
+}
 }
 
 
@@ -15718,7 +15786,9 @@ type IcefsRetrieveReplyRes struct {
 }
 
 func NewIcefsRetrieveReplyRes() *IcefsRetrieveReplyRes {
-  return &IcefsRetrieveReplyRes{}
+  return &IcefsRetrieveReplyRes{
+Status: 5,
+}
 }
 
 
@@ -15819,7 +15889,9 @@ type IcefsRmDirRes struct {
 }
 
 func NewIcefsRmDirRes() *IcefsRmDirRes {
-  return &IcefsRmDirRes{}
+  return &IcefsRmDirRes{
+Status: 5,
+}
 }
 
 
@@ -15922,7 +15994,9 @@ type IcefsSetAttrRes struct {
 }
 
 func NewIcefsSetAttrRes() *IcefsSetAttrRes {
-  return &IcefsSetAttrRes{}
+  return &IcefsSetAttrRes{
+Status: 5,
+}
 }
 
 
@@ -16065,7 +16139,9 @@ type IcefsSetLkRes struct {
 }
 
 func NewIcefsSetLkRes() *IcefsSetLkRes {
-  return &IcefsSetLkRes{}
+  return &IcefsSetLkRes{
+Status: 5,
+}
 }
 
 
@@ -16166,7 +16242,9 @@ type IcefsSetXattrRes struct {
 }
 
 func NewIcefsSetXattrRes() *IcefsSetXattrRes {
-  return &IcefsSetXattrRes{}
+  return &IcefsSetXattrRes{
+Status: 5,
+}
 }
 
 
@@ -16269,7 +16347,9 @@ type IcefsStatFSRes struct {
 }
 
 func NewIcefsStatFSRes() *IcefsStatFSRes {
-  return &IcefsStatFSRes{}
+  return &IcefsStatFSRes{
+Status: 5,
+}
 }
 
 
@@ -16414,7 +16494,9 @@ type IcefsSymLinkRes struct {
 }
 
 func NewIcefsSymLinkRes() *IcefsSymLinkRes {
-  return &IcefsSymLinkRes{}
+  return &IcefsSymLinkRes{
+Status: 5,
+}
 }
 
 
@@ -16557,7 +16639,9 @@ type IcefsUnlinkRes struct {
 }
 
 func NewIcefsUnlinkRes() *IcefsUnlinkRes {
-  return &IcefsUnlinkRes{}
+  return &IcefsUnlinkRes{
+Status: 5,
+}
 }
 
 
@@ -16660,7 +16744,9 @@ type IcefsWriteBufRes struct {
 }
 
 func NewIcefsWriteBufRes() *IcefsWriteBufRes {
-  return &IcefsWriteBufRes{}
+  return &IcefsWriteBufRes{
+Status: 5,
+}
 }
 
 
@@ -16799,7 +16885,9 @@ type IcefsWriteRes struct {
 }
 
 func NewIcefsWriteRes() *IcefsWriteRes {
-  return &IcefsWriteRes{}
+  return &IcefsWriteRes{
+Status: 5,
+}
 }
 
 
@@ -21613,7 +21701,9 @@ func (p *IcefsThriftDoIcefsInitResult) Read(ctx context.Context, iprot thrift.TP
 }
 
 func (p *IcefsThriftDoIcefsInitResult)  ReadField0(ctx context.Context, iprot thrift.TProtocol) error {
-  p.Success = &IcefsInitRes{}
+  p.Success = &IcefsInitRes{
+  Status: 5,
+}
   if err := p.Success.Read(ctx, iprot); err != nil {
     return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", p.Success), err)
   }
@@ -21811,7 +21901,9 @@ func (p *IcefsThriftDoIcefsDestroyResult) Read(ctx context.Context, iprot thrift
 }
 
 func (p *IcefsThriftDoIcefsDestroyResult)  ReadField0(ctx context.Context, iprot thrift.TProtocol) error {
-  p.Success = &IcefsDestroyRes{}
+  p.Success = &IcefsDestroyRes{
+  Status: 5,
+}
   if err := p.Success.Read(ctx, iprot); err != nil {
     return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", p.Success), err)
   }
@@ -22009,7 +22101,9 @@ func (p *IcefsThriftDoIcefsLookUpResult) Read(ctx context.Context, iprot thrift.
 }
 
 func (p *IcefsThriftDoIcefsLookUpResult)  ReadField0(ctx context.Context, iprot thrift.TProtocol) error {
-  p.Success = &IcefsLookUpRes{}
+  p.Success = &IcefsLookUpRes{
+  Status: 5,
+}
   if err := p.Success.Read(ctx, iprot); err != nil {
     return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", p.Success), err)
   }
@@ -22207,7 +22301,9 @@ func (p *IcefsThriftDoIcefsForgetResult) Read(ctx context.Context, iprot thrift.
 }
 
 func (p *IcefsThriftDoIcefsForgetResult)  ReadField0(ctx context.Context, iprot thrift.TProtocol) error {
-  p.Success = &IcefsForgetRes{}
+  p.Success = &IcefsForgetRes{
+  Status: 5,
+}
   if err := p.Success.Read(ctx, iprot); err != nil {
     return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", p.Success), err)
   }
@@ -22405,7 +22501,9 @@ func (p *IcefsThriftDoIcefsGetAttrResult) Read(ctx context.Context, iprot thrift
 }
 
 func (p *IcefsThriftDoIcefsGetAttrResult)  ReadField0(ctx context.Context, iprot thrift.TProtocol) error {
-  p.Success = &IcefsGetAttrRes{}
+  p.Success = &IcefsGetAttrRes{
+  Status: 5,
+}
   if err := p.Success.Read(ctx, iprot); err != nil {
     return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", p.Success), err)
   }
@@ -22603,7 +22701,9 @@ func (p *IcefsThriftDoIcefsSetAttrResult) Read(ctx context.Context, iprot thrift
 }
 
 func (p *IcefsThriftDoIcefsSetAttrResult)  ReadField0(ctx context.Context, iprot thrift.TProtocol) error {
-  p.Success = &IcefsSetAttrRes{}
+  p.Success = &IcefsSetAttrRes{
+  Status: 5,
+}
   if err := p.Success.Read(ctx, iprot); err != nil {
     return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", p.Success), err)
   }
@@ -22801,7 +22901,9 @@ func (p *IcefsThriftDoIcefsReadLinkResult) Read(ctx context.Context, iprot thrif
 }
 
 func (p *IcefsThriftDoIcefsReadLinkResult)  ReadField0(ctx context.Context, iprot thrift.TProtocol) error {
-  p.Success = &IcefsReadLinkRes{}
+  p.Success = &IcefsReadLinkRes{
+  Status: 5,
+}
   if err := p.Success.Read(ctx, iprot); err != nil {
     return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", p.Success), err)
   }
@@ -22999,7 +23101,9 @@ func (p *IcefsThriftDoIcefsMknodResult) Read(ctx context.Context, iprot thrift.T
 }
 
 func (p *IcefsThriftDoIcefsMknodResult)  ReadField0(ctx context.Context, iprot thrift.TProtocol) error {
-  p.Success = &IcefsMknodRes{}
+  p.Success = &IcefsMknodRes{
+  Status: 5,
+}
   if err := p.Success.Read(ctx, iprot); err != nil {
     return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", p.Success), err)
   }
@@ -23197,7 +23301,9 @@ func (p *IcefsThriftDoIcefsMkDirResult) Read(ctx context.Context, iprot thrift.T
 }
 
 func (p *IcefsThriftDoIcefsMkDirResult)  ReadField0(ctx context.Context, iprot thrift.TProtocol) error {
-  p.Success = &IcefsMkDirRes{}
+  p.Success = &IcefsMkDirRes{
+  Status: 5,
+}
   if err := p.Success.Read(ctx, iprot); err != nil {
     return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", p.Success), err)
   }
@@ -23395,7 +23501,9 @@ func (p *IcefsThriftDoIcefsUnlinkResult) Read(ctx context.Context, iprot thrift.
 }
 
 func (p *IcefsThriftDoIcefsUnlinkResult)  ReadField0(ctx context.Context, iprot thrift.TProtocol) error {
-  p.Success = &IcefsUnlinkRes{}
+  p.Success = &IcefsUnlinkRes{
+  Status: 5,
+}
   if err := p.Success.Read(ctx, iprot); err != nil {
     return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", p.Success), err)
   }
@@ -23593,7 +23701,9 @@ func (p *IcefsThriftDoIcefsRmDirResult) Read(ctx context.Context, iprot thrift.T
 }
 
 func (p *IcefsThriftDoIcefsRmDirResult)  ReadField0(ctx context.Context, iprot thrift.TProtocol) error {
-  p.Success = &IcefsRmDirRes{}
+  p.Success = &IcefsRmDirRes{
+  Status: 5,
+}
   if err := p.Success.Read(ctx, iprot); err != nil {
     return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", p.Success), err)
   }
@@ -23791,7 +23901,9 @@ func (p *IcefsThriftDoIcefsSymLinkResult) Read(ctx context.Context, iprot thrift
 }
 
 func (p *IcefsThriftDoIcefsSymLinkResult)  ReadField0(ctx context.Context, iprot thrift.TProtocol) error {
-  p.Success = &IcefsSymLinkRes{}
+  p.Success = &IcefsSymLinkRes{
+  Status: 5,
+}
   if err := p.Success.Read(ctx, iprot); err != nil {
     return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", p.Success), err)
   }
@@ -23989,7 +24101,9 @@ func (p *IcefsThriftDoIcefsRenameResult) Read(ctx context.Context, iprot thrift.
 }
 
 func (p *IcefsThriftDoIcefsRenameResult)  ReadField0(ctx context.Context, iprot thrift.TProtocol) error {
-  p.Success = &IcefsRenameRes{}
+  p.Success = &IcefsRenameRes{
+  Status: 5,
+}
   if err := p.Success.Read(ctx, iprot); err != nil {
     return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", p.Success), err)
   }
@@ -24187,7 +24301,9 @@ func (p *IcefsThriftDoIcefsLinkResult) Read(ctx context.Context, iprot thrift.TP
 }
 
 func (p *IcefsThriftDoIcefsLinkResult)  ReadField0(ctx context.Context, iprot thrift.TProtocol) error {
-  p.Success = &IcefsLinkRes{}
+  p.Success = &IcefsLinkRes{
+  Status: 5,
+}
   if err := p.Success.Read(ctx, iprot); err != nil {
     return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", p.Success), err)
   }
@@ -24385,7 +24501,9 @@ func (p *IcefsThriftDoIcefsOpenResult) Read(ctx context.Context, iprot thrift.TP
 }
 
 func (p *IcefsThriftDoIcefsOpenResult)  ReadField0(ctx context.Context, iprot thrift.TProtocol) error {
-  p.Success = &IcefsOpenRes{}
+  p.Success = &IcefsOpenRes{
+  Status: 5,
+}
   if err := p.Success.Read(ctx, iprot); err != nil {
     return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", p.Success), err)
   }
@@ -24583,7 +24701,9 @@ func (p *IcefsThriftDoIcefsReadResult) Read(ctx context.Context, iprot thrift.TP
 }
 
 func (p *IcefsThriftDoIcefsReadResult)  ReadField0(ctx context.Context, iprot thrift.TProtocol) error {
-  p.Success = &IcefsReadRes{}
+  p.Success = &IcefsReadRes{
+  Status: 5,
+}
   if err := p.Success.Read(ctx, iprot); err != nil {
     return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", p.Success), err)
   }
@@ -24781,7 +24901,9 @@ func (p *IcefsThriftDoIcefsWriteResult) Read(ctx context.Context, iprot thrift.T
 }
 
 func (p *IcefsThriftDoIcefsWriteResult)  ReadField0(ctx context.Context, iprot thrift.TProtocol) error {
-  p.Success = &IcefsWriteRes{}
+  p.Success = &IcefsWriteRes{
+  Status: 5,
+}
   if err := p.Success.Read(ctx, iprot); err != nil {
     return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", p.Success), err)
   }
@@ -24979,7 +25101,9 @@ func (p *IcefsThriftDoIcefsFlushResult) Read(ctx context.Context, iprot thrift.T
 }
 
 func (p *IcefsThriftDoIcefsFlushResult)  ReadField0(ctx context.Context, iprot thrift.TProtocol) error {
-  p.Success = &IcefsFlushRes{}
+  p.Success = &IcefsFlushRes{
+  Status: 5,
+}
   if err := p.Success.Read(ctx, iprot); err != nil {
     return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", p.Success), err)
   }
@@ -25177,7 +25301,9 @@ func (p *IcefsThriftDoIcefsReleaseResult) Read(ctx context.Context, iprot thrift
 }
 
 func (p *IcefsThriftDoIcefsReleaseResult)  ReadField0(ctx context.Context, iprot thrift.TProtocol) error {
-  p.Success = &IcefsReleaseRes{}
+  p.Success = &IcefsReleaseRes{
+  Status: 5,
+}
   if err := p.Success.Read(ctx, iprot); err != nil {
     return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", p.Success), err)
   }
@@ -25375,7 +25501,9 @@ func (p *IcefsThriftDoIcefsFsyncResult) Read(ctx context.Context, iprot thrift.T
 }
 
 func (p *IcefsThriftDoIcefsFsyncResult)  ReadField0(ctx context.Context, iprot thrift.TProtocol) error {
-  p.Success = &IcefsFsyncRes{}
+  p.Success = &IcefsFsyncRes{
+  Status: 5,
+}
   if err := p.Success.Read(ctx, iprot); err != nil {
     return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", p.Success), err)
   }
@@ -25573,7 +25701,9 @@ func (p *IcefsThriftDoIcefsOpenDirResult) Read(ctx context.Context, iprot thrift
 }
 
 func (p *IcefsThriftDoIcefsOpenDirResult)  ReadField0(ctx context.Context, iprot thrift.TProtocol) error {
-  p.Success = &IcefsOpenDirRes{}
+  p.Success = &IcefsOpenDirRes{
+  Status: 5,
+}
   if err := p.Success.Read(ctx, iprot); err != nil {
     return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", p.Success), err)
   }
@@ -25771,7 +25901,9 @@ func (p *IcefsThriftDoIcefsReadDirResult) Read(ctx context.Context, iprot thrift
 }
 
 func (p *IcefsThriftDoIcefsReadDirResult)  ReadField0(ctx context.Context, iprot thrift.TProtocol) error {
-  p.Success = &IcefsReadDirRes{}
+  p.Success = &IcefsReadDirRes{
+  Status: 5,
+}
   if err := p.Success.Read(ctx, iprot); err != nil {
     return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", p.Success), err)
   }
@@ -25969,7 +26101,9 @@ func (p *IcefsThriftDoIcefsReleaseDirResult) Read(ctx context.Context, iprot thr
 }
 
 func (p *IcefsThriftDoIcefsReleaseDirResult)  ReadField0(ctx context.Context, iprot thrift.TProtocol) error {
-  p.Success = &IcefsReleaseDirRes{}
+  p.Success = &IcefsReleaseDirRes{
+  Status: 5,
+}
   if err := p.Success.Read(ctx, iprot); err != nil {
     return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", p.Success), err)
   }
@@ -26167,7 +26301,9 @@ func (p *IcefsThriftDoIcefsFsyncDirResult) Read(ctx context.Context, iprot thrif
 }
 
 func (p *IcefsThriftDoIcefsFsyncDirResult)  ReadField0(ctx context.Context, iprot thrift.TProtocol) error {
-  p.Success = &IcefsFsyncDirRes{}
+  p.Success = &IcefsFsyncDirRes{
+  Status: 5,
+}
   if err := p.Success.Read(ctx, iprot); err != nil {
     return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", p.Success), err)
   }
@@ -26365,7 +26501,9 @@ func (p *IcefsThriftDoIcefsStatFSResult) Read(ctx context.Context, iprot thrift.
 }
 
 func (p *IcefsThriftDoIcefsStatFSResult)  ReadField0(ctx context.Context, iprot thrift.TProtocol) error {
-  p.Success = &IcefsStatFSRes{}
+  p.Success = &IcefsStatFSRes{
+  Status: 5,
+}
   if err := p.Success.Read(ctx, iprot); err != nil {
     return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", p.Success), err)
   }
@@ -26563,7 +26701,9 @@ func (p *IcefsThriftDoIcefsSetXattrResult) Read(ctx context.Context, iprot thrif
 }
 
 func (p *IcefsThriftDoIcefsSetXattrResult)  ReadField0(ctx context.Context, iprot thrift.TProtocol) error {
-  p.Success = &IcefsSetXattrRes{}
+  p.Success = &IcefsSetXattrRes{
+  Status: 5,
+}
   if err := p.Success.Read(ctx, iprot); err != nil {
     return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", p.Success), err)
   }
@@ -26761,7 +26901,9 @@ func (p *IcefsThriftDoIcefsGetXattrResult) Read(ctx context.Context, iprot thrif
 }
 
 func (p *IcefsThriftDoIcefsGetXattrResult)  ReadField0(ctx context.Context, iprot thrift.TProtocol) error {
-  p.Success = &IcefsGetXattrRes{}
+  p.Success = &IcefsGetXattrRes{
+  Status: 5,
+}
   if err := p.Success.Read(ctx, iprot); err != nil {
     return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", p.Success), err)
   }
@@ -26959,7 +27101,9 @@ func (p *IcefsThriftDoIcefsListXattrResult) Read(ctx context.Context, iprot thri
 }
 
 func (p *IcefsThriftDoIcefsListXattrResult)  ReadField0(ctx context.Context, iprot thrift.TProtocol) error {
-  p.Success = &IcefsListXattrRes{}
+  p.Success = &IcefsListXattrRes{
+  Status: 5,
+}
   if err := p.Success.Read(ctx, iprot); err != nil {
     return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", p.Success), err)
   }
@@ -27157,7 +27301,9 @@ func (p *IcefsThriftDoIcefsRemoveXattrResult) Read(ctx context.Context, iprot th
 }
 
 func (p *IcefsThriftDoIcefsRemoveXattrResult)  ReadField0(ctx context.Context, iprot thrift.TProtocol) error {
-  p.Success = &IcefsRemoveXattrRes{}
+  p.Success = &IcefsRemoveXattrRes{
+  Status: 5,
+}
   if err := p.Success.Read(ctx, iprot); err != nil {
     return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", p.Success), err)
   }
@@ -27355,7 +27501,9 @@ func (p *IcefsThriftDoIcefsAccessResult) Read(ctx context.Context, iprot thrift.
 }
 
 func (p *IcefsThriftDoIcefsAccessResult)  ReadField0(ctx context.Context, iprot thrift.TProtocol) error {
-  p.Success = &IcefsAccessRes{}
+  p.Success = &IcefsAccessRes{
+  Status: 5,
+}
   if err := p.Success.Read(ctx, iprot); err != nil {
     return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", p.Success), err)
   }
@@ -27553,7 +27701,9 @@ func (p *IcefsThriftDoIcefsCreateResult) Read(ctx context.Context, iprot thrift.
 }
 
 func (p *IcefsThriftDoIcefsCreateResult)  ReadField0(ctx context.Context, iprot thrift.TProtocol) error {
-  p.Success = &IcefsCreateRes{}
+  p.Success = &IcefsCreateRes{
+  Status: 5,
+}
   if err := p.Success.Read(ctx, iprot); err != nil {
     return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", p.Success), err)
   }
@@ -27751,7 +27901,9 @@ func (p *IcefsThriftDoIcefsGetLkResult) Read(ctx context.Context, iprot thrift.T
 }
 
 func (p *IcefsThriftDoIcefsGetLkResult)  ReadField0(ctx context.Context, iprot thrift.TProtocol) error {
-  p.Success = &IcefsGetLkRes{}
+  p.Success = &IcefsGetLkRes{
+  Status: 5,
+}
   if err := p.Success.Read(ctx, iprot); err != nil {
     return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", p.Success), err)
   }
@@ -27949,7 +28101,9 @@ func (p *IcefsThriftDoIcefsSetLkResult) Read(ctx context.Context, iprot thrift.T
 }
 
 func (p *IcefsThriftDoIcefsSetLkResult)  ReadField0(ctx context.Context, iprot thrift.TProtocol) error {
-  p.Success = &IcefsSetLkRes{}
+  p.Success = &IcefsSetLkRes{
+  Status: 5,
+}
   if err := p.Success.Read(ctx, iprot); err != nil {
     return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", p.Success), err)
   }
@@ -28147,7 +28301,9 @@ func (p *IcefsThriftDoIcefsBmapResult) Read(ctx context.Context, iprot thrift.TP
 }
 
 func (p *IcefsThriftDoIcefsBmapResult)  ReadField0(ctx context.Context, iprot thrift.TProtocol) error {
-  p.Success = &IcefsBmapRes{}
+  p.Success = &IcefsBmapRes{
+  Status: 5,
+}
   if err := p.Success.Read(ctx, iprot); err != nil {
     return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", p.Success), err)
   }
@@ -28345,7 +28501,9 @@ func (p *IcefsThriftDoIcefsIoctlResult) Read(ctx context.Context, iprot thrift.T
 }
 
 func (p *IcefsThriftDoIcefsIoctlResult)  ReadField0(ctx context.Context, iprot thrift.TProtocol) error {
-  p.Success = &IcefsIoctlRes{}
+  p.Success = &IcefsIoctlRes{
+  Status: 5,
+}
   if err := p.Success.Read(ctx, iprot); err != nil {
     return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", p.Success), err)
   }
@@ -28543,7 +28701,9 @@ func (p *IcefsThriftDoIcefsPollResult) Read(ctx context.Context, iprot thrift.TP
 }
 
 func (p *IcefsThriftDoIcefsPollResult)  ReadField0(ctx context.Context, iprot thrift.TProtocol) error {
-  p.Success = &IcefsPollRes{}
+  p.Success = &IcefsPollRes{
+  Status: 5,
+}
   if err := p.Success.Read(ctx, iprot); err != nil {
     return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", p.Success), err)
   }
@@ -28741,7 +28901,9 @@ func (p *IcefsThriftDoIcefsWriteBufResult) Read(ctx context.Context, iprot thrif
 }
 
 func (p *IcefsThriftDoIcefsWriteBufResult)  ReadField0(ctx context.Context, iprot thrift.TProtocol) error {
-  p.Success = &IcefsWriteBufRes{}
+  p.Success = &IcefsWriteBufRes{
+  Status: 5,
+}
   if err := p.Success.Read(ctx, iprot); err != nil {
     return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", p.Success), err)
   }
@@ -28939,7 +29101,9 @@ func (p *IcefsThriftDoIcefsRetrieveReplyResult) Read(ctx context.Context, iprot 
 }
 
 func (p *IcefsThriftDoIcefsRetrieveReplyResult)  ReadField0(ctx context.Context, iprot thrift.TProtocol) error {
-  p.Success = &IcefsRetrieveReplyRes{}
+  p.Success = &IcefsRetrieveReplyRes{
+  Status: 5,
+}
   if err := p.Success.Read(ctx, iprot); err != nil {
     return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", p.Success), err)
   }
@@ -29137,7 +29301,9 @@ func (p *IcefsThriftDoIcefsForgetMultiResult) Read(ctx context.Context, iprot th
 }
 
 func (p *IcefsThriftDoIcefsForgetMultiResult)  ReadField0(ctx context.Context, iprot thrift.TProtocol) error {
-  p.Success = &IcefsForgetMultiRes{}
+  p.Success = &IcefsForgetMultiRes{
+  Status: 5,
+}
   if err := p.Success.Read(ctx, iprot); err != nil {
     return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", p.Success), err)
   }
@@ -29335,7 +29501,9 @@ func (p *IcefsThriftDoIcefsFlockResult) Read(ctx context.Context, iprot thrift.T
 }
 
 func (p *IcefsThriftDoIcefsFlockResult)  ReadField0(ctx context.Context, iprot thrift.TProtocol) error {
-  p.Success = &IcefsFlockRes{}
+  p.Success = &IcefsFlockRes{
+  Status: 5,
+}
   if err := p.Success.Read(ctx, iprot); err != nil {
     return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", p.Success), err)
   }
@@ -29533,7 +29701,9 @@ func (p *IcefsThriftDoIcefsFallocateResult) Read(ctx context.Context, iprot thri
 }
 
 func (p *IcefsThriftDoIcefsFallocateResult)  ReadField0(ctx context.Context, iprot thrift.TProtocol) error {
-  p.Success = &IcefsFallocateRes{}
+  p.Success = &IcefsFallocateRes{
+  Status: 5,
+}
   if err := p.Success.Read(ctx, iprot); err != nil {
     return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", p.Success), err)
   }
@@ -29731,7 +29901,9 @@ func (p *IcefsThriftDoIcefsReadDirPlusResult) Read(ctx context.Context, iprot th
 }
 
 func (p *IcefsThriftDoIcefsReadDirPlusResult)  ReadField0(ctx context.Context, iprot thrift.TProtocol) error {
-  p.Success = &IcefsReadDirPlusRes{}
+  p.Success = &IcefsReadDirPlusRes{
+  Status: 5,
+}
   if err := p.Success.Read(ctx, iprot); err != nil {
     return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", p.Success), err)
   }
@@ -29929,7 +30101,9 @@ func (p *IcefsThriftDoIcefsCopyFileRangeResult) Read(ctx context.Context, iprot 
 }
 
 func (p *IcefsThriftDoIcefsCopyFileRangeResult)  ReadField0(ctx context.Context, iprot thrift.TProtocol) error {
-  p.Success = &IcefsCopyFileRangeRes{}
+  p.Success = &IcefsCopyFileRangeRes{
+  Status: 5,
+}
   if err := p.Success.Read(ctx, iprot); err != nil {
     return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", p.Success), err)
   }
@@ -30127,7 +30301,9 @@ func (p *IcefsThriftDoIcefsLseekResult) Read(ctx context.Context, iprot thrift.T
 }
 
 func (p *IcefsThriftDoIcefsLseekResult)  ReadField0(ctx context.Context, iprot thrift.TProtocol) error {
-  p.Success = &IcefsLseekRes{}
+  p.Success = &IcefsLseekRes{
+  Status: 5,
+}
   if err := p.Success.Read(ctx, iprot); err != nil {
     return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", p.Success), err)
   }

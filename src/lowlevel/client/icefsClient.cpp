@@ -2,7 +2,7 @@
  * @Author: Tan90degrees tangentninetydegrees@gmail.com
  * @Date: 2023-03-21 07:32:56
  * @LastEditors: Tan90degrees tangentninetydegrees@gmail.com
- * @LastEditTime: 2023-04-05 05:51:51
+ * @LastEditTime: 2023-04-21 02:29:11
  * @FilePath: /icefs/src/lowlevel/client/icefsClient.cpp
  * @Description:
  *
@@ -20,13 +20,14 @@
 
 #define ICEFS_CLIENT_VERSION 1.0
 
-#define ICEFS_CONFIG_MUST_NUM (4)
+#define ICEFS_CONFIG_MUST_NUM (5)
 
 #define ICEFS_CONFIG_PATH ("./config.json")
 #define ICEFS_CONFIG_SERV_ADDR ("server_address")
 #define ICEFS_CONFIG_CACHE_MODE ("cache_mode")
 #define ICEFS_CONFIG_UUID ("uuid")
 #define ICEFS_CONFIG_PORT ("port")
+#define ICEFS_CONFIG_LINK_TYPE ("link_type")
 
 #define NEW_ICEFS_CONFIG_KEY(keyName, keyHandler) \
   { .key = keyName, .handler = keyHandler, }
@@ -42,12 +43,15 @@ static int icefsConfigHandleAddr(IcefsClientConfig *config, yyjson_val *value);
 static int icefsConfigHandleMode(IcefsClientConfig *config, yyjson_val *value);
 static int icefsConfigHandleUUID(IcefsClientConfig *config, yyjson_val *value);
 static int icefsConfigHandlePort(IcefsClientConfig *config, yyjson_val *value);
+static int icefsConfigHandleLinkType(IcefsClientConfig *config,
+                                     yyjson_val *value);
 
 static IcefsConfigJsonKey IcefsConfigJsonKeys[] = {
     NEW_ICEFS_CONFIG_KEY(ICEFS_CONFIG_SERV_ADDR, icefsConfigHandleAddr),
     NEW_ICEFS_CONFIG_KEY(ICEFS_CONFIG_CACHE_MODE, icefsConfigHandleMode),
     NEW_ICEFS_CONFIG_KEY(ICEFS_CONFIG_UUID, icefsConfigHandleUUID),
-    NEW_ICEFS_CONFIG_KEY(ICEFS_CONFIG_PORT, icefsConfigHandlePort)};
+    NEW_ICEFS_CONFIG_KEY(ICEFS_CONFIG_PORT, icefsConfigHandlePort),
+    NEW_ICEFS_CONFIG_KEY(ICEFS_CONFIG_LINK_TYPE, icefsConfigHandleLinkType)};
 
 static IcefsClient *g_icefsClient = nullptr;
 
@@ -336,8 +340,8 @@ static int icefsConfigHandleAddr(IcefsClientConfig *config, yyjson_val *value) {
 static int icefsConfigHandleMode(IcefsClientConfig *config, yyjson_val *value) {
   if (value != nullptr) {
     config->cacheMode = yyjson_get_int(value);
-    if (config->cacheMode >= 0 &&
-        config->cacheMode < sizeof(IcefsCacheMode) / sizeof(double)) {
+    if (config->cacheMode >= ICEFS_CACHE_NEVER &&
+        config->cacheMode < ICEFS_CACHE_BOTTOM) {
       config->cacheTimeout = IcefsCacheMode[config->cacheMode];
       return ICEFS_EOK;
     } else {
@@ -366,6 +370,23 @@ static int icefsConfigHandlePort(IcefsClientConfig *config, yyjson_val *value) {
     return ICEFS_EOK;
   } else {
     printf("icefsParseConfig: port is not found in config.json.\n");
+    return ICEFS_ERR;
+  }
+}
+
+static int icefsConfigHandleLinkType(IcefsClientConfig *config,
+                                     yyjson_val *value) {
+  if (value != nullptr) {
+    config->linkType = yyjson_get_uint(value);
+    if (config->linkType >= ICEFS_LINK_USE_GRPC &&
+        config->linkType < ICEFS_LINK_USE_BOTTOM) {
+      return ICEFS_EOK;
+    } else {
+      printf("icefsParseConfig: link_type should be 0 or 1.\n");
+      return ICEFS_ERR;
+    }
+  } else {
+    printf("icefsParseConfig: link_type is not found in config.json.\n");
     return ICEFS_ERR;
   }
 }
@@ -428,14 +449,6 @@ static int icefsParseConfig(IcefsClientConfig *config) {
   return ret;
 }
 
-int icefsCreateClient(const IcefsClientConfig *config) {
-  g_icefsClient =
-      new IcefsClient(grpc::CreateChannel(config->serverAddressFull,
-                                          grpc::InsecureChannelCredentials()),
-                      config);
-  return g_icefsClient != nullptr ? ICEFS_EOK : ICEFS_ERR;
-}
-
 int main(int argc, char *argv[]) {
   struct fuse_args args = FUSE_ARGS_INIT(argc, argv);
   struct fuse_session *se;
@@ -485,9 +498,22 @@ int main(int argc, char *argv[]) {
 
   fuse_daemonize(opts.foreground);
 
-  ret = icefsCreateClient(&config);
+  switch (config.linkType) {
+    case ICEFS_LINK_USE_GRPC:
+      g_icefsClient = new IcefsClient(
+          grpc::CreateChannel(config.serverAddressFull,
+                              grpc::InsecureChannelCredentials()),
+          &config);
+      break;
+    case ICEFS_LINK_USE_THRIFT:
+      g_icefsClient = new IcefsClient(&config);
+      break;
+    default:
+      printf("Invalid link type: %d\n", config.linkType);
+      break;
+  }
 
-  if (ret != ICEFS_EOK) goto errOut4;
+  if (g_icefsClient == nullptr) goto errOut4;
 
   if (opts.singlethread)
     ret = fuse_session_loop(se);
@@ -507,6 +533,10 @@ errOut1:
   free(opts.mountpoint);
   fuse_loop_cfg_destroy(loopConfig);
   fuse_opt_free_args(&args);
+
+  if (g_icefsClient != nullptr) {
+    delete g_icefsClient;
+  }
 
   return ret ? ICEFS_ERR : ICEFS_EOK;
 }
