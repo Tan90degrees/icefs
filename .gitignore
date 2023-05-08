@@ -35,6 +35,7 @@
 
 # Build dir
 
-src/lowlevel/client/build
-src/lowlevel/server/build
+src/lowlevel/client/build/
+src/lowlevel/server/build/
 icefs_build/
+3rdparty/

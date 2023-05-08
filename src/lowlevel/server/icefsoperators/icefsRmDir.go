@@ -2,7 +2,7 @@
  * @Author: Tan90degrees tangentninetydegrees@gmail.com
  * @Date: 2023-03-11 07:18:32
  * @LastEditors: Tan90degrees tangentninetydegrees@gmail.com
- * @LastEditTime: 2023-04-18 13:55:12
+ * @LastEditTime: 2023-05-07 08:49:07
  * @FilePath: /icefs/src/lowlevel/server/icefsoperators/icefsRmDir.go
  * @Description:
  *
@@ -30,6 +30,7 @@ func (s *IcefsServer) doIcefsRmDir(parentFakeInode uint64, name string) (status 
 		return
 	}
 	inode.inodeLock.RLock()
+	s.inodeCacheLock.RUnlock()
 	err = unix.Unlinkat(inode.fd, name, unix.AT_REMOVEDIR)
 	inode.inodeLock.RUnlock()
 	status = icefserror.IcefsStdErrno(err)
