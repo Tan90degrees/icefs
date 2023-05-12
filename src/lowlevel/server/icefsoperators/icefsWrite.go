@@ -2,7 +2,7 @@
  * @Author: Tan90degrees tangentninetydegrees@gmail.com
  * @Date: 2023-03-11 07:18:32
  * @LastEditors: Tan90degrees tangentninetydegrees@gmail.com
- * @LastEditTime: 2023-04-18 17:24:30
+ * @LastEditTime: 2023-05-09 15:19:09
  * @FilePath: /icefs/src/lowlevel/server/icefsoperators/icefsWrite.go
  * @Description:
  *
@@ -22,7 +22,7 @@ func (s *IcefsServer) doIcefsWrite(reqSize uint64, reqBuf []byte, fh uint64, off
 	bufObj := s.getRWBuf(reqSize)
 	buf, _ := bufObj.(*IcefsRWBuf)
 	copy(buf.mem, reqBuf)
-	size, err := syscall.Pwrite(int(fh), buf.mem, offset)
+	size, err := syscall.Pwrite(int(fh), buf.mem[:reqSize], offset)
 	s.putRWBuf(buf)
 	status = icefserror.IcefsStdErrno(err)
 	resSize = uint64(size)

@@ -2,7 +2,7 @@
  * @Author: Tan90degrees tangentninetydegrees@gmail.com
  * @Date: 2023-03-11 07:18:32
  * @LastEditors: Tan90degrees tangentninetydegrees@gmail.com
- * @LastEditTime: 2023-04-18 07:50:13
+ * @LastEditTime: 2023-05-10 09:25:08
  * @FilePath: /icefs/src/lowlevel/server/icefsoperators/icefsMknod.go
  * @Description:
  *
@@ -30,7 +30,7 @@ func (s *IcefsServer) doIcefsMknod(parentFakeInode uint64, name string, mode uin
 	parentInode.inodeLock.RLock()
 	s.inodeCacheLock.RUnlock()
 	err = syscall.Mknodat(parentInode.fd, name, mode, int(rdev))
-	parentInode.inodeLock.Unlock()
+	parentInode.inodeLock.RUnlock()
 	if err != nil {
 		status = icefserror.IcefsStdErrno(err)
 		return

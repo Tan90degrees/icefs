@@ -2,7 +2,7 @@
  * @Author: Tan90degrees tangentninetydegrees@gmail.com
  * @Date: 2023-03-30 04:19:29
  * @LastEditors: Tan90degrees tangentninetydegrees@gmail.com
- * @LastEditTime: 2023-04-21 02:40:56
+ * @LastEditTime: 2023-05-09 14:52:24
  * @FilePath: /icefs/src/lowlevel/client/icefsoperators/icefsRead.cpp
  * @Description:
  *
@@ -19,6 +19,8 @@ void IcefsClient::DoIcefsRead(fuse_req_t fuseReq, fuse_ino_t inode, size_t size,
                               off_t offset, struct fuse_file_info *fi) {
   ICEFS_PR_FUNCTION;
 
+  struct fuse_bufvec bufv = FUSE_BUFVEC_INIT(size);
+
   switch (this->clientConfig.linkType) {
     case ICEFS_LINK_USE_GRPC: {
       icefsgrpc::IcefsReadReq req;
@@ -31,7 +33,10 @@ void IcefsClient::DoIcefsRead(fuse_req_t fuseReq, fuse_ino_t inode, size_t size,
 
       grpc::Status status = gRpcClient->DoIcefsRead(&ctx, req, &res);
       if (status.ok() && !res.status()) {
-        int32_t ret = fuse_reply_buf(fuseReq, res.data().c_str(), res.size());
+        bufv.buf[0].mem = const_cast<char *>(res.data().c_str());
+        bufv.buf[0].size = res.size();
+        int32_t ret = fuse_reply_data(fuseReq, &bufv, FUSE_BUF_SPLICE_MOVE);
+        // int32_t ret = fuse_reply_buf(fuseReq, res.data().c_str(), res.size());
         if (ret != ICEFS_EOK) {
           fuse_reply_err(fuseReq, ret);
           std::cout << "ERR:" << __FUNCTION__ << "fuse_reply_buf" << ret
@@ -56,7 +61,10 @@ void IcefsClient::DoIcefsRead(fuse_req_t fuseReq, fuse_ino_t inode, size_t size,
       thriftConn->thriftClient->DoIcefsRead(res, req);
       thriftClientPool->PutIcefsThriftConn(thriftConn);
       if (!res.status) {
-        int32_t ret = fuse_reply_buf(fuseReq, res.data.c_str(), res.size);
+        bufv.buf[0].mem = const_cast<char *>(res.data.c_str());
+        bufv.buf[0].size = res.size;
+        int32_t ret = fuse_reply_data(fuseReq, &bufv, FUSE_BUF_SPLICE_MOVE);
+        // int32_t ret = fuse_reply_buf(fuseReq, res.data.c_str(), res.size);
         if (ret != ICEFS_EOK) {
           fuse_reply_err(fuseReq, ret);
           std::cout << "ERR:" << __FUNCTION__ << "fuse_reply_buf" << ret

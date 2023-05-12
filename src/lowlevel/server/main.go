@@ -2,7 +2,7 @@
  * @Author: Tan90degrees tangentninetydegrees@gmail.com
  * @Date: 2023-03-11 05:57:15
  * @LastEditors: Tan90degrees tangentninetydegrees@gmail.com
- * @LastEditTime: 2023-04-21 03:46:16
+ * @LastEditTime: 2023-05-10 10:05:37
  * @FilePath: /icefs/src/lowlevel/server/main.go
  * @Description:
  *
@@ -34,13 +34,15 @@ const (
 func main() {
 	var err error
 
-	rpcPort := flag.Uint("port", 10086, "The port of icefs server")
+	gRPCPort := flag.Uint("grpc_port", 10086, "The port of icefs gRPC server")
+	thriftPort := flag.Uint("thrift_port", 10088, "The port of icefs thrift server")
 	srvPath := flag.String("path", ".", "The path to serve at")
 	linkWay := flag.String("way", "thrift", "The way of data transmission")
 	openTls := flag.Bool("tls", false, "Whether to enable the tls function")
 	flag.Parse()
 
-	addr := fmt.Sprintf("0.0.0.0:%d", *rpcPort)
+	gRPCAddr := fmt.Sprintf("0.0.0.0:%d", *gRPCPort)
+	thriftAddr := fmt.Sprintf("0.0.0.0:%d", *thriftPort)
 
 	var icefsServer icefsoperators.IcefsServer
 	icefsServer.RootPathAbs, err = filepath.Abs(*srvPath)
@@ -55,13 +57,13 @@ func main() {
 	switch *linkWay {
 	case ICEFS_GRPC_WAY:
 		var ln net.Listener
-		ln, err = net.Listen("tcp", addr)
+		ln, err = net.Listen("tcp", gRPCAddr)
 		if err != nil {
 			log.Fatalf("failed to listen: %v", err)
 		}
 		server := grpc.NewServer()
 		pb.RegisterIcefsGRpcServer(server, &icefsServer.GRpcServer)
-		log.Printf("Server is running on %v", addr)
+		log.Printf("Server is running on %v", gRPCAddr)
 		if err = server.Serve(ln); err != nil {
 			log.Fatalf("failed to serve: %v", err)
 		}
@@ -75,14 +77,14 @@ func main() {
 			} else {
 				log.Fatal(err)
 			}
-			socket = icefserror.Must(thrift.NewTSSLServerSocket(addr, cfg)).(*thrift.TSSLServerSocket)
+			socket = icefserror.Must(thrift.NewTSSLServerSocket(thriftAddr, cfg)).(*thrift.TSSLServerSocket)
 		} else {
-			socket = icefserror.Must(thrift.NewTServerSocket(addr)).(*thrift.TServerSocket)
+			socket = icefserror.Must(thrift.NewTServerSocket(thriftAddr)).(*thrift.TServerSocket)
 		}
 		fmt.Printf("%T\n", socket)
 		processor := icefsthrift.NewIcefsThriftProcessor(&icefsServer.ThriftServer)
 		server := thrift.NewTSimpleServer2(processor, socket)
-		log.Printf("Server is running on %v", addr)
+		log.Printf("Server is running on %v", thriftAddr)
 		if err = server.Serve(); err != nil {
 			log.Fatalf("failed to serve: %v", err)
 		}

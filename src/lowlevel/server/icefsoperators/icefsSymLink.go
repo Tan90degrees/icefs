@@ -2,7 +2,7 @@
  * @Author: Tan90degrees tangentninetydegrees@gmail.com
  * @Date: 2023-03-11 07:18:32
  * @LastEditors: Tan90degrees tangentninetydegrees@gmail.com
- * @LastEditTime: 2023-04-18 17:00:30
+ * @LastEditTime: 2023-05-10 09:20:35
  * @FilePath: /icefs/src/lowlevel/server/icefsoperators/icefsSymLink.go
  * @Description:
  *
@@ -55,7 +55,7 @@ func (s *IcefsThriftServer) DoIcefsSymLink(ctx context.Context, req *icefsthrift
 	var res icefsthrift.IcefsSymLinkRes
 	var entry any
 
-	res.Status, entry = s.server.doIcefsSymLink(uint64(req.ParentInode), req.Link, req.Name, GRpcFuseEntryParamBuilder)
+	res.Status, entry = s.server.doIcefsSymLink(uint64(req.ParentInode), req.Link, req.Name, ThriftFuseEntryParamBuilder)
 	if res.Status == icefserror.ICEFS_EOK {
 		res.Entry = entry.(*icefsthrift.FuseEntryParam)
 	}

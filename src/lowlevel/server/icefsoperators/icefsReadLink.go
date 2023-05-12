@@ -2,7 +2,7 @@
  * @Author: Tan90degrees tangentninetydegrees@gmail.com
  * @Date: 2023-03-11 07:18:32
  * @LastEditors: Tan90degrees tangentninetydegrees@gmail.com
- * @LastEditTime: 2023-04-18 11:54:31
+ * @LastEditTime: 2023-05-10 11:52:02
  * @FilePath: /icefs/src/lowlevel/server/icefsoperators/icefsReadLink.go
  * @Description:
  *
@@ -15,6 +15,7 @@ import (
 	"icefs-server/icefserror"
 	pb "icefs-server/icefsgrpc"
 	"icefs-server/icefsthrift"
+	"syscall"
 
 	"golang.org/x/sys/unix"
 )
@@ -45,8 +46,12 @@ func (s *IcefsGRpcServer) DoIcefsReadLink(ctx context.Context, req *pb.IcefsRead
 	var readN int
 
 	res.Status, path, readN = s.server.doIcefsReadLink(req.Inode)
-	if (res.Status == icefserror.ICEFS_EOK) && readN == len(path) {
-		res.Path = string(path)
+	if res.Status == icefserror.ICEFS_EOK {
+		if readN != len(path) {
+			res.Path = string(path)
+		} else {
+			res.Status = int32(syscall.ENAMETOOLONG)
+		}
 	}
 
 	return &res, nil
@@ -58,8 +63,12 @@ func (s *IcefsThriftServer) DoIcefsReadLink(ctx context.Context, req *icefsthrif
 	var readN int
 
 	res.Status, path, readN = s.server.doIcefsReadLink(uint64(req.Inode))
-	if (res.Status == icefserror.ICEFS_EOK) && readN == len(path) {
-		res.Path = string(path)
+	if res.Status == icefserror.ICEFS_EOK {
+		if readN != len(path) {
+			res.Path = string(path)
+		} else {
+			res.Status = int32(syscall.ENAMETOOLONG)
+		}
 	}
 
 	return &res, nil

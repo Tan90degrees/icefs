@@ -2,7 +2,7 @@
  * @Author: Tan90degrees tangentninetydegrees@gmail.com
  * @Date: 2023-03-11 07:18:32
  * @LastEditors: Tan90degrees tangentninetydegrees@gmail.com
- * @LastEditTime: 2023-04-18 14:33:11
+ * @LastEditTime: 2023-05-09 09:12:47
  * @FilePath: /icefs/src/lowlevel/server/icefsoperators/icefsReadDir.go
  * @Description:
  *
@@ -25,8 +25,8 @@ func GRpcIcefsReadDirAppendEntryData(dir *IcefsDir, entry any, dataSlice any) {
 	if checkNameIsDotOrDotDot(realEntry.Name) {
 		return
 	}
-	realDataSlice := dataSlice.([]*pb.DirentStruct)
-	realDataSlice = append(realDataSlice, realEntry)
+	realDataSlice := dataSlice.(*[]*pb.DirentStruct)
+	*realDataSlice = append(*realDataSlice, realEntry)
 }
 
 func ThriftIcefsReadDirAppendEntryData(dir *IcefsDir, entry any, dataSlice any) {
@@ -35,11 +35,11 @@ func ThriftIcefsReadDirAppendEntryData(dir *IcefsDir, entry any, dataSlice any) 
 	if checkNameIsDotOrDotDot(realEntry.Name) {
 		return
 	}
-	realDataSlice := dataSlice.([]*icefsthrift.DirentStruct)
-	realDataSlice = append(realDataSlice, realEntry)
+	realDataSlice := dataSlice.(*[]*icefsthrift.DirentStruct)
+	*realDataSlice = append(*realDataSlice, realEntry)
 }
 
-func (s *IcefsServer) doIcefsReadDir(offset int64, fh uint64, dirStructBuilder DirStructBuilder, icefsReadDirAppendEntryData IcefsReadDirAppendEntryData) (status int32, dataSlice any) {
+func (s *IcefsServer) doIcefsReadDir(offset int64, fh uint64, dataSlice any, dirStructBuilder DirStructBuilder, icefsReadDirAppendEntryData IcefsReadDirAppendEntryData) (status int32) {
 	var entry any
 	var errno int32
 	s.dirCacheLock.RLock()
@@ -76,24 +76,18 @@ func (s *IcefsServer) doIcefsReadDir(offset int64, fh uint64, dirStructBuilder D
 
 func (s *IcefsGRpcServer) DoIcefsReadDir(ctx context.Context, req *pb.IcefsReadDirReq) (*pb.IcefsReadDirRes, error) {
 	var res pb.IcefsReadDirRes
-	var dataSlice any
+	res.Data = make([]*pb.DirentStruct, 0)
 
-	res.Status, dataSlice = s.server.doIcefsReadDir(req.Offset, req.Fh, GRpcDirStructBuilder, GRpcIcefsReadDirAppendEntryData)
-	if res.Status == icefserror.ICEFS_EOK {
-		res.Data = dataSlice.([]*pb.DirentStruct)
-	}
+	res.Status = s.server.doIcefsReadDir(req.Offset, req.Fh, &res.Data, GRpcDirStructBuilder, GRpcIcefsReadDirAppendEntryData)
 
 	return &res, nil
 }
 
 func (s *IcefsThriftServer) DoIcefsReadDir(ctx context.Context, req *icefsthrift.IcefsReadDirReq) (*icefsthrift.IcefsReadDirRes, error) {
 	var res icefsthrift.IcefsReadDirRes
-	var dataSlice any
+	res.Data = make([]*icefsthrift.DirentStruct, 0)
 
-	res.Status, dataSlice = s.server.doIcefsReadDir(req.Offset, uint64(req.Fh), ThriftDirStructBuilder, ThriftIcefsReadDirAppendEntryData)
-	if res.Status == icefserror.ICEFS_EOK {
-		res.Data = dataSlice.([]*icefsthrift.DirentStruct)
-	}
+	res.Status = s.server.doIcefsReadDir(req.Offset, uint64(req.Fh), res.Data, ThriftDirStructBuilder, ThriftIcefsReadDirAppendEntryData)
 
 	return &res, nil
 }

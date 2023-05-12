@@ -39,3 +39,4 @@ src/lowlevel/client/build/
 src/lowlevel/server/build/
 icefs_build/
 3rdparty/
+src/lowlevel/server/icefsthrift/icefs_thrift-remote/
